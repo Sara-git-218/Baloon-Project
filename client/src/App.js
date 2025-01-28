@@ -1,10 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 import Login from './Components/Login';
+import NavBar from './Components/Home/NavBar';
 
 function App() {
   return (
-    <Login/>
+    <>
+    <NavBar/>
+     {/* <Login/> */}
+    
+    </>
   );
 }
 
