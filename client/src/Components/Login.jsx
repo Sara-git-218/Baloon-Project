@@ -2,17 +2,18 @@ import React, { useRef,useState } from 'react';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+
 import axios from 'axios'
 import Register from './Users/Register';
 
-export default function Login() {
-    const userNameRef=useRef("")
-    const passwordRef=useRef("")
-    const [visible, setVisible] = useState(false);
+export default function Login(props) {
+    const refUserName=useRef("")
+    const refPassword=useRef("")
     const login=async()=>
         {
             try {
-                const details={username:userNameRef.current.value,password:passwordRef.current.value}
+                const details={username:refUserName.current.value,password:refPassword.current.value}
                 const res = await axios.post('http://localhost:3600/api/auth/login',details)
                 if (res.status === 200) {
                     alert("!!!!!!!!!!!!!!!!ברוך הבא")
@@ -24,35 +25,36 @@ export default function Login() {
             }
         }
     return (
-        <div className="card">
-            <div className="flex flex-column md:flex-row">
-                <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5">
-                    <div className="flex flex-wrap justify-content-center align-items-center gap-2">
-                        <label className="w-6rem">שם משתמש</label>
-                        <InputText id="username" type="text" className="w-12rem" ref={userNameRef}/>
-                    </div>
-                    <div className="flex flex-wrap justify-content-center align-items-center gap-2">
-                        <label className="w-6rem">סיסמא</label>
-                        <InputText id="password" type="password" className="w-12rem" ref={passwordRef}/>
-                    </div>
-                    <Button label="כניסה" icon="pi pi-user" className="w-10rem mx-auto" onClick={login}></Button>
-                </div>
-                <div className="w-full md:w-2">
-                    <Divider layout="vertical" className="hidden md:flex">
-                        <b>או</b>
-                    </Divider>
-                    <Divider layout="horizontal" className="flex md:hidden" align="center">
-                        <b>או</b>
-                    </Divider>
-                </div>
-                
-                <div className="w-full md:w-5 flex align-items-center justify-content-center py-5">
-                    {/* <Button label="הרשמה" icon="pi pi-user-plus" severity="success" className="w-10rem"></Button> */}
-                    <Button label="הרשמה" severity="secondary" icon="pi pi-pencil" onClick={() => setVisible(true)} style={{ marginLeft: '0.5em'}} />
-                  {visible&&<Register  setVisible={setVisible} visible={visible}  />}
-                </div>
+       
+            <div className="card flex justify-content-center">
+                <Dialog
+                    visible={props.visible}
+                    modal
+                    onHide={() => { if (!props.visible) return; props.setVisible(false); }}
+                    content={({ hide }) => (
+                        <div className="flex flex-column px-8 py-5 gap-4" style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))' }}>
+    
+                            <div className="inline-flex flex-column gap-2">
+                                <label htmlFor="username" className="text-primary-50 font-semibold">
+                                    *שם משתמש:
+                                </label>
+                                <InputText id="username" label="Username" className="bg-white-alpha-20 border-none p-3 text-primary-50" ref={refUserName}></InputText>
+                            </div>
+                            <div className="inline-flex flex-column gap-2">
+                                <label htmlFor="username" className="text-primary-50 font-semibold">
+                                    *סיסמא:
+                                </label>
+                                <InputText id="password" label="Password" className="bg-white-alpha-20 border-none p-3 text-primary-50" type="text" ref={refPassword}></InputText>
+                            </div>
+                      
+                            <div className="flex align-items-center gap-2">
+                                <Button label="כניסה" onClick={(e) => { login( refUserName,refPassword); hide(e) }} text className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></Button>
+                                <Button label="ביטול" onClick={(e) => hide(e)} text className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></Button>
+                            </div>
+                        </div>
+                    )}
+                ></Dialog>
             </div>
-        </div>
-    )
+        )
 }
         
