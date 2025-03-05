@@ -3,13 +3,18 @@ import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { useSelector,useDispatch } from "react-redux"
+import {get,set} from '../Store/TokenSilce'
+
 
 import axios from 'axios'
 import Register from './Users/Register';
 
 export default function Login(props) {
     const refUserName=useRef("")
-    const refPassword=useRef("")
+    const refPassword=useRef("") 
+    const myState = useSelector(x=>x.CounterSlice)
+    const dispatch = useDispatch()
     const login=async()=>
         {
             try {
@@ -17,6 +22,11 @@ export default function Login(props) {
                 const res = await axios.post('http://localhost:3600/api/auth/login',details)
                 if (res.status === 200) {
                     alert("!!!!!!!!!!!!!!!!ברוך הבא")
+                    console.log(res.data)
+                    // console.log(dispatch(get()));
+                //     dispatch(set(res.data))
+                //    console.log(myState);
+                    console.log(dispatch(get()));
                 }
     
             } catch (e) {

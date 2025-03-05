@@ -22,7 +22,6 @@ const Register = (props) => {
         try {
             const res = await axios.post('http://localhost:3600/api/auth/register', user)
             if (res.status === 200) {
-
                 console.log("הרשמה הצליחה")
                 alert("הרשמה הצליחה")
             }

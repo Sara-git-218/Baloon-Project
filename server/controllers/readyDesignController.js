@@ -26,6 +26,10 @@ const getAllReadyDesign = async (req, res) => {
     res.json(readyDesigns)
 }
 
+// const getReadyDesignByCategory=async(req,res)=>{
+
+// }
+
 const updateReadyDesign = async (req, res) => {
     const { _id,name,description,image_url,defaultColors,category,available } = req.body
 
