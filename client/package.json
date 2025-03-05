@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-navigation/native": "^7.0.15",
+    "@react-navigation/native-stack": "^7.2.1",
+    "@reduxjs/toolkit": "^2.6.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "primeflex": "^3.3.1",
@@ -10,7 +13,10 @@
     "primereact": "^10.9.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.2.0",
     "react-scripts": "5.0.1",
+    "redux": "^5.0.1",
     "web-vitals": "^4.2.4"
   },
   "scripts": {

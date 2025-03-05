@@ -4,16 +4,17 @@ import './NavBar.css'
 import { Button } from 'primereact/button';
 import Register from '../Users/Register'
 import Login from '../Login'
-
 import  { useRef, useState } from "react";
+
 export default function NavBar() {
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
 
     const items = [
         {
-            label: 'חנות'
+            label: 'חנות',
             // icon: 'pi pi-home'
+            url:"/"
         },
         {
             label: 'עסקים'
@@ -24,11 +25,13 @@ export default function NavBar() {
             // icon: 'pi pi-align-justify',
             items: [
                 {
-                    label: 'עסקים'
+                    label: 'עסקים',
+                    command:()=>{alert("עסקים לפניך")}
                    
                 },
                 {
-                    label: 'ימי הולדת '
+                    label: 'ימי הולדת ',
+                    command:()=>{alert("ימי הולדת לפניך")}
                    
                 },
                 {
