@@ -90,7 +90,7 @@ const getAllItems=async()=>{
                         <Tag value={product.inventoryStatus} severity={getSeverity(product)}></Tag>
                     </div>
                     <div className="flex flex-column align-items-center gap-3 py-5">
-                        <img className="w-9 shadow-2 border-round" src={`${product.image_url}`} alt={product.name} onClick={()=>navigate('/Item')}/>
+                        <img className="w-9 shadow-2 border-round" src={`${product.image_url}`} alt={product.name} onClick={()=>navigate(`/Item`,{state:{product}})}/>
                         
                         <div className="text-2xl font-bold">{product.name}</div>
                         {/* <Rating value={product.rating} readOnly cancel={false}></Rating> */}
