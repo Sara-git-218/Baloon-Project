@@ -9,24 +9,21 @@ import axios from 'axios'
 import Item from './Item';
 import { useNavigate } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux"
-import {get,set} from '../../Store/ItemsSlice'
+import {setval} from '../../Store/ItemsSlice'
 
 export default function Items() {
-    const [products, setProducts] = useState([]);
+     const [products, setProducts] = useState([]);
     const [layout, setLayout] = useState('grid');
-    const [visible, setVisible] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch()
+     const [visible, setVisible] = useState(false);
+     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
 
 const getAllItems=async()=>{
     const res = await axios.get('http://localhost:3600/api/readyDesign/getAllReadyDesign')
-    console.log(res.data);
      setProducts(res.data)
+    dispatch(setval(res.data));
 
-
-    // dispatch(set(res.data))
-    // setProducts(dispatch(get()))
-    // console.log(products)
 
 }
     useEffect(() => {
@@ -34,6 +31,34 @@ const getAllItems=async()=>{
         // dispatch(get(res.data))
 
     }, []);
+    // const items = useSelector((state) => state.Items.value)
+    // console.log(items);
+    
+// const dispatch = useDispatch();
+// // const items = useSelector(state => state.items.arr); // קריאת הנתונים
+// const items = useSelector(state => state.Items?.arr || []);
+// useEffect(() => {
+//     const getAllItems = async () => {
+//         try {
+//             const res = await axios.get("http://localhost:3600/api/readyDesign/getAllReadyDesign");
+//             console.log("Fetched data:", res.data);
+//             dispatch(setval(res.data));
+//             //const items = useSelector(state => state.items.arr)
+//           //  console.log(items,"-------------------");
+        
+//         } catch (error) {
+//             console.error("API Error:", error);
+//         }
+//     };
+//     getAllItems();
+// }, [dispatch]);
+
+// useEffect(() => {
+//     console.log("Redux state updated:", items);
+// }, [items]);
+
+
+
 
     const getSeverity = (product) => {
         switch (product.inventoryStatus) {

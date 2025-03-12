@@ -8,15 +8,13 @@ const itemsSlice = createSlice({
     name: 'items',
     initialState: initVal,
     reducers: {
-        set: (state, action) => {
+        setval: (state, action) => {
             console.log("set");
             state.arr=action.payload
-        },
-        get: (state, action) => {
-            console.log("get");
-            return state.arr
+            console.log(state.arr);
+            
         }
     }
 })
-export const {set,get} = itemsSlice.actions
+export const {setval} = itemsSlice.actions
 export default itemsSlice.reducer

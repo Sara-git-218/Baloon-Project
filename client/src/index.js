@@ -13,10 +13,12 @@ import { BrowserRouter } from 'react-router-dom';
 import TokenSilce from './Store/TokenSilce';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux'
+import itemsReducer from './Store/ItemsSlice';
 
 const myStore = configureStore({
   reducer:{
-    TokenSilce
+    Items:
+    itemsReducer
   }
 })
 
