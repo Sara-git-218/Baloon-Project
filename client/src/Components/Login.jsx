@@ -22,9 +22,10 @@ export default function Login(props) {
                 const res = await axios.post('http://localhost:3600/api/auth/login',details)
                 if (res.status === 200) {
                     alert("!!!!!!!!!!!!!!!!ברוך הבא")
+                    localStorage.setItem("token",res.data.accessToken)
                     console.log(res.data)
                     // console.log(dispatch(get()));
-                //     dispatch(set(res.data))
+                //  dispatch(set(res.data))
                 //    console.log(myState);
                     console.log(dispatch(get()));
                 }
