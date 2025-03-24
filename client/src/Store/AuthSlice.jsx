@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux';
 const initVal = {
     isLoggedIn: false,
 };
@@ -23,7 +24,7 @@ const isloginSlice = createSlice({
            
             state.isLoggedIn=!state.isLoggedIn
             console.log(state.isLoggedIn);
-            
+        
         }
     }
 })

@@ -20,7 +20,7 @@ export default function NavBar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state) => state.IsLogIn.isLoggedIn);
-    const accesstoken =  useSelector(state => state.Token.tokenstr);
+    const token =  useSelector(state => state.Token.tokenstr);
   
 
     const handleLogIn = () => {
@@ -30,6 +30,7 @@ export default function NavBar() {
     
     const handleLogOut = () => {
         dispatch(setLogin());
+        dispatch(setToken(""));
     };
     const items = [
         {
