@@ -1,15 +1,36 @@
-import React from 'react'; 
+
+import React, { useEffect } from 'react'; 
 import { Menubar } from 'primereact/menubar';
 import './NavBar.css'
 import { Button } from 'primereact/button';
 import Register from '../Users/Register'
 import Login from '../Login'
 import  { useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../../Store/TokenSilce";
+import { setLogin } from '../../Store/AuthSlice';
+import { jwtDecode } from 'jwt-decode';
+
 
 export default function NavBar() {
+    
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector((state) => state.IsLogIn.isLoggedIn);
+    const accesstoken =  useSelector(state => state.Token.tokenstr);
+  
 
+    const handleLogIn = () => {
+        navigate('/Login')
+        
+    };
+    
+    const handleLogOut = () => {
+        dispatch(setLogin());
+    };
     const items = [
         {
             label: 'חנות',
@@ -70,20 +91,52 @@ export default function NavBar() {
             label: 'צור קשר'
             // icon: 'pi pi-envelope'
         },
-        {
-            label:<Button label="הרשמה" severity="secondary" onClick={() => setVisible(true)} icon="pi pi-pencil" dir='ltr' style={{ marginLeft: '1em'}} />
-        },
-        {
-            label:<Button label="כניסה" severity="secondary" onClick={() => setVisible2(true)} icon="pi pi-pencil" dir='ltr' style={{ marginLeft: '1em'}} />
-        }
+
+{
+label:
+    <nav>
+    {isLoggedIn ? (
+    <>
+        <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
+        </>
+    ) : (
+        <>
+        <Button label="כניסה" severity="secondary" onClick={handleLogIn} />
+        <Button label="הרשמה" severity="secondary" onClick={() =>navigate('/Register')} dir='ltr' style={{ marginLeft: '1em'}} /></>
+    )}
+</nav>
+},
+
+        
+        // {
+        //     label:visible2?<></>:<Button label="הרשמה" severity="secondary" onClick={() =>navigate('/Register')} dir='ltr' style={{ marginLeft: '1em'}} />//() => setVisible(true)
+        // }
+        // },
+        // {
+        //     label:visible2?<></>:<Button label="כניסה" severity="secondary" onClick={() =>navigate('/Login',{state:{setVisible2}})} dir='ltr' style={{ marginLeft: '1em'}} />
+        // },
+        // {
+        //     label:!visible2?<></>:<Button label="יציאה" severity="secondary" onClick={() =>logOut()}  dir='ltr' style={{ marginLeft: '1em'}} />
+        // }
+
     ];
+    useEffect(() => {
+        console.log("Updated token:", isLoggedIn); // הדפסת ה-token בעדכון
+    }, [isLoggedIn]);
+
+    // const logOut=()=>{
+    //     dispatch(setToken(""))
+    // localStorage.setItem("token","")}
 
     return (
         <div className="card" >
-            <Menubar model={items}className="NavBarcss" />
-            {visible&&<Register  setVisible={setVisible} visible={visible}  />}
-            {visible2&&<Login  setVisible={setVisible2} visible={visible2}  />}
+            <Menubar model={items} className="NavBarcss" />
+            {/* {visible&&<Register  setVisible={setVisible} visible={visible}  />} */}
+            {/* {visible2&&<Login  setVisible={setVisible2} visible={visible2}  />} */}
         </div>
     )
 }
         
+
+
+

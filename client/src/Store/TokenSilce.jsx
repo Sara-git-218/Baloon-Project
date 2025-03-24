@@ -1,20 +1,21 @@
+
 import { createSlice } from '@reduxjs/toolkit'
 
 const initVal={
-    token:'ttttt'
+    tokenstr:"sss"
 }
 
-const tokenSlice = createSlice({
+const itemsSlice = createSlice({
     name: 'token',
     initialState: initVal,
     reducers: {
-        set: (state, action) => {
-            state.token=action
-        },
-        get: (state, action) => {
-            return state.token
+        setToken: (state, action) => {
+            console.log("set");
+            state.tokenstr=action.payload
+            console.log(state.tokenstr);
+            console.log("state.tokenstr");
         }
     }
 })
-export const {set,get} = tokenSlice.actions
-export default tokenSlice.reducer
+export const {setToken} = itemsSlice.actions
+export default itemsSlice.reducer

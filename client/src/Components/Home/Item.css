@@ -1,80 +1,4 @@
-/* .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f5f5f5;
-  }
-  
-  .card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-  }
-  
-  .balloon-image {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid #ddd;
-  }
-  
-  .select-box, .input-box, .order-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  
-  .order-button {
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .order-button:hover {
-    background-color: #0056b3;
-  }
-   */
-   /* ColorPicker.css */
-/* .color-picker {
-    text-align: center;
-  }
-  
-  .color-circles {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .color-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  
-  .color-circle:hover {
-    transform: scale(1.1);
-  }
-  
-  .selected-color {
-    margin-top: 10px;
-    padding: 10px;
-    width: 100px;
-    height: 50px;
-    border-radius: 5px;
-    color: white;
-    text-align: center;
-    line-height: 30px;
-  } */
+
   /* ColorPicker.css */
   .balloon-image {
     width: 100%;
@@ -153,9 +77,9 @@
   /* FourPartLayout.css */
 .container {
     display: grid;
-    grid-template-columns: 1fr 3fr; /* העמודה הראשונה (1 חלק), השנייה (3 חלקים) */
+    grid-template-columns:  1fr 4fr 1fr; /* העמודה הראשונה (1 חלק), השנייה (3 חלקים) */
     gap: 20px; /* רווח בין העמודות */
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
   
   .column-1 {
@@ -167,13 +91,25 @@
   
   .column-2 {
     display: grid;
-    grid-template-rows: repeat(3, 1fr); /* שלושה תאים בעמודה השנייה */
+    grid-template-rows: repeat(4, 1fr); /* שלושה תאים בעמודה השנייה */
     gap: 10px; /* רווח בין התאים */
+  }
+  .column-3 {
+    
+    padding: 20px;
+    height: 100%; /* גובה מלא */
+    
   }
   
   .column-2 > div {
    
     padding: 20px;
-    height: 100px; /* גובה התאים בעמודה השנייה */
+    height: 25%; /* גובה התאים בעמודה השנייה */
   }
+/* .flex align-items-center{
+  text-align: center;
+  margin-right: 100px;
+} */
+
+
   

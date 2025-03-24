@@ -93,10 +93,10 @@ const getAllItems=async()=>{
                                 <Tag value={product.inventoryStatus} severity={getSeverity(product)}></Tag>
                             </div>
                         </div>
-                        <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                        {/* <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
                             <span className="text-2xl font-semibold">${product.price}</span>
                             <Button icon="pi pi-shopping-cart" className="p-button-rounded" disabled={product.inventoryStatus === 'OUTOFSTOCK'}></Button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -120,10 +120,10 @@ const getAllItems=async()=>{
                         <div className="text-2xl font-bold">{product.name}</div>
                         {/* <Rating value={product.rating} readOnly cancel={false}></Rating> */}
                     </div>
-                    <div className="flex align-items-center justify-content-between">
+                    {/* <div className="flex align-items-center justify-content-between">
                         <span className="text-2xl font-semibold">${product.price}</span>
                         <Button icon="pi pi-shopping-cart" className="p-button-rounded" disabled={product.inventoryStatus === 'OUTOFSTOCK'}></Button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );
