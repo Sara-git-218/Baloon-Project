@@ -48,13 +48,8 @@ const Login = () => {
             const res = await axios.post('http://localhost:3600/api/auth/login', user)
             if (res.status === 200) {
                 dispatch(setLogin());
-                dispatch(setToken(res.data));
-                
-                console.log("login to:", token);
+                dispatch(setToken(res.data.accessToken));
                 navigate('/')
-
-
-
                 localStorage.setItem("token", res.data.accessToken)
                 // location.state.setVisible2(true)
 
