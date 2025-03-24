@@ -10,15 +10,17 @@ import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import './flags.css';
 import { BrowserRouter } from 'react-router-dom';
-import TokenSilce from './Store/TokenSilce';
+import tokenReducer from './Store/TokenSilce';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux'
 import itemsReducer from './Store/ItemsSlice';
-
+import isloginReducer from './Store/AuthSlice'
 const myStore = configureStore({
   reducer:{
-    Items:
-    itemsReducer
+    Items:itemsReducer,
+    Token:tokenReducer,
+    IsLogIn:isloginReducer
+ 
   }
 })
 

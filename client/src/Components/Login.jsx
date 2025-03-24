@@ -1,71 +1,145 @@
-import React, { useRef,useState } from 'react'; 
-import { Divider } from 'primereact/divider';
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
+import { Calendar } from 'primereact/calendar';
+import { Password } from 'primereact/password';
+import { Checkbox } from 'primereact/checkbox';
 import { Dialog } from 'primereact/dialog';
-import { useSelector,useDispatch } from "react-redux"
-import {get,set} from '../Store/TokenSilce'
-
-
+import { Divider } from 'primereact/divider';
+import { classNames } from 'primereact/utils';
+import { useSelector, useDispatch } from "react-redux"
+import { setToken } from '../Store/TokenSilce'
+//import { CountryService } from '../service/CountryService';
+import '../Css/FormDemo.css';
 import axios from 'axios'
-import Register from './Users/Register';
+import Items from '../Components/Home/Items';
+import { useLocation, useNavigate } from 'react-router-dom'
+import { setLogin } from '../Store/AuthSlice';
+const Login = () => {
+    // const [countries, setCountries] = useState([]);
+    const [showMessage, setShowMessage] = useState(false);
+    const [formData, setFormData] = useState({});
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+     const token = useSelector(state => state.Token.tokenstr);
+    //const countryservice = new CountryService();
+    const defaultValues = {
+        username: '',
+        password: ''
+    }
 
-export default function Login(props) {
-    const refUserName=useRef("")
-    const refPassword=useRef("") 
-    const myState = useSelector(x=>x.CounterSlice)
-    const dispatch = useDispatch()
-    const login=async()=>
-        {
-            try {
-                const details={username:refUserName.current.value,password:refPassword.current.value}
-                const res = await axios.post('http://localhost:3600/api/auth/login',details)
-                if (res.status === 200) {
-                    alert("!!!!!!!!!!!!!!!!ברוך הבא")
-                    localStorage.setItem("token",res.data.accessToken)
-                    console.log(res.data)
-                    // console.log(dispatch(get()));
-                //  dispatch(set(res.data))
-                //    console.log(myState);
-                    console.log(dispatch(get()));
-                }
-    
-            } catch (e) {
-                console.error(e)
-                alert(e.response.data)
-            }
+    // useEffect(() => {
+    //    // countryservice.getCountries().then(data => setCountries(data));
+    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
+
+    const onSubmit = async (data) => {
+        setFormData(data);
+        const user = {
+            username: data.username,
+            password: data.password
         }
-    return (
-       
-            <div className="card flex justify-content-center">
-                <Dialog
-                    visible={props.visible}
-                    modal
-                    onHide={() => { if (!props.visible) return; props.setVisible(false); }}
-                    content={({ hide }) => (
-                        <div className="flex flex-column px-8 py-5 gap-4" style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))' }}>
-    
-                            <div className="inline-flex flex-column gap-2">
-                                <label htmlFor="username" className="text-primary-50 font-semibold">
-                                    *שם משתמש:
-                                </label>
-                                <InputText id="username" label="Username" className="bg-white-alpha-20 border-none p-3 text-primary-50" ref={refUserName}></InputText>
-                            </div>
-                            <div className="inline-flex flex-column gap-2">
-                                <label htmlFor="username" className="text-primary-50 font-semibold">
-                                    *סיסמא:
-                                </label>
-                                <InputText id="password" label="Password" className="bg-white-alpha-20 border-none p-3 text-primary-50" type="text" ref={refPassword}></InputText>
-                            </div>
-                      
-                            <div className="flex align-items-center gap-2">
-                                <Button label="כניסה" onClick={(e) => { login( refUserName,refPassword); hide(e) }} text className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></Button>
-                                <Button label="ביטול" onClick={(e) => hide(e)} text className="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"></Button>
-                            </div>
-                        </div>
-                    )}
-                ></Dialog>
-            </div>
-        )
-}
+
+        try {
+            const res = await axios.post('http://localhost:3600/api/auth/login', user)
+            if (res.status === 200) {
+                dispatch(setLogin());
+                dispatch(setToken(res.data));
+                
+                console.log("login to:", token);
+                navigate('/')
+
+
+
+                localStorage.setItem("token", res.data.accessToken)
+                // location.state.setVisible2(true)
+
+            }
+
+        } catch (e) {
+            console.error(e)
+            alert(e.response)
+        }
+        reset();
+    };
+    useEffect(() => {
+        console.log("Updated token:", token);// הדפסת ה-token בעדכון 
         
+    }, [token]);
+    const getFormErrorMessage = (name) => {
+        return errors[name] && <small className="p-error">{errors[name].message}</small>
+    };
+
+    const dialogFooter = <div className="flex justify-content-center"><Button label="OK" className="p-button-text" autoFocus onClick={() => setShowMessage(false)} /></div>;
+    const passwordHeader = <h6>Pick a password</h6>;
+    const passwordFooter = (
+        <React.Fragment>
+            <Divider />
+            <p className="mt-2">Suggestions</p>
+            <ul className="pl-2 ml-2 mt-0" style={{ lineHeight: '1.5' }}>
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+            </ul>
+        </React.Fragment>
+    );
+
+    return (
+        <div className="form-demo">
+            <Dialog visible={showMessage} onHide={() => setShowMessage(false)} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
+                <div className="flex justify-content-center flex-column pt-6 px-3">
+                    <i className="pi pi-check-circle" style={{ fontSize: '5rem', color: 'var(--green-500)' }}></i>
+                    <h5>Registration Successful!</h5>
+                    <p style={{ lineHeight: 1.5, textIndent: '1rem' }}>
+                        Your account is registered under name <b>{formData.name}</b> ; it'll be valid next 30 days without activation. Please check <b>{formData.email}</b> for activation instructions.
+                    </p>
+                </div>
+            </Dialog>
+
+            <div className="flex justify-content-center">
+                <div className="card" >
+                    <h5 className="text-center">כניסה</h5>
+                    <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
+                        <div className="field" dir='rtl'>
+                            <span className="p-float-label">
+                                <Controller name="username" control={control} rules={{ required: 'שם משתמש לא תקין' }} render={({ field, fieldState }) => (
+                                    <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
+                                )} />
+                                <label htmlFor="name" className={classNames({ 'p-error': errors.username })}>שם משתמש*</label>
+                            </span>
+                            {getFormErrorMessage('username')}
+                        </div>
+
+                        {/* ```jsx  */}
+                        {/* <div className="field">
+                    <span className="p-float-label">
+                        <Controller name="password" control={control} rules={{ required: 'Password is required.' }} render={({ field, fieldState }) => (
+                            <Password id={field.name} toggleMask {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />)} />
+                        <label htmlFor="password" className={classNames({ 'p-error': errors.password })}>סיסמא*</label>
+                    </span>
+                    {getFormErrorMessage('password')}
+                </div> */}
+                        {/* ``` */}
+
+                        <div className="field">
+                            <span className="p-float-label">
+                                <Controller name="password" control={control} rules={{ required: 'Password is required.' }} render={({ field, fieldState }) => (
+                                    <InputText type="password" id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
+                                )} />
+                                <label htmlFor="password" className={classNames({ 'p-error': errors.password })}>סיסמא*</label>
+                            </span>
+                            {getFormErrorMessage('password')}
+                        </div>
+                        <Button type="submit" label="כניסה" className="mt-2" />
+                    </form>
+                </div>
+            </div >
+        </div >
+    );
+}
+export default Login;
