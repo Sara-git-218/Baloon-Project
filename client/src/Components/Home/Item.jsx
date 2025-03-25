@@ -13,20 +13,20 @@ const Item = () => {
   const location = useLocation();
   const token = useSelector(state => state.Token.tokenstr);
   //פונקציה לחילוץ ה-userמה-token
-  const getUserFromToken = (token) => {
-    if (!token || token.split(".").length !== 3) {
-      console.error("Invalid token format");
-      return null;
-    }
+  // const getUserFromToken = (token) => {
+  //   if (!token || token.split(".").length !== 3) {
+  //     console.error("Invalid token format");
+  //     return null;
+  //   }
 
-    try {
-      const decoded = jwtDecode(token);
-      return decoded.user || decoded; // תבדקי איך הנתונים שמורים בטוקן שלך
-    } catch (error) {
-      console.error("Failed to decode token", error);
-      return null;
-    }
-  };
+  //   try {
+  //     const decoded = jwtDecode(token);
+  //     return decoded.user || decoded; // תבדקי איך הנתונים שמורים בטוקן שלך
+  //   } catch (error) {
+  //     console.error("Failed to decode token", error);
+  //     return null;
+  //   }
+  // };
   //משתנה ופונקציה לכמות
   const [quantity, setQuantity] = useState("1");
   const handleChange = (event) => {
@@ -43,7 +43,7 @@ const Item = () => {
     setDate(event.target.value);
   };
   //הפעלת הפונקציה לחילוץ ה-user
-  const user = getUserFromToken(token);
+  const user = useSelector(state=>state.User.user);
   console.log(user);
   //אובייקט להוספה לסל
   const itemInCart = {
@@ -142,10 +142,11 @@ const Item = () => {
           <div>
             <h1>{location.state.product.name}</h1>
             <h2>{location.state.product.price} ש"ח</h2>
+        `   <div>{location.state.product.description}</div>
 
           </div>
           <div>  <div className="color-picker">
-            <h3>בחר צבעים:</h3>
+            <p>בחר צבעים:</p>
             <div className="color-circles">
               {colors.map((color, index) => (
                 <div

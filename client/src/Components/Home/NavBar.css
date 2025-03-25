@@ -5,3 +5,11 @@
     font-weight: bold;
    
 }
+.container{
+    display: flex;
+    justify-content: flex-end; /* ממקם את הכפתור בצד ימין */
+    padding: 20px; /* שטח פנוי מסביב */
+  }
+  
+  /* .side-button {
+} */

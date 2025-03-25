@@ -1,32 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux';
+import { jwtDecode } from 'jwt-decode';
 const initVal = {
-    isLoggedIn: false,
+    // isLoggedIn: false,
+    user: null
 };
 
-// const authReducer = (state = initialState, action) => {
-//     switch (action.type) {
-//         case 'LOGIN':
-//             console.log('Login');
-//             return { ...state, isLoggedIn: true };
-//         case 'LOGOUT':
-//             return { ...state, isLoggedIn: false };
-//         default:
-//             return state;
-//     }
-// };
 
-const isloginSlice = createSlice({
-    name: 'islogin',
+const userloginSlice = createSlice({
+    name: 'userIn',
     initialState: initVal,
     reducers: {
-        setLogin: (state, action) => {
-           
-            state.isLoggedIn=!state.isLoggedIn
-            console.log(state.isLoggedIn);
-        
+        setUser: (state, action) => {
+            state.user = action.payload;
+
         }
     }
 })
-export const {setLogin} = isloginSlice.actions
-export default isloginSlice.reducer
+
+export const { setUser } = userloginSlice.actions
+export default userloginSlice.reducer
