@@ -16,7 +16,8 @@ import '../Css/FormDemo.css';
 import axios from 'axios'
 import Items from '../Components/Home/Items';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { setLogin } from '../Store/AuthSlice';
+import { setUser } from '../Store/AuthSlice';
+import { jwtDecode } from 'jwt-decode';
 const Login = () => {
     // const [countries, setCountries] = useState([]);
     const [showMessage, setShowMessage] = useState(false);
@@ -24,19 +25,30 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-     const token = useSelector(state => state.Token.tokenstr);
+    //const token = useSelector(state => state.Token.tokenstr);
+    // const [userlog,setUserlog]=useState(null);
     //const countryservice = new CountryService();
     const defaultValues = {
         username: '',
         password: ''
     }
 
-    // useEffect(() => {
-    //    // countryservice.getCountries().then(data => setCountries(data));
-    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
+    // פונקציה לחילוץ ה-userמה-token
+    const getUserFromToken = (token) => {
+        if (!token || token.split(".").length !== 3) {
+            console.error("Invalid token format");
+            return null;
+        }
 
+        try {
+            const decoded = jwtDecode(token);
+            return decoded.user || decoded; // תבדקי איך הנתונים שמורים בטוקן שלך
+        } catch (error) {
+            console.error("Failed to decode token", error);
+            return null;
+        }
+    };
     const onSubmit = async (data) => {
         setFormData(data);
         const user = {
@@ -47,11 +59,15 @@ const Login = () => {
         try {
             const res = await axios.post('http://localhost:3600/api/auth/login', user)
             if (res.status === 200) {
-                dispatch(setLogin());
-                dispatch(setToken(res.data.accessToken));
+                const token = res.data.accessToken
+                await dispatch(setToken(res.data.accessToken));
+                console.log(token)
+                const userlog = getUserFromToken(token);
+                console.log(userlog);
+                await dispatch(setUser(userlog));
                 navigate('/')
                 localStorage.setItem("token", res.data.accessToken)
-                // location.state.setVisible2(true)
+
 
             }
 
@@ -61,10 +77,10 @@ const Login = () => {
         }
         reset();
     };
-    useEffect(() => {
-        console.log("Updated token:", token);// הדפסת ה-token בעדכון 
-        
-    }, [token]);
+    // useEffect(() => {
+    //     console.log("Updated token:", token);// הדפסת ה-token בעדכון 
+
+    // }, [token]);
     const getFormErrorMessage = (name) => {
         return errors[name] && <small className="p-error">{errors[name].message}</small>
     };

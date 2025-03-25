@@ -14,12 +14,12 @@ import tokenReducer from './Store/TokenSilce';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux'
 import itemsReducer from './Store/ItemsSlice';
-import isloginReducer from './Store/AuthSlice'
+import userInReducer from './Store/AuthSlice'
 const myStore = configureStore({
   reducer:{
     Items:itemsReducer,
     Token:tokenReducer,
-    IsLogIn:isloginReducer
+    User:userInReducer
  
   }
 })

@@ -1,42 +1,67 @@
 
-import React, { useEffect } from 'react'; 
+import React, { useEffect } from 'react';
 import { Menubar } from 'primereact/menubar';
 import './NavBar.css'
 import { Button } from 'primereact/button';
 import Register from '../Users/Register'
 import Login from '../Login'
-import  { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../Store/TokenSilce";
-import { setLogin } from '../../Store/AuthSlice';
+import { setUser } from '../../Store/AuthSlice';
 import { jwtDecode } from 'jwt-decode';
-
+import 'primeicons/primeicons.css';
+import axios from 'axios';
 
 export default function NavBar() {
-    
+
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector((state) => state.IsLogIn.isLoggedIn);
-    const token =  useSelector(state => state.Token.tokenstr);
-  
+    // const isLoggedIn = useSelector((state) => state.IsLogIn.isLoggedIn);
+    const token = useSelector(state => state.Token.tokenstr);
+    const user = useSelector(state => state.User.user)
+    const ItemsInCartForUser = async () => {
 
+        if (!user) {
+            alert("התחבר לאתרררר")
+            return;
+        }
+
+        try {
+            console.log(token)
+            const res = await axios.get('http://localhost:3600/api/itemInCart/getItemInCartByUser_id', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // צירוף הטוקן ב-Authorization header
+                    'Content-Type': 'application/json',  // ציון סוג התוכן
+                }
+            })
+            if (res.status == 200) {
+                alert(res.data)
+                console.log(res.data)
+            }
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
     const handleLogIn = () => {
         navigate('/Login')
-        
+
     };
-    
-    const handleLogOut = () => {
-        dispatch(setLogin());
-        dispatch(setToken(""));
+
+    const handleLogOut = async () => {
+
+        await dispatch(setToken(""));
+        await dispatch(setUser(null));
     };
     const items = [
         {
             label: 'חנות',
             // icon: 'pi pi-home'
-            url:"/"
+            url: "/"
         },
         {
             label: 'עסקים'
@@ -48,21 +73,21 @@ export default function NavBar() {
             items: [
                 {
                     label: 'עסקים',
-                    command:()=>{alert("עסקים לפניך")}
-                   
+                    command: () => { alert("עסקים לפניך") }
+
                 },
                 {
                     label: 'ימי הולדת ',
-                    command:()=>{alert("ימי הולדת לפניך")}
-                   
+                    command: () => { alert("ימי הולדת לפניך") }
+
                 },
                 {
                     label: 'ימי נישואין'
-                 
+
                 },
                 {
                     label: 'בר מצווה'
-                
+
                     // items: [
                     //     {
                     //         label: 'Apollo',
@@ -76,15 +101,15 @@ export default function NavBar() {
                 },
                 {
                     label: 'בת מצווה'
-                 
+
                 },
                 {
                     label: 'ברית/בריתה'
-                 
+
                 },
                 {
                     label: 'ימי נישואין'
-                 
+
                 }
             ]
         },
@@ -93,22 +118,26 @@ export default function NavBar() {
             // icon: 'pi pi-envelope'
         },
 
-{
-label:
-    <nav>
-    {isLoggedIn ? (
-    <>
-        <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
-        </>
-    ) : (
-        <>
-        <Button label="כניסה" severity="secondary" onClick={handleLogIn} />
-        <Button label="הרשמה" severity="secondary" onClick={() =>navigate('/Register')} dir='ltr' style={{ marginLeft: '1em'}} /></>
-    )}
-</nav>
-},
+        {
+            label:
+                <nav>
+                    {user !== null ? (
+                        <>
+                            <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
+                            <Button icon="pi-shopping-bag" onClick={ItemsInCartForUser} />
+                        </>
+                    ) : (
+                        <>
+                            <Button label="כניסה" severity="secondary" onClick={handleLogIn} />
+                            <Button label="הרשמה" severity="secondary" onClick={() => navigate('/Register')} dir='ltr' style={{ marginLeft: '1em' }} />
 
-        
+
+                        </>
+                    )}
+                </nav>
+        },
+
+
         // {
         //     label:visible2?<></>:<Button label="הרשמה" severity="secondary" onClick={() =>navigate('/Register')} dir='ltr' style={{ marginLeft: '1em'}} />//() => setVisible(true)
         // }
@@ -122,8 +151,8 @@ label:
 
     ];
     useEffect(() => {
-        console.log("Updated token:", isLoggedIn); // הדפסת ה-token בעדכון
-    }, [isLoggedIn]);
+        console.log("Updated token:", token,user);
+    }, [token,user]);
 
     // const logOut=()=>{
     //     dispatch(setToken(""))
@@ -137,7 +166,7 @@ label:
         </div>
     )
 }
-        
+
 
 
 
