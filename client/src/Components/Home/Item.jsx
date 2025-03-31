@@ -48,7 +48,7 @@ const Item = () => {
   //אובייקט להוספה לסל
   const itemInCart = {
     user_id: user ? user._id : null,
-    readyDesign_id: location.state.product.id,
+    readyDesign_id: location.state.product._id,
     cnt: quantity,
     CaptionContent: value
   }

@@ -6,12 +6,14 @@ import NavBar from './Components/Home/NavBar';
 import Items from './Components/Home/Items';
 import Item from './Components/Home/Item';
 import { Route, Routes, Link } from 'react-router-dom'
+import Cart from './Components/Home/Cart';
 
 function App() {
   return (
     <>
       <NavBar />
       <Routes>
+      <Route path='/Cart' element={<Cart />} />
         <Route path='/' element={<Items />} />
         <Route path='/Item' element={<Item />} />
         <Route path='/Register' element={<Register />} />

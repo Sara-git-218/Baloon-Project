@@ -1,0 +1,17 @@
+.custom-table .p-datatable-tbody > tr {
+    height: 300 !important; /* מגדיל את השורה */
+}
+
+.custom-table .p-datatable-tbody > tr > td {
+    padding: 20px !important; /* מוסיף רווחים */
+    vertical-align: middle !important; /* ממקם את התוכן במרכז */
+}
+
+.custom-table img {
+    width: 80px !important; 
+    height: 80px !important; 
+    border-radius: 10px !important;
+}
+.custom-row {
+    height: 200px !important;  /* מגדיל את גובה השורה */
+}

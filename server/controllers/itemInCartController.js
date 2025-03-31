@@ -72,7 +72,7 @@ const getItemInCartById = async (req, res) => {
 
 const getItemInCartByUser_id = async (req, res) => {
     const  user_id = req.user._id
-    const itemInCart = await ItemInCart.find({user_id:user_id}).lean()
+    const itemInCart = await ItemInCart.find({user_id:user_id}) .populate('readyDesign_id').lean()
     if (!itemInCart) {
         return res.status(400).send('No itemInCart found')
     }
