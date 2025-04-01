@@ -15,3 +15,22 @@
 .custom-row {
     height: 200px !important;  /* מגדיל את גובה השורה */
 }
+.cart-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.cart-table {
+    flex: 1;
+}
+
+.cart-summary {
+    width: 300px;
+}
+.cart-summary {
+    width: 300px;
+    align-self: flex-start; /* מוודא שהסיכום מתחיל מגובה הטבלה */
+    margin-top: 60px; /* אפשר לשחק עם הערך הזה כדי להתאים לגובה המדויק */
+}
