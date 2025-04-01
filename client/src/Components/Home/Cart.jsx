@@ -50,6 +50,29 @@ const Cart = () => {
             setLoading(false);
         }
     };
+    const deleteItemInCart=async(item)=>{
+        try {
+            console.log(token);
+            console.log(item.id)
+            const res = await axios.delete('http://localhost:3600/api/itemInCart/deleteItemInCart', {
+                headers: {
+                    'Authorization':`Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                data: { _id: item.id } 
+            });
+
+            const data = res.data;
+            console.log(data);
+
+            if (res.status === 200) {
+               removeItem(item)
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 
     useEffect(() => {
         ItemsInCartForUser();
@@ -72,35 +95,37 @@ const Cart = () => {
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     return (
-        <div className="p-4">
+        <div className="p-4 cart-container">
             <Toast ref={toast} />
-            <h2>🛒 סל הקניות</h2>
-
-            {loading ? <p>🔄 טוען מוצרים...</p> : (
-                cart.length === 0 ? <p>🛍️ אין מוצרים בסל</p> : (
-                    <DataTable value={cart} emptyMessage="אין מוצרים בסל" responsiveLayout="scroll"   rowClassName={() => "custom-row"} >
-                        <Column header="תמונה" body={item => (
-                            <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
-                        )} />
-
-                        <Column field="name" header="מוצר"></Column>
-                        <Column field="price" header="מחיר" body={item => `${item.price} ₪`}></Column>
-                        <Column header="כמות" body={item => (
-                            <InputNumber value={item.quantity} onValueChange={(e) => updateQuantity(e.value, item)} min={1} />
-                        )}></Column>
-                        <Column header="פעולות" body={item => (
-                            <Button icon="pi pi-trash" className="p-button-danger" onClick={() => removeItem(item)} />
-                        )}></Column>
-                    </DataTable>
-                )
-            )}
-
-            <Panel header="סיכום הזמנה" className="mt-4">
+            <div className="cart-table">
+                <h2>🛒 סל הקניות</h2>
+    
+                {loading ? <p>🔄 טוען מוצרים...</p> : (
+                    cart.length === 0 ? <p>🛍️ אין מוצרים בסל</p> : (
+                        <DataTable value={cart} emptyMessage="אין מוצרים בסל" responsiveLayout="scroll">
+                            <Column header="תמונה" body={item => (
+                                <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
+                            )} />
+    
+                            <Column field="name" header="מוצר" />
+                            <Column field="price" header="מחיר" body={item => `${item.price} ₪`} />
+                            <Column header="כמות" body={item => (
+                                <InputNumber value={item.quantity} onValueChange={(e) => updateQuantity(e.value, item)} min={1} />
+                            )} />
+                            <Column header="פעולות" body={item => (
+                                <Button icon="pi pi-trash" className="p-button-danger" onClick={ ()=>deleteItemInCart(item)} />
+                            )} />
+                        </DataTable>
+                    )
+                )}
+            </div>
+    
+            <Panel header="סיכום הזמנה" className="cart-summary">
                 <h3>סה"כ לתשלום: {total} ₪</h3>
                 <Button label="לתשלום" icon="pi pi-credit-card" className="p-button-success" />
             </Panel>
         </div>
     );
-};
+};    
 
 export default Cart;
