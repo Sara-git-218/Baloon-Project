@@ -102,17 +102,17 @@ const Cart = () => {
     
                 {loading ? <p>🔄 טוען מוצרים...</p> : (
                     cart.length === 0 ? <p>🛍️ אין מוצרים בסל</p> : (
-                        <DataTable value={cart} emptyMessage="אין מוצרים בסל" responsiveLayout="scroll">
-                            <Column header="תמונה" body={item => (
+                        <DataTable value={cart} emptyMessage="אין מוצרים בסל" scrollable>
+                            <Column field="image"header="תמונה" alignHeader="center" style={{ textAlign: "center" }}body={item => (
                                 <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
                             )} />
     
-                            <Column field="name" header="מוצר" />
-                            <Column field="price" header="מחיר" body={item => `${item.price} ₪`} />
-                            <Column header="כמות" body={item => (
+                            <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />
+                            <Column field="price" header="מחיר" alignHeader="center" style={{ textAlign: "center" }} body={item => `${item.price} ₪`} />
+                            <Column header="כמות" alignHeader="center" style={{ textAlign: "center" }} body={item => (
                                 <InputNumber value={item.quantity} onValueChange={(e) => updateQuantity(e.value, item)} min={1} />
                             )} />
-                            <Column header="פעולות" body={item => (
+                            <Column header="פעולות" alignHeader="center" style={{ textAlign: "center" }} body={item => (
                                 <Button icon="pi pi-trash" className="p-button-danger" onClick={ ()=>deleteItemInCart(item)} />
                             )} />
                         </DataTable>

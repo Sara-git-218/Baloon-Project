@@ -34,3 +34,14 @@
     align-self: flex-start; /* מוודא שהסיכום מתחיל מגובה הטבלה */
     margin-top: 60px; /* אפשר לשחק עם הערך הזה כדי להתאים לגובה המדויק */
 }
+.p-datatable-table {
+    table-layout: fixed;
+    width: 100%;
+}
+.p-datatable .p-datatable-thead > tr > th {
+    text-align: center; /* ממרכז את הכותרות */
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+    text-align: center; /* ממרכז את התוכן */
+}
