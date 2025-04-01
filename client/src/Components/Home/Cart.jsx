@@ -14,7 +14,25 @@ const Cart = () => {
     const [loading, setLoading] = useState(true);
     const token = useSelector(state => state.Token.tokenstr);
     const user = useSelector(state => state.User.user)
-
+    const sendOrderEmail = async () => {
+        try {
+         const res= await fetch("http://localhost:3600/api/emails/send-email", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to: 'sarah74218@gmail.com,h49202@gmail.com',// כתובת הלקוח
+              subject: "אישור הזמנה",
+              text: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.",
+            }),
+          });
+      if(res.status==200)
+          console.log("=✅ Email sent to customer and admin!");
+        alert("הזמנתך נשלחה למנהל ומצפה לאישורו במידה ויאשר ישלח אליך מייל עם לינק לתשלום ")
+        } catch (error) {
+          console.error("❌ Error sending email:", error);
+        }
+      };
     const ItemsInCartForUser = async () => {
         if (!user) {
             alert("התחבר לאתרררר");
@@ -121,7 +139,7 @@ const Cart = () => {
     
             <Panel header="סיכום הזמנה" className="cart-summary">
                 <h3>סה"כ לתשלום: {total} ₪</h3>
-                <Button label="לתשלום" icon="pi pi-credit-card" className="p-button-success" />
+                <Button label="להזמנהה" icon="pi pi-credit-card" className="p-button-success" onClick={sendOrderEmail} />
             </Panel>
         </div>
     );
