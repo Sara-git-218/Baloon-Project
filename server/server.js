@@ -15,7 +15,7 @@ connect_db()
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.static("public"))
-
+app.use("/api/emails",require("./routes/emailRoute"));
 app.use("/api/auth", require("./routes/authRoute"))
 app.use("/api/users", require("./routes/userRoute"))
 app.use("/api/readyDesign", require("./routes/readyDesignRoute"))
