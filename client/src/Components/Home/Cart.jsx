@@ -12,7 +12,6 @@ const Cart = () => {
     const toast = useRef(null);
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
-    const userId = 123; // נניח שזה ה-ID של המשתמש המחובר
     const token = useSelector(state => state.Token.tokenstr);
     const user = useSelector(state => state.User.user)
 
