@@ -8,13 +8,14 @@ import Item from './Components/Home/Item';
 import { Route, Routes, Link } from 'react-router-dom'
 import Cart from './Components/Home/Cart';
 import Admin from './Components/Admin/Admin';
+import AdminItems from './Components/Admin/AdminItem';
 
 function App() {
   return (
     <>
       <NavBar />
       <Routes>
-      <Route path='/Admin' element={<Admin />} />
+      <Route path='/Admin/Items' element={<AdminItems />} />
       <Route path='/Cart' element={<Cart />} />
         <Route path='/' element={<Items />} />
         <Route path='/Item' element={<Item />} />

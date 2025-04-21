@@ -72,7 +72,7 @@ export default function NavBar() {
         },
         {
             label: 'ניהול מוצרים',
-            command: () => navigate('/Admin/Orders')
+            command: () => navigate('/Admin/Items')
         },
        
         {
