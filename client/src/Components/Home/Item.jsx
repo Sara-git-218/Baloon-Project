@@ -195,7 +195,7 @@ const Item = () => {
               טקסט להדפסה על הבלונים:
               <InputTextarea value={value} onChange={(e) => setValue(e.target.value)} rows={5} cols={30} />
             </div>
-            <div>
+            {/* <div>
               <input
                 type="date"
                 value={date}
@@ -203,7 +203,7 @@ const Item = () => {
                 placeholder="בחר תאריך"
               />
               <p>התאריך שנבחר: {date || "לא נבחר תאריך"}</p>
-            </div>
+            </div> */}
           </div>
           {/* תא 4 */}
           <div>

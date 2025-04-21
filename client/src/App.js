@@ -7,12 +7,14 @@ import Items from './Components/Home/Items';
 import Item from './Components/Home/Item';
 import { Route, Routes, Link } from 'react-router-dom'
 import Cart from './Components/Home/Cart';
+import Admin from './Components/Admin/Admin';
 
 function App() {
   return (
     <>
       <NavBar />
       <Routes>
+      <Route path='/Admin' element={<Admin />} />
       <Route path='/Cart' element={<Cart />} />
         <Route path='/' element={<Items />} />
         <Route path='/Item' element={<Item />} />

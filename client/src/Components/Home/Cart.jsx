@@ -8,31 +8,74 @@ import { Toast } from "primereact/toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "./Cart.css";
+
 const Cart = () => {
     const toast = useRef(null);
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
     const token = useSelector(state => state.Token.tokenstr);
-    const user = useSelector(state => state.User.user)
+    const user = useSelector(state => state.User.user);
+    const [date, setDate] = useState("");
+    const handleChange1 = (event) => {
+        setDate(event.target.value);
+    };
+
+    const createOrder = async (item) => {
+        const today = new Date();
+        if (!date || date < today) {
+            alert("בחירת תאריך תקין היא חובהההה")
+            return;
+        }
+        if(cart.length===0)
+        {
+            alert("אין מוצרים להזמין")
+            return;
+        }
+        const order = {
+            user_id: user._id,
+            items: cart.map(item => item.readyDesign_id),
+            deliveryDate: date,
+            paymentMethod: "מזומן"
+        }
+        try {
+            const res = await axios.post('http://localhost:3600/api/order/createOrder', order, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // צירוף הטוקן ב-Authorization header
+                    'Content-Type': 'application/json',  // ציון סוג התוכן
+                }
+            })
+            if (res.status == 200) {
+                cart.map(item=>deleteItemInCart(item))
+                await sendOrderEmail()
+
+            }
+
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+    }
     const sendOrderEmail = async () => {
         try {
-         const res= await fetch("http://localhost:3600/api/emails/send-email", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json" },
-            body: JSON.stringify({
-              to: 'sarah74218@gmail.com,h49202@gmail.com',// כתובת הלקוח
-              subject: "אישור הזמנה",
-              text: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.",
-            }),
-          });
-      if(res.status==200)
-          console.log("=✅ Email sent to customer and admin!");
-        alert("הזמנתך נשלחה למנהל ומצפה לאישורו במידה ויאשר ישלח אליך מייל עם לינק לתשלום ")
+            const res = await fetch("http://localhost:3600/api/emails/send-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    to: 'sarah74218@gmail.com,h49202@gmail.com',// כתובת הלקוח
+                    subject: "אישור הזמנה",
+                    text: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.",
+                }),
+            });
+            if (res.status == 200)
+                console.log("=✅ Email sent to customer and admin!");
+            alert("הזמנתך נשלחה למנהל ומצפה לאישורו במידה ויאשר ישלח אליך מייל עם לינק לתשלום ")
         } catch (error) {
-          console.error("❌ Error sending email:", error);
+            console.error("❌ Error sending email:", error);
         }
-      };
+    };
     const ItemsInCartForUser = async () => {
         if (!user) {
             alert("התחבר לאתרררר");
@@ -54,6 +97,7 @@ const Cart = () => {
             if (res.status === 200) {
                 setCart(Array.isArray(data) ? data.map(item => ({
                     id: item._id,
+                    readyDesign_id:item.readyDesign_id,
                     name: item.readyDesign_id?.name || "עיצוב מותאם אישית",
                     price: item.readyDesign_id ? item.readyDesign_id.price : 0,
                     quantity: item.cnt,
@@ -67,23 +111,23 @@ const Cart = () => {
             setLoading(false);
         }
     };
-    const deleteItemInCart=async(item)=>{
+    const deleteItemInCart = async (item) => {
         try {
             console.log(token);
             console.log(item.id)
             const res = await axios.delete('http://localhost:3600/api/itemInCart/deleteItemInCart', {
                 headers: {
-                    'Authorization':`Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                data: { _id: item.id } 
+                data: { _id: item.id }
             });
 
             const data = res.data;
             console.log(data);
 
             if (res.status === 200) {
-               removeItem(item)
+                removeItem(item)
             }
         }
         catch (e) {
@@ -116,33 +160,42 @@ const Cart = () => {
             <Toast ref={toast} />
             <div className="cart-table">
                 <h2>🛒 סל הקניות</h2>
-    
+
                 {loading ? <p>🔄 טוען מוצרים...</p> : (
                     cart.length === 0 ? <p>🛍️ אין מוצרים בסל</p> : (
                         <DataTable value={cart} emptyMessage="אין מוצרים בסל" scrollable>
-                            <Column field="image"header="תמונה" alignHeader="center" style={{ textAlign: "center" }}body={item => (
+                            <Column field="image" header="תמונה" alignHeader="center" style={{ textAlign: "center" }} body={item => (
                                 <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
                             )} />
-    
+
                             <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />
                             <Column field="price" header="מחיר" alignHeader="center" style={{ textAlign: "center" }} body={item => `${item.price} ₪`} />
                             <Column header="כמות" alignHeader="center" style={{ textAlign: "center" }} body={item => (
                                 <InputNumber value={item.quantity} onValueChange={(e) => updateQuantity(e.value, item)} min={1} />
                             )} />
                             <Column header="פעולות" alignHeader="center" style={{ textAlign: "center" }} body={item => (
-                                <Button icon="pi pi-trash" className="p-button-danger" onClick={ ()=>deleteItemInCart(item)} />
+                                <Button icon="pi pi-trash" className="p-button-danger" onClick={() => deleteItemInCart(item)} />
                             )} />
                         </DataTable>
                     )
                 )}
             </div>
-    
+
             <Panel header="סיכום הזמנה" className="cart-summary">
+                <div>
+                    <input
+                        type="date"
+                        value={date}
+                        onChange={handleChange1}
+                        placeholder="בחר תאריך"
+                    />
+                    <p>התאריך שנבחר: {date || "לא נבחר תאריך"}</p>
+                </div>
                 <h3>סה"כ לתשלום: {total} ₪</h3>
-                <Button label="להזמנהה" icon="pi pi-credit-card" className="p-button-success" onClick={sendOrderEmail} />
+                <Button label="להזמנהה" icon="pi pi-credit-card" className="p-button-success" onClick={createOrder} />
             </Panel>
         </div>
     );
-};    
+};
 
 export default Cart;

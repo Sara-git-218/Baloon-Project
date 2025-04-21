@@ -4,7 +4,7 @@ const jwt=require("jsonwebtoken")
 
 
 const register=async(req,res)=>{
-    const {_id, name, username,password, email, address, phone,dateOfBirth}=req.body
+    const {_id, name, username,password, email, address, phone,dateOfBirth,roles}=req.body
     if( !name || !username || !password || !email || !phone){
         return res.status(400).send("the field are required")
     }
@@ -13,7 +13,7 @@ const register=async(req,res)=>{
         return res.status(400).send("username or password are not valid")
     }
     const hashPwd=await bcrypt.hash(password,10)
-    const userObj={_id, name, username,password:hashPwd, email, address, phone,dateOfBirth}
+    const userObj={_id, name, username,password:hashPwd, email, address, phone,roles,dateOfBirth}
     const user=await User.create(userObj)
     if(user){
         return res.status(200).json(await User.find().lean())

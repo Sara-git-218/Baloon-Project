@@ -23,6 +23,8 @@ export default function NavBar() {
     // const isLoggedIn = useSelector((state) => state.IsLogIn.isLoggedIn);
     const token = useSelector(state => state.Token.tokenstr);
     const user = useSelector(state => state.User.user)
+    const isAdmin = user?.roles === "Admin";
+
     const ItemsInCartForUser = async () => {
 
         if (!user) {
@@ -57,7 +59,27 @@ export default function NavBar() {
         await dispatch(setToken(""));
         await dispatch(setUser(null));
     };
-    const items = [
+    const items =isAdmin
+    ? [
+        // תפריט למנהלים
+        {
+            label: 'ניהול משתמשים',
+            command: () => navigate('/Admin/Users')
+        },
+        {
+            label: 'ניהול הזמנות',
+            command: () => navigate('/Admin/Orders')
+        },
+        {
+            label: 'ניהול מוצרים',
+            command: () => navigate('/Admin/Orders')
+        },
+       
+        {
+            label: <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
+        }
+    ]
+    : [
         {
             label: 'חנות',
             // icon: 'pi pi-home'

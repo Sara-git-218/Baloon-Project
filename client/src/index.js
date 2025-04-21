@@ -10,31 +10,37 @@ import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import './flags.css';
 import { BrowserRouter } from 'react-router-dom';
-import tokenReducer from './Store/TokenSilce';
+
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux'
+import tokenReducer from './Store/TokenSilce';
 import itemsReducer from './Store/ItemsSlice';
-import userInReducer from './Store/AuthSlice'
-const myStore = configureStore({
-  reducer:{
-    Items:itemsReducer,
-    Token:tokenReducer,
-    User:userInReducer
+// import userInReducer from './AuthSlice'
+import { myStore, persistor } from './Store/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
+// const myStore = configureStore({
+//   reducer:{
+//     Items:itemsReducer,
+//     Token:tokenReducer,
+//     User:userInReducer
  
-  }
-})
+//   }
+// })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <PrimeReactProvider>
-      <BrowserRouter>
-        <Provider store={myStore}>
+<React.StrictMode>
+  <PrimeReactProvider>
+    <BrowserRouter>
+      <Provider store={myStore}>
+        <PersistGate loading={null} persistor={persistor}>
           <App />
-        </Provider>
-      </BrowserRouter>
-    </PrimeReactProvider>
-  </React.StrictMode>
+        </PersistGate>
+      </Provider>
+    </BrowserRouter>
+  </PrimeReactProvider>
+</React.StrictMode>
 
 
 

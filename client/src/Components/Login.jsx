@@ -65,7 +65,12 @@ const Login = () => {
                 const userlog = getUserFromToken(token);
                 console.log(userlog);
                 await dispatch(setUser(userlog));
-                navigate('/')
+                if (userlog.roles === 'User') {
+                    navigate('/')
+                }
+                if (userlog.roles === 'Admin') {
+                    navigate('/Admin')
+                }
                 localStorage.setItem("token", res.data.accessToken)
 
 
