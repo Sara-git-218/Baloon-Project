@@ -166,7 +166,7 @@ const AdminItems = () => {
         <>
             <div className="card flex flex-wrap justify-content-center gap-3">
     
-                <Button label="הוספת מוצר " severity="secondary" />
+                <Button label="הוספת מוצר " severity="secondary" onClick={()=>navigate('/Admin/AddItem')}/>
      
 
             </div>

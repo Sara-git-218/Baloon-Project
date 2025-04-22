@@ -1,0 +1,51 @@
+.card {
+    background-color: #ffffff; /* צבע רקע לבן */
+    border: 1px solid #ccc; /* גבול אפור בהיר */
+    border-radius: 8px; /* פינות מעוגלות יותר */
+    padding: 20px; /* ריווח פנימי */
+    margin: 20px auto; /* ריווח חיצוני ממרכז הכרטיס */
+    width: 350px; /* רוחב קבוע לכרטיס */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* צל מעודכן */
+}
+
+.flex-column {
+    display: flex; /* הגדרת תצוגה גמישה */
+    flex-direction: column; /* סידור תתי האלמנטים בעמודה */
+}
+
+.gap-2 {
+    gap: 10px; /* מרווח בין רכיבים */
+}
+
+label {
+    font-weight: bold; /* טקסט מודגש עבור תוויות */
+    margin-bottom: 5px; /* מרווח מתחת לתוויות */
+}
+
+input, textarea, .dropdown { /* עיצוב אחיד לכל סוגי הקלט */
+    width: 100%; /* רוחב מלא */
+    padding: 8px; /* ריווח פנימי */
+    border: 1px solid #ccc; /* גבול אפור */
+    border-radius: 4px; /* פינות מעוגלות */
+    box-sizing: border-box; /* לכלול ריווחים בגובה ורוחב */
+}
+
+input:focus, textarea:focus { /* עיצוב עבור מצב פוקוס */
+    border-color: #007bff; /* גבול כחול */
+    outline: none; /* הסרת קו מסביב */
+}
+
+button {
+    width: 100%; /* כפתור מלא ברוחב */
+    background-color: #28a745; /* צבע ירוק */
+    color: white; /* טקסט לבן */
+    padding: 10px; /* ריווח פנימי */
+    border: none; /* ללא גבול */
+    border-radius: 4px; /* פינות מעוגלות */
+    cursor: pointer; /* היד לגישה */
+    transition: background-color 0.3s; /* אנימציה צבע בעת ריחוף */
+}
+
+button:hover {
+    background-color: #218838; /* ירוק כהה בעת ריחוף */
+}
