@@ -21,6 +21,15 @@ const getAllOrder = async (req, res) => {
     }
     res.json(orders)
 }
+const getOrdersByStatus=async (req,res)=>{
+const status=req.params.status;
+console.log(status)
+const orders=await Order.find({status:status}).lean();
+if (!orders?.length) {
+    return res.status(400).send( 'No order found' )
+}
+res.json(orders)
+}
 
 const updateOrder = async (req, res) => {
     const { _id,user_id,items,valid, deliveryDate,notes,paymentMethod,paid} = req.body
@@ -85,5 +94,6 @@ module.exports ={
     updateOrder,
     deleteOrder,
     getOrderById,
-    getOrderByUser_id
+    getOrderByUser_id,
+    getOrdersByStatus
 }

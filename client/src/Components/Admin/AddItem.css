@@ -1,20 +1,14 @@
-.card {
+.m-0 {
     background-color: #ffffff; /* צבע רקע לבן */
     border: 1px solid #ccc; /* גבול אפור בהיר */
-    border-radius: 8px; /* פינות מעוגלות יותר */
+    border-radius: 8px; /* פינות מעוגלות */
     padding: 20px; /* ריווח פנימי */
     margin: 20px auto; /* ריווח חיצוני ממרכז הכרטיס */
-    width: 350px; /* רוחב קבוע לכרטיס */
+    width: 400px; /* רוחב קבוע לכרטיס */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* צל מעודכן */
-}
-
-.flex-column {
-    display: flex; /* הגדרת תצוגה גמישה */
-    flex-direction: column; /* סידור תתי האלמנטים בעמודה */
-}
-
-.gap-2 {
-    gap: 10px; /* מרווח בין רכיבים */
+    display: flex; /* עיצוב גמיש */
+    flex-direction: column; /* סידור כל האלמנטים בעמודה */
+    align-items: stretch; /* ממרכז את כל הרכיבים כדי למלא את המרחב */
 }
 
 label {
@@ -28,6 +22,7 @@ input, textarea, .dropdown { /* עיצוב אחיד לכל סוגי הקלט */
     border: 1px solid #ccc; /* גבול אפור */
     border-radius: 4px; /* פינות מעוגלות */
     box-sizing: border-box; /* לכלול ריווחים בגובה ורוחב */
+    margin-bottom: 10px; /* מרווח בין קלטים */
 }
 
 input:focus, textarea:focus { /* עיצוב עבור מצב פוקוס */
@@ -48,4 +43,22 @@ button {
 
 button:hover {
     background-color: #218838; /* ירוק כהה בעת ריחוף */
+}
+
+.custom-button {
+    width: 40px; /* רוחב קטן */
+    height: 40px; /* גובה קטן */
+    border-radius: 20px; /* עגלגל לחלוטין */
+    background-color: #28a745; /* צבע הרקע כמו בכפתור המקורי */
+    color: white; /* צבע טקסט לבן */
+    border: none; /* ללא גבולות */
+    display: flex; /* תצוגה גמישה */
+    align-items: center; /* מיקום מרכזי */
+    justify-content: center; /* מיקום מרכזי */
+    cursor: pointer; /* מצביע כמו יד */
+    transition: background-color 0.3s; /* אנימציה צבע */
+}
+
+.custom-button:hover {
+    background-color: #218838; /* גוון כהה יותר בעת ריחוף */
 }

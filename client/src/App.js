@@ -10,6 +10,7 @@ import Cart from './Components/Home/Cart';
 import Admin from './Components/Admin/Admin';
 import AdminItems from './Components/Admin/AdminItem';
 import AddItem from './Components/Admin/AddItem'
+import Orders from './Components/Admin/Orders';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <Routes>
       <Route path='/Admin/Items' element={<AdminItems />} />
       <Route path='/Admin/AddItem' element={<AddItem />} />
-
+      <Route path='/Admin/Orders' element={<Orders />} />
       <Route path='/Cart' element={<Cart />} />
         <Route path='/' element={<Items />} />
         <Route path='/Item' element={<Item />} />

@@ -14,10 +14,10 @@ const orderSchema = new mongoose.Schema({
         ref:'ItemInCart',
         required:true
     },
-    valid:{
+    status:{
         type:String,
-        enum:["לא אושר","אושר","נשלח","נמסר"],
-        default:"לא אושר"
+        enum:["unConfirm","confirm","sent","delivered"],
+        default:"unConfirm"
     },
     deliveryDate:{
         type:mongoose.Schema.Types.Date,

@@ -22,7 +22,7 @@ const AddItem = () => {
     const toast = useRef(null);
     const [totalSize, setTotalSize] = useState(0);
     const fileUploadRef = useRef(null);
-    
+
     const onTemplateSelect = (e) => {
         let _totalSize = totalSize;
         let files = e.files;
@@ -117,7 +117,7 @@ const AddItem = () => {
 
     const addDesign = async (name, description, price, category) => {
         try {
-            const newDesign = { name, description, price, category:category.name };
+            const newDesign = { name, description, price, category: category.name };
             console.log(newDesign)
             const res = await axios.post('http://localhost:3600/api/readyDesign/createReadyDesign', newDesign, {
                 headers: {
@@ -139,6 +139,55 @@ const AddItem = () => {
     }
     return (
         <>
+            {/* <div className="m-0">
+                <label htmlFor="username">שם המוצר: </label>
+                <InputText id="username" value={name} onChange={(e) => setName(e.target.value)} />
+
+                <label htmlFor="description">תיאור המוצר: </label>
+                <InputTextarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={5} />
+
+                <label htmlFor="integeronly">מחיר</label>
+                <InputNumber inputId="integeronly" value={price} onValueChange={(e) => setPrice(e.value)} />
+
+                <label htmlFor="category">קטגוריה</label>
+                <Dropdown value={category} onChange={(e) => setCategory(e.value)} options={kategories} optionLabel="name" placeholder="קטגוריה" />
+                <br />
+                <label htmlFor="category">תמונה</label>
+                <div>
+                    <Toast ref={toast}></Toast>
+
+                    <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
+                    <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
+                    <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
+
+
+
+                    <FileUpload ref={fileUploadRef} name="demo[]" url="/api/upload" multiple accept="image/*" maxFileSize={1000000}
+                        onUpload={onTemplateUpload} onSelect={onTemplateSelect} onError={onTemplateClear} onClear={onTemplateClear}
+                        headerTemplate={headerTemplate} itemTemplate={itemTemplate} emptyTemplate={emptyTemplate}
+                        chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions} />
+                </div>
+
+                <div className="card flex justify-content-center">
+                    <Button label="הוסף עיצוב" onClick={() => addDesign(name, description, price, category)} />
+                </div>
+            </div>
+//---------------------
+            <div className="m-0">
+                <label htmlFor="username">שם המוצר: </label>
+                <InputText id="username" value={name} onChange={(e) => setName(e.target.value)} />
+
+                <label htmlFor="description">תיאור המוצר: </label>
+                <InputTextarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={5} />
+
+                <label htmlFor="integeronly">מחיר</label>
+                <InputNumber inputId="integeronly" value={price} onValueChange={(e) => setPrice(e.value)} />
+
+                <label htmlFor="category">קטגוריה</label>
+                <Dropdown value={category} onChange={(e) => setCategory(e.value)} options={kategories} optionLabel="name" placeholder="קטגוריה" />
+
+                <Button label="הוסף עיצוב" onClick={() => addDesign(name, description, price, category)} />
+            </div> */}
             <Card title="Simple Card">
                 <p className="m-0">
                     {/* <div className="flex flex-column gap-2">
@@ -151,9 +200,9 @@ const AddItem = () => {
                     <div className="card flex justify-content-center">
                         <div className="flex flex-column gap-2">
                             <label htmlFor="username">שם המוצר: </label>
-                            <InputText id="username" aria-describedby="username-help" value={name} onChange={(e) => setName(e.target.value)}/>
+                            <InputText id="username" aria-describedby="username-help" value={name} onChange={(e) => setName(e.target.value)} />
                             <small id="username-help">
-                            שם מוצר ייחודי
+                                שם מוצר ייחודי
                             </small>
                         </div>
                     </div>
@@ -173,22 +222,22 @@ const AddItem = () => {
                         <Dropdown value={category} onChange={(e) => setCategory(e.value)} options={kategories} optionLabel="name"
                             placeholder="קטגוריה" className="w-full md:w-14rem" />
                     </div>
-                   
+
 
                     <div>
-            <Toast ref={toast}></Toast>
+                        <Toast ref={toast}></Toast>
 
-            <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
-            <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
-            <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
+                        <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
+                        <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
+                        <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
 
-            <FileUpload ref={fileUploadRef} name="demo[]" url="/api/upload" multiple accept="image/*" maxFileSize={1000000}
-                onUpload={onTemplateUpload} onSelect={onTemplateSelect} onError={onTemplateClear} onClear={onTemplateClear}
-                headerTemplate={headerTemplate} itemTemplate={itemTemplate} emptyTemplate={emptyTemplate}
-                chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions} />
-        </div> 
-        <div className="card flex justify-content-center">
-                        <Button label="הוסף עיצוב" onClick={() => addDesign(name, description, price, category) } />
+                        <FileUpload ref={fileUploadRef} name="demo[]" url="/api/upload" multiple accept="image/*" maxFileSize={1000000}
+                            onUpload={onTemplateUpload} onSelect={onTemplateSelect} onError={onTemplateClear} onClear={onTemplateClear}
+                            headerTemplate={headerTemplate} itemTemplate={itemTemplate} emptyTemplate={emptyTemplate}
+                            chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions} />
+                    </div>
+                    <div className="card flex justify-content-center">
+                        <Button label="הוסף עיצוב" onClick={() => addDesign(name, description, price, category)} />
                     </div>
                 </p>
             </Card>
