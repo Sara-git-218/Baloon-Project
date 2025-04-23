@@ -1,22 +1,88 @@
 const ReadyDesign = require("../models/ReadyDesign");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+// const createReadyDesign = async (req, res) => {
+//     const { name, description, image_url, defaultColors, price, category, available } = req.body;
 
+//     if (!name || !price) {
+//         return res.status(400).send('name and price are required');
+//     }
+
+//     const double = await ReadyDesign.findOne({ name: name }).lean();
+//     if (double) {
+//         return res.status(400).send("name is not valid");
+//     }
+
+//     const readyDesign = await ReadyDesign.create({
+//         name,
+//         description,
+//         image_url, // זה השם שתואם לשם מהקליינט
+//         defaultColors,
+//         price,
+//         category,
+//         available
+//     });
+
+//     if (readyDesign) {
+//         return res.status(200).json(await ReadyDesign.find().lean());
+//     } else {
+//         return res.status(400).send('Invalid readyDesign');
+//     }
+// };
+
+
+// Multer config – אחסון התמונות בתיקיית uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = path.join(__dirname, '../uploads');
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath);
+        }
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + ext;
+        cb(null, uniqueName);
+    }
+});
+
+const upload = multer({ storage });
+
+
+// יצירת עיצוב מוכן עם תמונה
 const createReadyDesign = async (req, res) => {
+    const { name, description, defaultColors, price, category, available } = req.body;
+    const image_url = req.file ? '/uploads/' + req.file.filename : null;
 
-    const { name,description,image_url, defaultColors,price,category,available} = req.body
-    if (!name || !price) {
-        return res.status(400).send( 'name and price are required' )
+    if (!name || !price || !image_url) {
+        return res.status(400).send('name, price and image are required');
     }
-    const double=await ReadyDesign.findOne({name:name}).lean()
-    if(double){
-        return res.status(400).send("name is not valid")
+
+    const double = await ReadyDesign.findOne({ name: name }).lean();
+    if (double) {
+        return res.status(400).send("name is not valid");
     }
-    const readyDesign = await ReadyDesign.create({name,description,image_url,defaultColors,price,category,available })
-    if (readyDesign) { 
-        return res.status(200).json(await ReadyDesign.find().lean())
+
+    const readyDesign = await ReadyDesign.create({
+        name,
+        description,
+        image_url,
+        defaultColors,
+        price,
+        category,
+        available
+    });
+
+    if (readyDesign) {
+        return res.status(200).json(await ReadyDesign.find().lean());
     } else {
-        return res.status(400).send( 'Invalid readyDesign' )
+        return res.status(400).send('Invalid readyDesign');
     }
-}
+};
+
+
 
 const getAllReadyDesign = async (req, res) => {
     const readyDesigns= await ReadyDesign.find().lean()

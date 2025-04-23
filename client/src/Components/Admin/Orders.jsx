@@ -264,7 +264,7 @@ const Orders = () => {
         }
     };
     const confirmOrder = async (id, useremail, status) => {
-        alert(token); // רק לבדיקה
+      
         try {
             const res = await axios.put(
                 `http://localhost:3600/api/order/updateStatus`,
@@ -281,8 +281,7 @@ const Orders = () => {
             );
 
             if (res.status === 200) {
-                console.log("אישור בוצע בהצלחה");
-                alert("אישור בוצע בהצלחה!");
+                UnconfirmedOrders("unConfirm")
                 sendOrderEmail(useremail, 'הזמנתך אושרה על ידי מנהל המערכת!!');
             }
         } catch (err) {
@@ -304,16 +303,39 @@ const Orders = () => {
     }
 
     const rowExpansionTemplate = (data) => {
+        console.log(orders)
+        console.log("row data for expansion:", data);
         return (
             <div className="p-3">
                 <h5>פרטי פריטים:</h5>
-                <ul>
+                {/* <ul>
                     {data.items.map((item, index) => (
+                    
+                       
                         <li key={index}>
-                            {item.readyDesign_id?.name} - {item.readyDesign_id?.price} ₪ - כמות: {item.cnt}
+                           {item.image} {item.name} - {item.readyDesign_id?.price} ₪ - כמות: {item.quantity}
                         </li>
                     ))}
-                </ul>
+                </ul> */}
+                  <ul style={{ listStyleType: 'none', padding: 0 }}>
+                {data.items.map((item, index) => (
+                    <li key={index} style={{ marginBottom: '1rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            {item.image && (
+                                <img
+                                    src={item.image}
+                                    alt={item.nam}
+                                    style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
+                                />
+                            )}
+                            <span>
+                           {item.name} - {item.readyDesign_id?.price} ₪ - כמות: {item.quantity}
+                            </span>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+                <ul></ul>
             </div>
         );
     };
@@ -365,19 +387,6 @@ const Orders = () => {
                         style={{ width: '25%' }}
                     />
 
-                    {/* <Column field="status" header="סטטוס" style={{ width: '25%' }} />
-                    <Column
-                        header="פעולות"
-                        body={(rowData) => (
-                            <Button
-                                label="אישור"
-                                icon="pi pi-check"
-                                severity="success"
-                                onClick={() => confirmOrder(rowData._id,'sarah74218@gmail.com',"confirm")}///לשנות את זה למייל של המשתמש זה רק בגלל שלא כל הכתובות קיימות!
-                            />
-                        )}
-                        style={{ width: '10%' }}
-                    /> */}
                     <Column field="deliveryDate" header="תאריך משלוח" style={{ width: '25%' }} />
                 </DataTable>
             </div>
