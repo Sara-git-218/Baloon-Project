@@ -1,0 +1,8 @@
+/* styles.css */
+.p-datatable .p-column-header .p-column-toggler.p-button {
+    transform: rotate(180deg); /* סובב את החץ */
+}
+
+.p-datatable .p-column-toggler.p-button {
+    transition: transform 0.2s ease; /* יצירת אנימציה */
+}

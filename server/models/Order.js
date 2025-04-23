@@ -10,8 +10,7 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     items: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref:'ItemInCart',
+        type: [Object],
         required:true
     },
     status:{

@@ -2,7 +2,7 @@ const Order = require("../models/Order");
 
 const createOrder = async (req, res) => {
 
-    const { user_id,items,valid, deliveryDate,notes,paymentMethod,paid} = req.body
+    const { user_id,items,valid, deliveryDate,notes,paymentMethod,paid } = req.body
     if (!user_id || !items || !deliveryDate || !paymentMethod) {
         return res.status(400).send( 'user_id , items , deliveryDate and paymentMethod are required' )
     }
@@ -24,10 +24,16 @@ const getAllOrder = async (req, res) => {
 const getOrdersByStatus=async (req,res)=>{
 const status=req.params.status;
 console.log(status)
-const orders=await Order.find({status:status}).lean();
-if (!orders?.length) {
-    return res.status(400).send( 'No order found' )
-}
+const orders=await Order.find({status:status}).populate('user_id')  
+.populate({
+    path: 'items'
+  })
+  .lean();
+// if (!orders?.length) {
+//     console.log("אין מוצרים")
+//     return res.status(400).send( 'No order found' )
+// }
+console.log("Populated Orders:", orders);
 res.json(orders)
 }
 
@@ -55,7 +61,22 @@ const updateOrder = async (req, res) => {
     res.json(await Order.find().lean())
 }
 
+const updateStatus=async(req,res)=>{
+    const {_id,status}=req.body;
+    if(!_id||!status)
+    {
+        return res.status0(400).send('are requierd')
+    }
+    const order=await Order.findById(_id).exec();
+    if(!order)
+    {
+        return res.status(400).send('Order not found')
+    }
+    order.status=status;
+    const updatedOrder = await order.save()
+    res.json(updateOrder)
 
+}
 
 const deleteOrder = async (req, res) => {
     const { _id } = req.body
@@ -95,5 +116,6 @@ module.exports ={
     deleteOrder,
     getOrderById,
     getOrderByUser_id,
-    getOrdersByStatus
+    getOrdersByStatus,
+    updateStatus
 }

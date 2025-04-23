@@ -33,10 +33,10 @@ const Cart = () => {
         }
         const order = {
             user_id: user._id,
-            items: cart.map(item => item.readyDesign_id),
+            items: cart,
             deliveryDate: date,
             paymentMethod: "מזומן",
-            status:"confirm"
+           
         }
         try {
             const res = await axios.post('http://localhost:3600/api/order/createOrder', order, {
