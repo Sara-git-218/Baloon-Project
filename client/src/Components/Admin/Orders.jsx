@@ -323,7 +323,7 @@ const Orders = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                             {item.image && (
                                 <img
-                                    src={item.image}
+                                    src={`http://localhost:3600${item.image}`}
                                     alt={item.nam}
                                     style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
                                 />

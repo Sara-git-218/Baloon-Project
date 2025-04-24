@@ -115,7 +115,7 @@ const AdminItems = () => {
                     >
                         <img
                             className="object-cover w-full h-full"
-                            src={`${product.image_url}`}
+                           src={`http://localhost:3600${product.image_url}`} 
                             alt={product.name}
                             style={{ objectFit: 'cover', width: '80%', height: '80%' }} // תמונה בגודל קטן יותר
                         />

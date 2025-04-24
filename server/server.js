@@ -6,6 +6,7 @@ const express = require("express")
 
 const connect_db = require("./config/dbConection")
 const corsOptions = require("./config/corsOptions")
+const path = require('path');
 
 const { default: mongoose } = require("mongoose")
 const app = express()
@@ -15,6 +16,7 @@ connect_db()
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.static("public"))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api/emails",require("./routes/emailRoute"));
 app.use("/api/auth", require("./routes/authRoute"))
 app.use("/api/users", require("./routes/userRoute"))

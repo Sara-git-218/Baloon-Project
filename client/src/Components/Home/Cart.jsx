@@ -166,7 +166,7 @@ const Cart = () => {
                     cart.length === 0 ? <p>🛍️ אין מוצרים בסל</p> : (
                         <DataTable value={cart} emptyMessage="אין מוצרים בסל" scrollable>
                             <Column field="image" header="תמונה" alignHeader="center" style={{ textAlign: "center" }} body={item => (
-                                <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
+                                <img src={`http://localhost:3600${item.image} `}alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
                             )} />
 
                             <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />

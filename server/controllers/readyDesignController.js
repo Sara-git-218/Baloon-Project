@@ -53,6 +53,9 @@ const upload = multer({ storage });
 
 // יצירת עיצוב מוכן עם תמונה
 const createReadyDesign = async (req, res) => {
+    console.log("נכנס לקונטרולרררררר")
+    console.log(req.file);  // בודק אם קובץ התמונות התקבל
+    console.log(req.body);
     const { name, description, defaultColors, price, category, available } = req.body;
     const image_url = req.file ? '/uploads/' + req.file.filename : null;
 

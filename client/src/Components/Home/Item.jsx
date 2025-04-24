@@ -136,7 +136,8 @@ const Item = () => {
       <div className="container">
         <div className="column-1">
           {/* <h2>עמודה ראשית</h2> */}
-          <p><img className="balloon-image" alt="Card" src={location.state.product.image_url} /></p>
+          <p><img className="balloon-image" alt="Card" src={`http://localhost:3600${location.state.product.image_url} `}/></p>
+          {/* <img src={`http://localhost:3600${product.image_url}`} alt="תצוגה" style={{ width: 150, marginTop: 10 }} /> */}
         </div>
         <div className="column-2">
           <div>
