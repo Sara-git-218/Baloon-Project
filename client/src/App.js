@@ -11,12 +11,14 @@ import Admin from './Components/Admin/Admin';
 import AdminItems from './Components/Admin/AdminItem';
 import AddItem from './Components/Admin/AddItem'
 import Orders from './Components/Admin/Orders';
+import UpdateItem from './Components/Admin/UpdateItem';
 
 function App() {
   return (
     <>
       <NavBar />
       <Routes>
+      <Route path='/Admin/Items/UpdateItem' element={<UpdateItem />} />
       <Route path='/Admin/Items' element={<AdminItems />} />
       <Route path='/Admin/AddItem' element={<AddItem />} />
       <Route path='/Admin/Orders' element={<Orders />} />

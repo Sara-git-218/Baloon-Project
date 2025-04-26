@@ -146,7 +146,7 @@ export default function NavBar() {
                     {user !== null ? (
                         <>
                             <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
-                            <Button icon="pi-shopping-bag" onClick={()=>navigate('/Cart')} />
+                            <Button icon="pi pi-shopping-cart" onClick={()=>navigate('/Cart')} />
                         </>
                     ) : (
                         <>
