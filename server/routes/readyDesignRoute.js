@@ -55,7 +55,7 @@ router.get("/getReadyDesignById/:id", readyDesignController.getReadyDesignById);
 router.post("/createReadyDesign", upload.single('image'), readyDesignController.createReadyDesign);
 
 // עדכון ומחיקה
-router.put("/updateReadyDesign", readyDesignController.updateReadyDesign);
+router.put("/updateReadyDesign",upload.single('image'), readyDesignController.updateReadyDesign);
 router.delete("/deleteReadyDesign", readyDesignController.deleteReadyDesign);
 
 module.exports = router;

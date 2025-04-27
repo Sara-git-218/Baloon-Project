@@ -100,9 +100,11 @@ const getAllReadyDesign = async (req, res) => {
 // }
 
 const updateReadyDesign = async (req, res) => {
-    const { _id,name,description,image_url,defaultColors,category,available } = req.body
+    const { _id,name,description,price,defaultColors,available } = req.body
+    const image_url = req.file ? '/uploads/' + req.file.filename : null;
 
-    if (!_id || !name || !price ) {
+    
+    if (!_id ) {
         return res.status(400).send( '_id , name and price fields are required' )
     }
 
@@ -116,13 +118,13 @@ const updateReadyDesign = async (req, res) => {
         return res.status(400).send("name is not valid")
     }
 
-    readyDesign.name=name
-    readyDesign.description=description
-    readyDesign.image_url=image_url
-    readyDesign.defaultColors=defaultColors
-    readyDesign.price=price
-    readyDesign.category=category
-    readyDesign.available=available
+    readyDesign.name=name?name:readyDesign.name
+    readyDesign.description=description?description:readyDesign.description
+    readyDesign.image_url=image_url!=null?image_url:readyDesign.image_url
+    readyDesign.defaultColors=defaultColors?defaultColors:readyDesign.defaultColors
+    readyDesign.price=price?price:readyDesign.price
+    // readyDesign.category=category?catgory:readyDesign.category
+    readyDesign.available=available?available:readyDesign.available
 
     const updatedReadyDesign = await readyDesign.save()
     res.json(await ReadyDesign.find().lean())
