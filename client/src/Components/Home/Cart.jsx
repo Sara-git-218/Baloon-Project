@@ -65,9 +65,15 @@ const Cart = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    to: 'sarah74218@gmail.com,h49202@gmail.com',// כתובת הלקוח
-                    subject: "אישור הזמנה",
-                    text: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.",
+                    // to: 'sarah74218@gmail.com,h49202@gmail.com',// כתובת הלקוח
+                    // subject: "אישור הזמנה",
+                    // text: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.",
+                    customerEmail: user.email, // כתובת הלקוח
+                    adminEmail: 'yambalonb@gmail.com', // כתובת המנהל
+                    customerSubject: "אישור הזמנה", // נושא ללקוח
+                    adminSubject: "הזמנה חדשה ממערכת", // נושא למנהל
+                    customerText: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.", // תוכן ללקוח
+                    adminText: "שלום מנהל, הזמנה חדשה התקבלה ויש לאשר אותה", // תוכן למנהל
                 }),
             });
             if (res.status == 200)

@@ -241,9 +241,12 @@ import { Column } from 'primereact/column';
 
 const Orders = () => {
     const token = useSelector(state => state.Token.tokenstr);
+    const user = useSelector(state => state.User.user);
     const [orders, setOrders] = useState([]);
     const [expandedRows, setExpandedRows] = useState(null);
-    const sendOrderEmail = async (to, text) => {
+    const sendOrderEmail = async (to,date) => {
+        console.log(to);
+        
         try {
             const res = await fetch("http://localhost:3600/api/emails/send-email", {
                 method: "POST",
@@ -251,20 +254,26 @@ const Orders = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    to: to,// כתובת הלקוח
-                    subject: "אישור הזמנה",
-                    text: text,
+                    // to: to,// כתובת הלקוח
+                    // subject: "אישור הזמנה",
+                    // text: text,
+                    customerEmail: to, // כתובת הלקוח
+                    adminEmail: 'yambalonb@gmail.com', // כתובת המנהל
+                    customerSubject: "הזמנתך אושרה!! ", // נושא ללקוח
+                    adminSubject: "אישרת הזמנה חדשה במערכת", // נושא למנהל
+                    customerText: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.", // תוכן ללקוח
+                    adminText: `אישרת הזמנההההה חדשה לתאריך${date} אנא שמור את התאריךך`
                 }),
             });
             if (res.status == 200)
                 console.log("=✅ Email sent to customer and admin!");
-            alert("הזמנתך נשלחה למנהל ומצפה לאישורו במידה ויאשר ישלח אליך מייל עם לינק לתשלום ")
+          
         } catch (error) {
             console.error("❌ Error sending email:", error);
         }
     };
-    const confirmOrder = async (id, useremail, status) => {
-      
+    const confirmOrder = async (id, useremail, status, date) => {
+
         try {
             const res = await axios.put(
                 `http://localhost:3600/api/order/updateStatus`,
@@ -282,7 +291,7 @@ const Orders = () => {
 
             if (res.status === 200) {
                 UnconfirmedOrders("unConfirm")
-                sendOrderEmail(useremail, 'הזמנתך אושרה על ידי מנהל המערכת!!');
+                sendOrderEmail(useremail, date);
             }
         } catch (err) {
             console.error("שגיאה בבקשת אישור:", err);
@@ -317,24 +326,24 @@ const Orders = () => {
                         </li>
                     ))}
                 </ul> */}
-                  <ul style={{ listStyleType: 'none', padding: 0 }}>
-                {data.items.map((item, index) => (
-                    <li key={index} style={{ marginBottom: '1rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            {item.image && (
-                                <img
-                                    src={`http://localhost:3600${item.image}`}
-                                    alt={item.nam}
-                                    style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
-                                />
-                            )}
-                            <span>
-                           {item.name} - {item.readyDesign_id?.price} ₪ - כמות: {item.quantity}
-                            </span>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {data.items.map((item, index) => (
+                        <li key={index} style={{ marginBottom: '1rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                {item.image && (
+                                    <img
+                                        src={`http://localhost:3600${item.image}`}
+                                        alt={item.nam}
+                                        style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
+                                    />
+                                )}
+                                <span>
+                                    {item.name} - {item.readyDesign_id?.price} ₪ - כמות: {item.quantity}
+                                </span>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
                 <ul></ul>
             </div>
         );
@@ -379,7 +388,7 @@ const Orders = () => {
                                         icon="pi pi-check"
                                         severity="success"
                                         size="small"
-                                        onClick={() => confirmOrder(rowData._id,'sarah74218@gmail.com', "confirm")}
+                                        onClick={() => confirmOrder(rowData._id, rowData.user_id.email, "confirm", rowData.deliveryDate)}
                                     />
                                 )}
                             </div>
