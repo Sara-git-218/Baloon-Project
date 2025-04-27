@@ -10,6 +10,7 @@ router.get("/getItemInCartById/:id", itemInCartController.getItemInCartById)
 router.get("/getItemInCartByUser_id", itemInCartController.getItemInCartByUser_id)
 router.post("/createItemInCart", itemInCartController.createItemInCart)
 router.delete("/deleteItemInCart", itemInCartController.deleteItemInCart)
+router.delete("/deleteallItemsForUser", itemInCartController.deleteAllItemsForUser)
 router.put("/updateItemInCart", itemInCartController.updateItemInCart)
 
 

@@ -22,21 +22,21 @@ const Cart = () => {
 
     const createOrder = async (item) => {
         const today = new Date();
-        if (!date || date < today) {
-            alert("בחירת תאריך תקין היא חובהההה")
-            return;
-        }
-        if(cart.length===0)
-        {
+        if (cart.length === 0) {
             alert("אין מוצרים להזמין")
             return;
         }
+        if (!date || new Date(date) < today) {
+            alert("בחירת תאריך תקין היא חובהההה")
+            return;
+        }
+
         const order = {
             user_id: user._id,
             items: cart,
             deliveryDate: date,
             paymentMethod: "מזומן",
-           
+
         }
         try {
             const res = await axios.post('http://localhost:3600/api/order/createOrder', order, {
@@ -46,9 +46,19 @@ const Cart = () => {
                 }
             })
             if (res.status == 200) {
-                cart.map(item=>deleteItemInCart(item))
+                const res=await axios.delete('http://localhost:3600/api/itemInCart/deleteallItemsForUser',{
+                    headers: {
+                        'Authorization': `Bearer ${token}`,  // צירוף הטוקן ב-Authorization header
+                        'Content-Type': 'application/json',  // ציון סוג התוכן
+                    }
+                })
                 await sendOrderEmail()
-
+ 
+                if(res.status===200)
+                {
+                    setCart([])
+                }
+               
             }
 
         }
@@ -65,9 +75,6 @@ const Cart = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    // to: 'sarah74218@gmail.com,h49202@gmail.com',// כתובת הלקוח
-                    // subject: "אישור הזמנה",
-                    // text: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.",
                     customerEmail: user.email, // כתובת הלקוח
                     adminEmail: 'yambalonb@gmail.com', // כתובת המנהל
                     customerSubject: "אישור הזמנה", // נושא ללקוח
@@ -104,7 +111,7 @@ const Cart = () => {
             if (res.status === 200) {
                 setCart(Array.isArray(data) ? data.map(item => ({
                     id: item._id,
-                    readyDesign_id:item.readyDesign_id,
+                    readyDesign_id: item.readyDesign_id,
                     name: item.readyDesign_id?.name || "עיצוב מותאם אישית",
                     price: item.readyDesign_id ? item.readyDesign_id.price : 0,
                     quantity: item.cnt,
@@ -134,7 +141,9 @@ const Cart = () => {
             console.log(data);
 
             if (res.status === 200) {
-                removeItem(item)
+              
+                    removeItem(item)
+                
             }
         }
         catch (e) {
@@ -172,7 +181,7 @@ const Cart = () => {
                     cart.length === 0 ? <p>🛍️ אין מוצרים בסל</p> : (
                         <DataTable value={cart} emptyMessage="אין מוצרים בסל" scrollable>
                             <Column field="image" header="תמונה" alignHeader="center" style={{ textAlign: "center" }} body={item => (
-                                <img src={`http://localhost:3600${item.image} `}alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
+                                <img src={`http://localhost:3600${item.image} `} alt={item.name} style={{ width: '100px', height: '100px', borderRadius: '8px' }} />
                             )} />
 
                             <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />

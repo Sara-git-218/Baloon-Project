@@ -25,7 +25,7 @@ const getAllItemInCart = async (req, res) => {
 const updateItemInCart = async (req, res) => {
     const { _id, user_id, readyDesign_id, colors, cnt, captionType, CaptionContent } = req.body
 
-    if (!_id || !user_id ) {
+    if (!_id || !user_id) {
         return res.status(400).send('_id and user_id fields are required')
     }
 
@@ -71,12 +71,25 @@ const getItemInCartById = async (req, res) => {
 }
 
 const getItemInCartByUser_id = async (req, res) => {
-    const  user_id = req.user._id
-    const itemInCart = await ItemInCart.find({user_id:user_id}) .populate('readyDesign_id').lean()
+    const user_id = req.user._id
+    const itemInCart = await ItemInCart.find({ user_id: user_id }).populate('readyDesign_id').lean()
     if (!itemInCart) {
         return res.status(400).send('No itemInCart found')
     }
     res.json(itemInCart)
+}
+const deleteAllItemsForUser = async (req, res) => {
+
+    try {
+        const userId = req.user._id; // יוצא מהטוקן, דרך המידלוור
+
+        const result = await ItemInCart.deleteMany({ user_id: userId });
+
+        res.status(200).json({ message: 'כל הפריטים נמחקו מהעגלה', deletedCount: result.deletedCount });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'שגיאה במחיקת כל הפריטים מהעגלה' });
+    }
 }
 
 module.exports = {
@@ -85,5 +98,6 @@ module.exports = {
     updateItemInCart,
     deleteItemInCart,
     getItemInCartById,
-    getItemInCartByUser_id
+    getItemInCartByUser_id,
+    deleteAllItemsForUser
 }
