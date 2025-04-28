@@ -1,5 +1,8 @@
 const adminMiddleware = (req, res, next) => {
-    if (req.user && req.user.role === 'Admin') { 
+   
+    console.log(req.user);
+    if (req.user && req.user.roles === 'Admin') { 
+       
         return next(); 
     }
 

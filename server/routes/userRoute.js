@@ -3,8 +3,8 @@ const router=express.Router()
 
 const userController=require("../controllers/userController")
 const verifyJWT=require("../middleware/verifyJWT")
-
-router.use(verifyJWT)
+const adminMiddleware=require("../middleware/adminMiddleware")
+router.use(verifyJWT,adminMiddleware)
 router.get("/getAllUsers",userController.getAllUsers)
 router.get("/getUserById/:id",userController.getById)
 router.delete("/deleteUser",userController.deleteUser)

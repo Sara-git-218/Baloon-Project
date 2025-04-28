@@ -3,8 +3,9 @@ const router = express.Router()
 
 const orderController = require("../controllers/orderController")
 const verifyJWT=require("../middleware/verifyJWT")
+const adminMiddleware=require("../middleware/adminMiddleware")
+router.use(verifyJWT,adminMiddleware)
 
-router.use(verifyJWT)
 router.get("/getAllOrder", orderController.getAllOrder)
 router.get("/getOrderById/:id", orderController.getOrderById)
 router.get("/getOrderByStatus/:status", orderController.getOrdersByStatus)
