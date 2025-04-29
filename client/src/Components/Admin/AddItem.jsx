@@ -190,7 +190,7 @@
 //             </div> */}
 //             <Card title="Simple Card">
 //                 <p className="m-0">
-                
+
 //                     <div className="card flex justify-content-center">
 //                         <div className="flex flex-column gap-2">
 //                             <label htmlFor="username">שם המוצר: </label>
@@ -369,6 +369,7 @@ const AddItem = () => {
     const [category, setCategory] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
+    const [selectedColors, setSelectedColors] = useState([])
 
     const kategories = [
         { name: 'Big Design', code: 'BD' },
@@ -376,6 +377,41 @@ const AddItem = () => {
         { name: 'Birthday', code: 'BIRTH' }
     ];
 
+    const colors = [
+        '#FF6347', '#4CAF50', '#1E90FF', '#FFD700', '#800080',
+        '#DC143C', '#00FFFF', '#FF00FF', '#8A2BE2', '#A52A2A',
+        '#7FFF00', '#D2691E', '#FF1493', '#00BFFF', '#696969',
+        '#228B22', '#FF4500', '#2E8B57', '#FFD700', '#808080',
+        '#6A5ACD', '#B8860B'
+    ];
+    // const colorTemplate = (option) => {
+    //     return (
+    //         // <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    //         //     <div
+    //         //         style={{
+    //         //             backgroundColor: option.value,
+    //         //             width: '20px',
+    //         //             height: '20px',
+    //         //             borderRadius: '50%',
+    //         //             border: '1px solid #000',
+    //         //         }}
+    //         //     ></div>
+    //         //     <span>{option.name}</span>
+    //         // </div>
+    //         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    //             <div
+    //                 style={{
+    //                     backgroundColor: color, // כאן נשלח ה-COLOR
+    //                     width: '20px',
+    //                     height: '20px',
+    //                     borderRadius: '50%',
+    //                     border: '1px solid #000',
+    //                 }}
+    //             ></div>
+    //             <span>{color}</span>
+    //         </div>
+    //     );
+    // };
     const addDesign = async () => {
         if (!selectedFile || !name || !price || !category) {
             alert("נא למלא את כל השדות החובה ולהעלות תמונה");
@@ -387,6 +423,7 @@ const AddItem = () => {
         formData.append('description', description);
         formData.append('price', price);
         formData.append('category', category.name);
+        formData.append('defaultColors',selectedColors)
         formData.append('image', selectedFile); // השם הזה חשוב!
 
         try {
@@ -412,6 +449,19 @@ const AddItem = () => {
             alert("שגיאה בהעלאה");
         }
     };
+    const toggleColorSelection = (color) => {
+        // if (isCheckboxChecked) {
+        //   return;
+        // }
+    
+        setSelectedColors((prevColors) => {
+          if (prevColors.includes(color)) {
+            return prevColors.filter(c => c !== color);
+          } else {
+            return [...prevColors, color];
+          }
+        });
+      };
 
     return (
         <Card title="הוספת עיצוב חדש">
@@ -436,33 +486,61 @@ const AddItem = () => {
                     <label htmlFor="category">קטגוריה:</label>
                     <Dropdown value={category} onChange={(e) => setCategory(e.value)} options={kategories} optionLabel="name" placeholder="בחר קטגוריה" />
                 </div>
-
                 <div className="flex flex-column gap-2">
-                    <label>בחרי תמונה:</label>
-                    <FileUpload
-                        name="image"
-                        customUpload
-                        accept="image/*"
-                        maxFileSize={5 * 1024 * 1024}
-                        uploadHandler={(e) => {
-                            const file = e.files[0];
-                            if (file) {
-                                setSelectedFile(file);
-                                setPreview(URL.createObjectURL(file));
-                            }
-                        }}
-                        emptyTemplate={<p>גררי קובץ תמונה או לחצי לבחירה</p>}
-                        chooseLabel="בחרי"
-                        uploadLabel="אשרי"
-                        cancelLabel="ביטול"
-                    />
-                    {preview && <img src={preview} alt="תצוגה" style={{ width: 150, marginTop: 10 }} />}
+                    {/* <label htmlFor="category">צבעים בתמונה:</label>
+                    <Dropdown
+                        value={colors}
+                        onChange={(e) => setColors(e.value)}
+                        options={colorsd}
+                        optionLabel="name"
+                        placeholder="בחר צבעים דיפולטיבים"
+                        itemTemplate={colorTemplate} // שימוש ב-template מותאם אישית
+                    /> */}
+                              <div className="color-picker">
+                    <p>בחר צבעים:</p>
+                    <div className="color-circles">
+                        {colors.map((color, index) => (
+                            <div
+                                key={index}
+                                className={`color-circle ${selectedColors.includes(color) ? 'selected' : ''}`}
+                                style={{ backgroundColor: color }}
+                                onClick={() => toggleColorSelection(color)}
+                            >
+                                {selectedColors.includes(color) && <span className="checkmark">✔</span>}
+                            </div>
+                        ))}
+                    </div>
+                    <div>{`צבעים שנבחרו${selectedColors}`}</div>
+                </div> 
                 </div>
+      
 
-                <div className="flex justify-content-center">
-                    <Button label="הוסף עיצוב" onClick={addDesign} />
+                    <div className="flex flex-column gap-2">
+                        <label>בחרי תמונה:</label>
+                        <FileUpload
+                            name="image"
+                            customUpload
+                            accept="image/*"
+                            maxFileSize={5 * 1024 * 1024}
+                            uploadHandler={(e) => {
+                                const file = e.files[0];
+                                if (file) {
+                                    setSelectedFile(file);
+                                    setPreview(URL.createObjectURL(file));
+                                }
+                            }}
+                            emptyTemplate={<p>גררי קובץ תמונה או לחצי לבחירה</p>}
+                            chooseLabel="בחרי"
+                            uploadLabel="אשרי"
+                            cancelLabel="ביטול"
+                        />
+                        {preview && <img src={preview} alt="תצוגה" style={{ width: 150, marginTop: 10 }} />}
+                    </div>
+
+                    <div className="flex justify-content-center">
+                        <Button label="הוסף עיצוב" onClick={addDesign} />
+                    </div>
                 </div>
-            </div>
         </Card>
     );
 };

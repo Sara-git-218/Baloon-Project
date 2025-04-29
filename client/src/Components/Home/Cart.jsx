@@ -46,19 +46,18 @@ const Cart = () => {
                 }
             })
             if (res.status == 200) {
-                const res=await axios.delete('http://localhost:3600/api/itemInCart/deleteallItemsForUser',{
+                const res = await axios.delete('http://localhost:3600/api/itemInCart/deleteallItemsForUser', {
                     headers: {
                         'Authorization': `Bearer ${token}`,  // צירוף הטוקן ב-Authorization header
                         'Content-Type': 'application/json',  // ציון סוג התוכן
                     }
                 })
                 await sendOrderEmail()
- 
-                if(res.status===200)
-                {
+
+                if (res.status === 200) {
                     setCart([])
                 }
-               
+
             }
 
         }
@@ -115,6 +114,7 @@ const Cart = () => {
                     name: item.readyDesign_id?.name || "עיצוב מותאם אישית",
                     price: item.readyDesign_id ? item.readyDesign_id.price : 0,
                     quantity: item.cnt,
+                    colors: item.isDefualtColors ? item.readyDesign_id.defualtColors : item.colorsIfNotDefault,
                     image: item.readyDesign_id?.image_url || "/placeholder.jpg"
                 })) : []);
             }
@@ -141,9 +141,9 @@ const Cart = () => {
             console.log(data);
 
             if (res.status === 200) {
-              
-                    removeItem(item)
-                
+
+                removeItem(item)
+
             }
         }
         catch (e) {
@@ -186,6 +186,38 @@ const Cart = () => {
 
                             <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />
                             <Column field="price" header="מחיר" alignHeader="center" style={{ textAlign: "center" }} body={item => `${item.price} ₪`} />
+                            <Column
+                                field="colors"
+                                header="צבעים"
+                                alignHeader="center"
+                                style={{ textAlign: "center", whiteSpace: "nowrap", overflow: "hidden" }}
+                                body={(item) => (
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            overflowX: "auto",
+                                            gap: "5px",
+                                            justifyContent: "center",
+                                            flexWrap: "nowrap", // מונע גלישה לשורות נוספות
+                                            overflow: "hidden", // מסתיר גלישה אם יש יותר מדי צבעים
+                                            // maxWidth: "150px", // קובע רוחב מקסימלי לתא
+                                        }}
+                                    >
+                                        {item.colors.map((color, index) => (
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    backgroundColor: color,
+                                                    width: "20px",
+                                                    height: "20px",
+                                                    borderRadius: "50%",
+                                                    border: "1px solid #000",
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            />
                             <Column header="כמות" alignHeader="center" style={{ textAlign: "center" }} body={item => (
                                 <InputNumber value={item.quantity} onValueChange={(e) => updateQuantity(e.value, item)} min={1} />
                             )} />

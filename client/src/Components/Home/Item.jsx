@@ -422,7 +422,8 @@ import './Item.css';
 const Item = () => {
   const location = useLocation();
   const token = useSelector(state => state.Token.tokenstr);
-
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [quantity, setQuantity] = useState("1");
   const handleChange = (event) => {
     const newValue = event.target.value;
@@ -443,6 +444,8 @@ const Item = () => {
     user_id: user ? user._id : null,
     readyDesign_id: location.state.product._id,
     cnt: quantity,
+    isDefaultColors:isCheckboxChecked,
+    colorsIfNotDefault:selectedColors,
     CaptionContent: value
   }
 
@@ -481,8 +484,7 @@ const Item = () => {
     setIngredients(_ingredients);
   }
 
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
 
   const colors = [
     '#FF6347', '#4CAF50', '#1E90FF', '#FFD700', '#800080',

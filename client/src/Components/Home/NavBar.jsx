@@ -95,7 +95,7 @@ export default function NavBar() {
             items: [
                 {
                     label: 'עסקים',
-                    command: () => { alert("עסקים לפניך") }
+                    command: () => {navigate('/',{ state: { label: 'עסקים'  } }) }
 
                 },
                 {

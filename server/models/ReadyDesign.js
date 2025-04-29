@@ -13,11 +13,6 @@ const readyDesignSchema=new mongoose.Schema({
     },
     defaultColors:{
         type:[String],
-        enum:["red","blue","grin"]//......................
-    },
-    availableColors:{
-        type:[String],
-        enum:["red","blue","grin"]//......................
     },
     price:{
         type:Number,

@@ -2,12 +2,14 @@ const ItemInCart = require("../models/ItemInCart");
 
 const createItemInCart = async (req, res) => {
 
-    const { user_id, readyDesign_id, colors, cnt, captionType, CaptionContent } = req.body
+    const { user_id, readyDesign_id, colors, cnt, captionType, CaptionContent,isDefaultColors,colorsIfNotDefault } = req.body
     if (!user_id) {
         return res.status(400).send('user_id is required')
     }
-    const itemInCart = await ItemInCart.create({ user_id, readyDesign_id, colors, cnt, captionType, CaptionContent })
+
+    const itemInCart = await ItemInCart.create({ user_id, readyDesign_id, colors, cnt, captionType, CaptionContent ,isDefaultColors,colorsIfNotDefault})
     if (itemInCart) {
+        console.log(itemInCart);
         return res.status(200).json(await ItemInCart.find().lean())
     } else {
         return res.status(400).send('Invalid itemInCart')

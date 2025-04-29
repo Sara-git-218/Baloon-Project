@@ -10,7 +10,7 @@ import { classNames } from 'primereact/utils';
 import { Slider } from 'primereact/slider';
 import axios from 'axios';
 import Item from './Item';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setval } from '../../Store/ItemsSlice';
 
@@ -20,6 +20,8 @@ export default function Items() {
     const [visible, setVisible] = useState(false);
     const [categories, setCategories] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [catgoryFromNav,setCatgoryFromNav]=useState()
+    const location=useLocation()
     const [filters, setFilters] = useState({
         name: '',
         category: '',
@@ -36,8 +38,18 @@ export default function Items() {
     }, []);
 
     const getAllItems = async () => {
+  
         const res = await axios.get('http://localhost:3600/api/readyDesign/getAllReadyDesign');
-        setProducts(res.data);
+       let filters=[...res.data]
+    //    alert(filters)
+    //     if(location.state.label)
+    //         {
+    //            alert("showwwwwwwwwwwwwwwwwwwwwwwwww")
+    //             filters = filters.filter(p => p.category ==='Big Design');
+    //             console.log(location.state.label);
+
+    //         } 
+        setProducts(filters);
         setFilteredProducts(res.data);
         dispatch(setval(res.data));
         const uniqueCategories = [...new Set(res.data.map(item => item.category))];
