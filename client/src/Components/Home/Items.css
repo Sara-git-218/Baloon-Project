@@ -1,0 +1,205 @@
+/* === Layout Wrapper === */
+.items-page {
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    min-height: 100vh;
+}
+
+/* === Sidebar === */
+.items-page .sidebar {
+    width: 250px;
+    background-color: #fff5f8;
+    border-right: 2px solid #f7b2c2;
+    padding: 1rem;
+    border-radius: 0 12px 12px 0;
+}
+
+.items-page .sidebar h3 {
+    color: #d86f95;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.items-page .sidebar label {
+    color: #c29049;
+    font-weight: bold;
+    display: block;
+    margin: 0.5rem 0 0.25rem;
+}
+
+.items-page .sidebar input[type="text"],
+.items-page .sidebar select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.items-page .sidebar input[type="checkbox"] {
+    margin-left: 8px;
+}
+
+.items-page .sidebar button {
+    width: 100%;
+    background-color: #f7b2c2;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.items-page .sidebar button:hover {
+    background-color: #e48baa;
+}
+
+/* === Products Grid === */
+.custom-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+/* === Individual Product Card === */
+.custom-card {
+    width: 280px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.item-card-inner {
+    width: 100%;
+    height: 450px;
+    background-color: #fff5f8;
+    border: 2px solid #f7b2c2;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.item-card-inner:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(247, 178, 194, 0.5);
+}
+
+.item-image {
+    width: 100%;
+    height: 75%;
+    object-fit: cover;
+}
+
+.item-details {
+    height: 25%;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.item-name {
+    color: #c29049;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: right;
+    width: 100%;
+}
+
+/* === Slider Colors === */
+.p-slider .p-slider-range {
+    background: #f7b2c2;
+}
+
+.p-slider .p-slider-handle {
+    background: #d86f95;
+    border: 2px solid #ffffff;
+}
+
+/* === Buttons === */
+button,
+.p-button {
+    background-color: #f3df98;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    box-shadow: none;
+}
+
+button:hover,
+.p-button:hover {
+    background-color: #e48baa;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .items-page {
+        flex-direction: column;
+    }
+
+    .items-page .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #f7b2c2;
+        border-radius: 0;
+    }
+
+    .custom-card {
+        width: 90%;
+    }
+    .custom-card {
+        width: 280px;
+        margin: 1rem; /* ← הנה הרווח הברור בין כרטיסים */
+        box-sizing: border-box;
+    }
+
+    .item-card-inner {
+        height: 380px;
+    }
+
+    .item-image {
+        height: 70%;
+    }
+}
+
+@media (max-width: 480px) {
+    .custom-card {
+        width: 95%;
+    }
+
+    .item-card-inner {
+        height: 340px;
+    }
+}
+.custom-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+    gap: 0; /* מבטל כל בלבול */
+}
+.custom-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+    gap: 0; /* לבטל gap מיותר */
+}
+
+.custom-card {
+    width: 280px;
+    margin: 1rem;
+    box-sizing: border-box;
+}

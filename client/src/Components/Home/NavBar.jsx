@@ -14,6 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 import 'primeicons/primeicons.css';
 import axios from 'axios';
 
+
 export default function NavBar() {
 
     const [visible, setVisible] = useState(false);
@@ -95,7 +96,7 @@ export default function NavBar() {
             items: [
                 {
                     label: 'עסקים',
-                    command: () => {navigate('/',{ state: { label: 'עסקים'  } }) }
+                    command: () => { alert("עסקים לפניך") }
 
                 },
                 {
@@ -143,6 +144,7 @@ export default function NavBar() {
         {
             label:
                 <nav>
+                   <div className="nav-buttons">
                     {user !== null ? (
                         <>
                             <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
@@ -156,6 +158,7 @@ export default function NavBar() {
 
                         </>
                     )}
+                    </div>
                 </nav>
         },
 
@@ -166,12 +169,14 @@ export default function NavBar() {
     }, [token,user]);
 
   
-
-    return (
-        <div className="card" >
-            <Menubar model={items} className="NavBarcss" />
+    const start = (
+        <img src="/logo.png" alt="logo" height="50" className="navbar-logo" />
+      );
+      return (
+        <div className="card">
+          <Menubar model={items} className="NavBarcss" start={start} />
         </div>
-    )
+      );
 }
 
 

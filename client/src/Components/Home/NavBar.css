@@ -1,15 +1,98 @@
-.NavBarcss{
-    /* background-color:rgb(167, 152, 72); */
-    font-size: large;
-    color: #ff5722; /* צבע הטקסט */
-    font-weight: bold;
-   
+/* --- עיצוב ניווט ראשי --- */
+.NavBarcss {
+  background-color: #ffffff;
+  border-bottom: 2px solid #f7b2c2;
+  color: #c29049;
+  font-weight: bold;
+  font-size: 1.2rem;
+  height: 80px;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* שלושה חלקים */
+  align-items: center;
+  padding: 0 2rem;
+  direction: rtl;
+  gap: 1rem;
 }
-.container{
-    display: flex;
-    justify-content: flex-end; /* ממקם את הכפתור בצד ימין */
-    padding: 20px; /* שטח פנוי מסביב */
+
+/* לוגו */
+.navbar-logo {
+  height: 60px;
+}
+
+/* תפריט Menubar */
+.NavBarcss .p-menubar-root-list {
+  justify-content: center;
+}
+
+/* כפתורים בצד */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+
+
+/* עיצוב פריטים בניווט */
+.NavBarcss .p-menubar-root-list {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+}
+
+/* כפתורים בניווט */
+.NavBarcss .p-menuitem-link {
+  background: none !important;
+  border: none !important;
+  color: #d86f95 !important;
+  font-weight: bold;
+}
+
+.NavBarcss .p-menuitem-link:hover {
+  background-color: #f7f7f7 !important;
+  color: #e48baa !important;
+}
+
+/* --- עיצוב הלוגו --- */
+.navbar-logo {
+  height: 60px;
+  margin-right: 1rem;
+}
+
+/* רספונסיביות ללוגו */
+@media (max-width: 768px) {
+  .navbar-logo {
+      height: 50px;
   }
-  
-  /* .side-button {
-} */
+}
+/* עיצוב קבוצת הכפתורים */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* דוחף את הכפתורים לקצה השמאלי */
+  gap: 1rem; /* רווחים בין הכפתורים */
+}
+
+/* עיצוב אישי לכפתורים אם תרצי */
+.nav-buttons button {
+  background-color: #f3df98;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nav-buttons button:hover {
+  background-color: #e48baa;
+}
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  margin-right: auto;  /* ← אם האתר RTL, זה מה שיזיז הכי שמאלה */
+  gap: 1rem;
+}
+
