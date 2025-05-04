@@ -186,7 +186,7 @@ const Cart = () => {
 
                             <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />
                             <Column field="price" header="מחיר" alignHeader="center" style={{ textAlign: "center" }} body={item => `${item.price} ₪`} />
-                            <Column
+                            {/* <Column
                                 field="colors"
                                 header="צבעים"
                                 alignHeader="center"
@@ -217,7 +217,7 @@ const Cart = () => {
                                         ))}
                                     </div>
                                 )}
-                            />
+                            /> */}
                             <Column header="כמות" alignHeader="center" style={{ textAlign: "center" }} body={item => (
                                 <InputNumber value={item.quantity} onValueChange={(e) => updateQuantity(e.value, item)} min={1} />
                             )} />

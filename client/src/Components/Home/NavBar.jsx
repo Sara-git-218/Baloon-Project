@@ -137,8 +137,8 @@ export default function NavBar() {
             ]
         },
         {
-            label: 'צור קשר'
-            // icon: 'pi pi-envelope'
+            label: 'צור קשר',
+            command: () => navigate('/Contact')
         },
 
         {

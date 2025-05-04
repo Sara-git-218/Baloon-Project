@@ -12,12 +12,14 @@ import AdminItems from './Components/Admin/AdminItem';
 import AddItem from './Components/Admin/AddItem'
 import Orders from './Components/Admin/Orders';
 import UpdateItem from './Components/Admin/UpdateItem';
+import ContactForm from './Components/Users/Contact';
 
 function App() {
   return (
     <>
       <NavBar />
       <Routes>
+      <Route path='/Contact' element={<ContactForm/>} />
       <Route path='/Admin/Items/UpdateItem' element={<UpdateItem />} />
       <Route path='/Admin/Items' element={<AdminItems />} />
       <Route path='/Admin/AddItem' element={<AddItem />} />

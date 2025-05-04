@@ -13,9 +13,9 @@ const Orders = () => {
     const user = useSelector(state => state.User.user);
     const [orders, setOrders] = useState([]);
     const [expandedRows, setExpandedRows] = useState(null);
-    const sendOrderEmail = async (to,date) => {
+    const sendOrderEmail = async (to, date) => {
         console.log(to);
-        
+
         try {
             const res = await fetch("http://localhost:3600/api/emails/send-email", {
                 method: "POST",
@@ -36,7 +36,7 @@ const Orders = () => {
             });
             if (res.status == 200)
                 console.log("=✅ Email sent to customer and admin!");
-          
+
         } catch (error) {
             console.error("❌ Error sending email:", error);
         }
@@ -60,7 +60,7 @@ const Orders = () => {
 
             if (res.status === 200) {
                 ordersByStatus("unConfirm")
-                sendOrderEmail(useremail,date);
+                sendOrderEmail(useremail, date);
             }
         } catch (err) {
             console.error("שגיאה בבקשת אישור:", err);
@@ -135,6 +135,13 @@ const Orders = () => {
             </div>
         );
     };
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // חודשים מ-0
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
 
     return (
         <>
@@ -176,16 +183,16 @@ const Orders = () => {
                                         icon="pi pi-check"
                                         severity="success"
                                         size="small"
-                                        onClick={() => confirmOrder(rowData._id, rowData.user_id.email, "confirm", rowData.deliveryDate)}
+                                        onClick={() => confirmOrder(rowData._id, rowData.user_id.email, "confirm", formatDate(rowData.deliveryDate))}
                                     />
                                 )}
-                                 {rowData.status === "confirm" && (
+                                {rowData.status === "confirm" && (
                                     <Button
-                                        label="נמסר"
+                                        label="נשלח"
                                         icon="pi pi-check"
                                         severity="success"
                                         size="small"
-                                        onClick={() => deliverOrder(rowData._id ,"sent")}
+                                        onClick={() => deliverOrder(rowData._id, "sent")}
                                     />
                                 )}
                             </div>
@@ -193,7 +200,13 @@ const Orders = () => {
                         style={{ width: '25%' }}
                     />
 
-                    <Column field="deliveryDate" header="תאריך משלוח" style={{ width: '25%' }} />
+                    {/* <Column field="deliveryDate" header="תאריך משלוח" style={{ width: '25%' }} /> */}
+                    <Column
+                        header="תאריך משלוח"
+                        body={(rowData) => formatDate(rowData.deliveryDate)}
+                        style={{ width: '25%' }}
+                    />
+
                 </DataTable>
             </div>
         </>
