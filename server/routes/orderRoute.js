@@ -10,6 +10,7 @@ router.use(verifyJWT,adminMiddleware)
 router.get("/getAllOrder", orderController.getAllOrder)
 router.get("/getOrderById/:id", orderController.getOrderById)
 router.get("/getOrderByStatus/:status", orderController.getOrdersByStatus)
+router.get("/getOrderByDate/:date", orderController.getOrdersByDate)
 router.get("/getOrderByUser_id", orderController.getOrderByUser_id)
 
 router.delete("/deleteOrder", orderController.deleteOrder)

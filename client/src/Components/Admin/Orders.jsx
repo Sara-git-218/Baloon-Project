@@ -107,6 +107,21 @@ const Orders = () => {
         }
     }
 
+    const ordersByDate = async (date) => {
+        console.log("date client:"+date);
+        const res = await axios.get(`http://localhost:3600/api/order/getOrderByDate/${date}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        if (res.status === 200) {
+            setOrders(res.data);
+            console.log("res client:"+res.data);
+        }
+    }
+
     const rowExpansionTemplate = (data) => {
         console.log(orders)
         console.log("row data for expansion:", data);
@@ -149,7 +164,7 @@ const Orders = () => {
                 <Button label="הזמנות שממתינות לאישור" onClick={() => ordersByStatus("unConfirm")} />
                 <Button label="הזמנות מאושרות" severity="secondary" onClick={() => ordersByStatus("confirm")} />
                 <Button label="הזמנות שנשלחו" severity="warning" onClick={() => ordersByStatus("sent")} />
-                <Button label="הזמנות קרובות" severity="success" />
+                <Button label="הזמנות קרובות" severity="success" onClick={() => ordersByDate(new Date().toISOString().split('T')[0])} />
             </div>
             <div className="card">
                 <DataTable
@@ -176,7 +191,7 @@ const Orders = () => {
                         header="סטטוס"
                         body={(rowData) => (
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                <span>{rowData.status}</span>
+                                <span>{rowData.ateordersByDate}</span>
                                 {rowData.status === "unConfirm" && (
                                     <Button
                                         label="אשר"

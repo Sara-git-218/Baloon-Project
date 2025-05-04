@@ -22,22 +22,51 @@ const Cart = () => {
 
     const createOrder = async (item) => {
         const today = new Date();
-        if (cart.length === 0) {
-            alert("אין מוצרים להזמין")
-            return;
-        }
-        if (!date || new Date(date) < today) {
-            alert("בחירת תאריך תקין היא חובהההה")
-            return;
-        }
 
-        const order = {
-            user_id: user._id,
-            items: cart,
-            deliveryDate: date,
-            paymentMethod: "מזומן",
+    if (cart.length === 0) {
+        alert("אין מוצרים להזמין");
+        return;
+    }
 
+    // בדיקה האם date מוגדר
+    if (!date) {
+        alert("בחירת תאריך היא חובה");
+        return;
+    }
+
+    let selectedDate;
+    try {
+        // ממירים את date לאובייקט Date
+        selectedDate = new Date(date);
+
+        // בודקים אם התאריך לא תקין
+        if (isNaN(selectedDate)) {
+            throw new Error("Invalid date");
         }
+    } catch (error) {
+        console.error("שגיאה בתאריך שנבחר:", error);
+        alert("תאריך שנבחר אינו תקין");
+        return;
+    }
+
+    // בדיקת תאריך נבחר מול תאריך היום
+    if (
+        selectedDate.getFullYear() < today.getFullYear() ||
+        (selectedDate.getFullYear() === today.getFullYear() && selectedDate.getMonth() < today.getMonth()) ||
+        (selectedDate.getFullYear() === today.getFullYear() &&
+            selectedDate.getMonth() === today.getMonth() &&
+            selectedDate.getDate() < today.getDate())
+    ) {
+        alert("בחירת תאריך תקין היא חובהההה");
+        return;
+    }
+
+    const order = {
+        user_id: user._id,
+        items: cart,
+        deliveryDate: date,
+        paymentMethod: "מזומן",
+    };
         try {
             const res = await axios.post('http://localhost:3600/api/order/createOrder', order, {
                 headers: {
