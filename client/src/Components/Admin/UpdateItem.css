@@ -1,0 +1,18 @@
+.scrollable-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: 'Varela Round', sans-serif;
+    padding: 1rem;
+    direction: rtl;
+  }
+  
+  .scrollable-dialog-content label {
+    font-weight: bold;
+  }
+  
+  .scrollable-dialog-content input,
+  .scrollable-dialog-content .p-inputtext {
+    width: 100%;
+  }
+  

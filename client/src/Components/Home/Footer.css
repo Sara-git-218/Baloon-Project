@@ -1,0 +1,131 @@
+/* Footer.css
+.site-footer {
+    background: linear-gradient(to top, #f7b2c2, #ffffff);
+    color: #6b4a2b;
+    padding: 2rem;
+    font-family: 'Varela Round', sans-serif;
+    direction: rtl;
+  }
+  
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  
+  .footer-logo {
+    height: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section h4 {
+    margin-bottom: 0.5rem;
+    color: #c29049;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-section ul li a {
+    color: #6b4a2b;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-section ul li a:hover {
+    color: #d86f95;
+  }
+  
+  .social-icons a {
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+    color: #6b4a2b;
+    transition: color 0.3s;
+  }
+  
+  .social-icons a:hover {
+    color: #d86f95;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #888;
+  } */
+
+  /* Footer.css */
+.site-footer {
+    background: linear-gradient(to top, #f7b2c2, #ffffff);
+    color: #6b4a2b;
+    padding: 2rem;
+    font-family: 'Varela Round', sans-serif;
+    direction: rtl;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: auto;
+  }
+  
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  
+  .footer-logo {
+    height: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section h4 {
+    margin-bottom: 0.5rem;
+    color: #c29049;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-section ul li a {
+    color: #6b4a2b;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-section ul li a:hover {
+    color: #d86f95;
+  }
+  
+  .social-icons a {
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+    color: #6b4a2b;
+    transition: color 0.3s;
+  }
+  
+  .social-icons a:hover {
+    color: #d86f95;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #888;
+  }

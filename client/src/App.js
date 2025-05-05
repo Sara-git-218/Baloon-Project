@@ -13,11 +13,13 @@ import AddItem from './Components/Admin/AddItem'
 import Orders from './Components/Admin/Orders';
 import UpdateItem from './Components/Admin/UpdateItem';
 import ContactForm from './Components/Users/Contact';
+import Footer from './Components/Home/Footer';
 
 function App() {
   return (
     <>
       <NavBar />
+      <div className="main-content"></div>
       <Routes>
       <Route path='/Contact' element={<ContactForm/>} />
       <Route path='/Admin/Items/UpdateItem' element={<UpdateItem />} />
@@ -33,6 +35,8 @@ function App() {
         {/* <Route path='/Todos' element={<Todos/>}/>
       <Route path='/Posts' element={<Posts/>}/> */}
       </Routes>
+      <div/>
+      {/* <Footer/> */}
     </>
   );
 }
