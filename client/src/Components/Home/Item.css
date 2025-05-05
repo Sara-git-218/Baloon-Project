@@ -1,110 +1,139 @@
-/* FourPartLayout.css */
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* שני חלקים בגודל שווה */
-  gap: 0;
-  height: 100vh;
+.item-page .container {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;
 }
 
-.column-1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-    padding: 2%;
-}
-
-.column-2 {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* padding: 10%; */
-  height: 100%;
-  overflow-y: auto;
+.item-page .column-1,
+.item-page .column-2 {
   box-sizing: border-box;
-  max-width: 80%; /* מצמצם את רוחב העמודה השנייה */
-  margin: 0 auto; /* ממורכז את התוכן בעמודה */
+  flex: 1 1 50%;
+  max-width: 50%;
+  padding: 2%;
 }
 
-.column-2 .content-container {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-    padding: 15%;
-}
-
-.balloon-image-container {
+.item-page .balloon-image-container {
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 
-.balloon-image {
+.item-page .balloon-image {
   width: 100%;
   height: auto;
+  max-height: 80vh;
   object-fit: contain;
-  max-height: 100%;
 }
 
-.color-picker {
+.item-page .column-2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-page .content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.item-page .color-picker {
   text-align: center;
 }
 
-.color-circles {
+.item-page .color-circles {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
+  margin-top: 10px;
 }
 
-.color-circle {
+.item-page .color-circle {
   width: 30px;
   height: 30px;
   border-radius: 50%;
   cursor: pointer;
   position: relative;
-  transition: transform 0.3s ease;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease;
 }
 
-.color-circle:hover {
+.item-page .color-circle.selected {
+  border: 2px solid black;
+}
+
+.item-page .color-circle:hover {
   transform: scale(1.1);
 }
 
-.color-circle.selected {
-  border: 3px solid #000;
-}
-
-.checkmark {
+.item-page .checkmark {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -5px;
+  right: -5px;
+  font-size: 12px;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 20px;
-  color: white;
+  justify-content: center;
 }
 
-.selected-colors {
-  margin-top: 20px;
-}
-
-.selected-color {
-  margin-top: 10px;
-  padding: 10px;
+.item-page input[type="number"] {
   width: 100px;
-  height: 50px;
-  border-radius: 5px;
-  color: white;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   text-align: center;
-  line-height: 30px;
-  margin-right: 10px;
+  margin-top: 0.5rem;
+}
+
+.item-page textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.item-page .card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .item-page .column-1,
+  .item-page .column-2 {
+    flex: 1 1 100%;
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .item-page .balloon-image {
+    max-height: 50vh;
+  }
+}
+.item-page .color-circles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  max-width:70%; /* ✅ מגביל את הרוחב לשתי שורות בערך */
+  margin-left: auto;
+  margin-right: auto;
+}
+.font-selector {
+  position: relative;
+  z-index: 10;
+}
+
+select {
+  z-index: 10;
+  position: relative;
 }

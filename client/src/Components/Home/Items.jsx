@@ -10,7 +10,7 @@ import { classNames } from 'primereact/utils';
 import { Slider } from 'primereact/slider';
 import axios from 'axios';
 import Item from './Item';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setval } from '../../Store/ItemsSlice';
 import './Items.css';
@@ -20,6 +20,20 @@ export default function Items() {
     const [visible, setVisible] = useState(false);
     const [categories, setCategories] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const categoryFromURL = params.get('category');
+
+        if (categoryFromURL) {
+            setFilters(prev => ({
+                ...prev,
+                category: categoryFromURL
+            }));
+        }
+    }, [location.search]);
+
     const [filters, setFilters] = useState({
         name: '',
         category: '',
@@ -87,6 +101,9 @@ export default function Items() {
 
         setFilteredProducts(filtered);
     };
+    useEffect(() => {
+        applyFilters();
+    }, [filters]);
 
     const getSeverity = (product) => {
         switch (product.inventoryStatus) {
@@ -207,7 +224,7 @@ export default function Items() {
             </div>
         );
     };
-    
+
     const itemTemplate = (product, layout, index) => {
         if (!product) return;
         // if (layout === 'list') return listItem(product, index);
@@ -236,8 +253,8 @@ export default function Items() {
             //     ))}
             // </div>
             <div className="custom-grid">
-    {filteredProducts.map((product) => gridItem(product))}
-</div>
+                {filteredProducts.map((product) => gridItem(product))}
+            </div>
 
         );
     };
@@ -341,6 +358,19 @@ export default function Items() {
                         layout="grid"
                         itemTemplate={gridItem}
                     />
+                    {filteredProducts.length === 0 && (
+                        <div className="no-results-message">
+                            <p>לא נמצאו עיצובים מתאימים לקטגוריה זו.</p>
+                            <p>ניתן ליצור קשר לעיצוב מותאם אישית 💬</p>
+                            <Button
+                                label="צור קשר"
+                                icon="pi pi-envelope"
+                                severity="help"
+                                onClick={() => navigate('/Contact')}
+                                style={{ marginTop: '1rem' }}
+                            />
+                        </div>
+                    )}
 
                     {visible && <Item setVisible={setVisible} visible={visible} />}
                 </div>

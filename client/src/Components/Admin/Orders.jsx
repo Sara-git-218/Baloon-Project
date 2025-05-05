@@ -13,6 +13,8 @@ const Orders = () => {
     const user = useSelector(state => state.User.user);
     const [orders, setOrders] = useState([]);
     const [expandedRows, setExpandedRows] = useState(null);
+    const [activeOrderFilter, setActiveOrderFilter] = useState(null);
+
     const sendOrderEmail = async (to, date) => {
         console.log(to);
 
@@ -109,6 +111,7 @@ const Orders = () => {
 
     const ordersByDate = async (date) => {
         console.log("date client:"+date);
+        try{
         const res = await axios.get(`http://localhost:3600/api/order/getOrderByDate/${date}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -119,6 +122,13 @@ const Orders = () => {
         if (res.status === 200) {
             setOrders(res.data);
             console.log("res client:"+res.data);
+        }}
+        catch (err) {
+            if (err.response?.status === 404) {
+                setOrders([]); // ✅ הצב מערך ריק כדי להפעיל את הודעת 'אין תוצאות'
+            } else {
+                console.error("שגיאה:", err);
+            }
         }
     }
 
@@ -161,10 +171,76 @@ const Orders = () => {
     return (
         <>
             <div className="card flex flex-wrap justify-content-center gap-3">
-                <Button label="הזמנות שממתינות לאישור" onClick={() => ordersByStatus("unConfirm")} />
+                {/* <Button label="הזמנות שממתינות לאישור" onClick={() => ordersByStatus("unConfirm")} />
                 <Button label="הזמנות מאושרות" severity="secondary" onClick={() => ordersByStatus("confirm")} />
                 <Button label="הזמנות שנשלחו" severity="warning" onClick={() => ordersByStatus("sent")} />
-                <Button label="הזמנות קרובות" severity="success" onClick={() => ordersByDate(new Date().toISOString().split('T')[0])} />
+                <Button label="הזמנות להיום" severity="success" onClick={() => ordersByDate(new Date().toISOString().split('T')[0])} />
+                <Button label="הזמנות למחר" severity="success" onClick={() => ordersByDate(new Date().toISOString().split('T')[0])} />
+                <Button
+  label="הזמנות למחר"
+  severity="info"
+  onClick={() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const formatted = tomorrow.toISOString().split('T')[0];
+    ordersByDate(formatted);
+  }}
+/> */}
+<Button
+  label="הזמנות ממתינות"
+  severity="help"
+  style={activeOrderFilter === "unConfirm" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+  onClick={() => {
+    setActiveOrderFilter("unConfirm");
+    ordersByStatus("unConfirm");
+  }}
+/>
+
+<Button
+  label="הזמנות מאושרות"
+  severity="secondary"
+  style={activeOrderFilter === "confirm" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+  onClick={() => {
+    setActiveOrderFilter("confirm");
+    ordersByStatus("confirm");
+  }}
+/>
+
+<Button
+  label="הזמנות שנשלחו"
+  severity="warning"
+  style={activeOrderFilter === "sent" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+  onClick={() => {
+    setActiveOrderFilter("sent");
+    ordersByStatus("sent");
+  }}
+/>
+
+<Button
+  label="הזמנות להיום"
+  severity="success"
+  style={activeOrderFilter === "today" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+  onClick={() => {
+    setActiveOrderFilter("today");
+    ordersByDate(new Date().toISOString().split('T')[0]);
+  }}
+/>
+
+<Button
+  label="הזמנות למחר"
+  severity="info"
+  style={activeOrderFilter === "tomorrow" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+  onClick={() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const formatted = tomorrow.toISOString().split('T')[0];
+    setActiveOrderFilter("tomorrow");
+    ordersByDate(formatted);
+  }}
+/>
+
+
+
             </div>
             <div className="card">
                 <DataTable

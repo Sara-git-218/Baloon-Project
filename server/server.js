@@ -3,7 +3,6 @@ require("dotenv").config()
 const cors = require("cors")
 const express = require("express")
 
-
 const connect_db = require("./config/dbConection")
 const corsOptions = require("./config/corsOptions")
 const path = require('path');
@@ -23,6 +22,7 @@ app.use("/api/users", require("./routes/userRoute"))
 app.use("/api/readyDesign", require("./routes/readyDesignRoute"))
 app.use("/api/itemInCart", require("./routes/itemInCartRoute"))
 app.use("/api/order", require("./routes/orderRoute"))
+app.use('/api/fonts', require('./routes/fontOptionsRoute'));
 
 
 mongoose.connection.once('open', () => {

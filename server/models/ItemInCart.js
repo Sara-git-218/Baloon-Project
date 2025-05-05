@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-
+const fonts = require('./FontOptions');
 const itemInCartSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,8 +29,8 @@ const itemInCartSchema = new mongoose.Schema({
     },
     captionType: {
         type: String,
-        enum: ["Ariel", "Guttman Yad-Light"],
-        default: "Guttman Yad-Light"
+        enum:fonts,
+        default: "Arial"
     },
     CaptionContent: {
         type: String
