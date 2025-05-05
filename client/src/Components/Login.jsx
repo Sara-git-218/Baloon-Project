@@ -66,7 +66,12 @@ const Login = () => {
                 console.log(userlog);
                 await dispatch(setUser(userlog));
                 if (userlog.roles === 'User') {
-                    navigate('/')
+                    // navigate('/')
+                    // navigate(location.state?.returnTo?.pathname || '/');
+                    navigate(location.state?.returnTo?.pathname || '/', {
+                        state: location.state?.returnTo?.state || {}
+                      });
+                      
                 }
                 if (userlog.roles === 'Admin') {
                     navigate('/Admin')
