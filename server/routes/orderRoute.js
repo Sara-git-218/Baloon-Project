@@ -12,7 +12,6 @@ router.get("/getOrderById/:id", orderController.getOrderById)
 router.get("/getOrderByStatus/:status", orderController.getOrdersByStatus)
 router.get("/getOrderByDate/:date", orderController.getOrdersByDate)
 router.get("/getOrderByUser_id", orderController.getOrderByUser_id)
-
 router.delete("/deleteOrder", orderController.deleteOrder)
 router.put("/updateOrder", orderController.updateOrder)
 router.put("/updateStatus", orderController.updateStatus)

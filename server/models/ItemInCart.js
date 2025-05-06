@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
-const fonts = require('./FontOptions');
+const mongoose = require("mongoose");
+const fonts = require('./FontOptions'); 
+
 const itemInCartSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -10,30 +11,36 @@ const itemInCartSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ReadyDesign'
     },
-    // //or
-    // customDesign_id: {
-    //     type: mongoose.Schema.Types.ObjectId,server/models/ItemInCart.js
-    //     ref: 'CustomDesign'
-    // },
+    customDesign_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CustomDesign'
+    },
     cnt: {
         type: Number,
-        default: 1
+        default: 1,
+        min: 1
     },
     isDefaultColors: {
         type: Boolean,
         default: true
-
     },
     colorsIfNotDefault: {
-        type: [String]
+        type: [String],
+        validate: {
+            validator: function (arr) {
+                return Array.isArray(arr) && arr.every(c => typeof c === 'string');
+            },
+            message: 'colorsIfNotDefault must be an array of strings'
+        }
     },
     captionType: {
         type: String,
-        enum:fonts,
+        enum: fonts,
         default: "Arial"
     },
-    CaptionContent: {
+    captionContent: {
         type: String
     }
-}, { timestamps: true })
-module.exports = mongoose.model('ItemInCart', itemInCartSchema)
+}, { timestamps: true });
+
+module.exports = mongoose.model('ItemInCart', itemInCartSchema);

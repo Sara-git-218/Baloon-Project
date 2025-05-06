@@ -8,6 +8,10 @@ const register=async(req,res)=>{
     if( !name || !username || !password || !email || !phone){
         return res.status(400).send("the field are required")
     }
+    if(password.length<6)
+    {
+        return res.status(400).send("short passsword")
+    }
     const double=await User.findOne({username:username}).lean()
     if(double){
         return res.status(400).send("username or password are not valid")

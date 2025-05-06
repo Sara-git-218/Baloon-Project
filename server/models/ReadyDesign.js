@@ -3,7 +3,7 @@ const readyDesignSchema=new mongoose.Schema({
     name:{
         type:String,
         required:true,
-        uninque:true
+        unique:true
     },
     description:{
         type:String

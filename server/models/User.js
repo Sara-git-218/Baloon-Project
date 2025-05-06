@@ -14,7 +14,8 @@ const userSchema=new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true
+        required:true,
+        minlength: 6 
     },
     email:{
         type:String,
@@ -36,7 +37,7 @@ const userSchema=new mongoose.Schema({
     },
     dateOfBirth:{
         type:mongoose.Schema.Types.Date,
-        format:("dd-MM-yyyy")
+        // format:("dd-MM-yyyy")
     }
 
 },{timestamps:true})

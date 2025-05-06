@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Toast } from 'primereact/toast';
+import { useRef } from 'react';
 
 const Orders = () => {
     const token = useSelector(state => state.Token.tokenstr);
@@ -14,6 +16,7 @@ const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [expandedRows, setExpandedRows] = useState(null);
     const [activeOrderFilter, setActiveOrderFilter] = useState(null);
+    const toast = useRef(null);
 
     const sendOrderEmail = async (to, date) => {
         console.log(to);
@@ -43,6 +46,34 @@ const Orders = () => {
             console.error("❌ Error sending email:", error);
         }
     };
+    const sendEmailUser=async(to)=>{
+         alert(to)
+            try {
+                const res = await fetch("http://localhost:3600/api/emails/send-email-user", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        // to: to,// כתובת הלקוח
+                        // subject: "אישור הזמנה",
+                        // text: text,
+                        customerEmail: to, // כתובת הלקוח
+               
+                        customerSubject: "הזמנתך לא אושרה !! ", // נושא ללקוח
+                     
+                        customerText: "הזמנתך בוטלה \n אנא נסה ליצור קשר או במייל זה או באתר", // תוכן ללקוח
+                     
+                    }),
+                });
+                if (res.status == 200)
+                    console.log("=✅ Email sent to customer and admin!");
+    
+            } catch (error) {
+                console.error("❌ Error sending email:", error);
+            }
+
+    }
     const confirmOrder = async (id, useremail, status, date) => {
 
         try {
@@ -132,35 +163,93 @@ const Orders = () => {
             }
         }
     }
-
+    const deleteOrder=async(order_id,email)=>{
+        const confirmDelete = window.confirm("האם אתה בטוח שברצונך לבטל את ההזמנה?");
+        if (!confirmDelete) return;
+        try{
+            
+            const res=await axios.delete('http://localhost:3600/api/order/deleteOrder', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },data:{_id:order_id}
+            })
+            if(res.status===200)
+            {
+            ordersByStatus("unConfirm")
+               await sendEmailUser(email)
+            
+               toast.current.show({
+                severity: 'warn',
+                summary: 'הזמנה בוטלה',
+                detail: 'ההזמנה נמחקה בהצלחה',
+                life: 3000
+            });
+            }
+        }
+        catch(e)
+        {
+            console.log(e);
+            
+        }
+    }
     const rowExpansionTemplate = (data) => {
-        console.log(orders)
-        console.log("row data for expansion:", data);
         return (
             <div className="p-3">
                 <h5>פרטי פריטים:</h5>
                 <ul style={{ listStyleType: 'none', padding: 0 }}>
                     {data.items.map((item, index) => (
-                        <li key={index} style={{ marginBottom: '1rem' }}>
+                        <li key={index} style={{ marginBottom: '1.5rem' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                 {item.image && (
                                     <img
                                         src={`http://localhost:3600${item.image}`}
-                                        alt={item.nam}
+                                        alt={item.name}
                                         style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
                                     />
                                 )}
-                                <span>
-                                    {item.name} - {item.readyDesign_id?.price} ₪ - כמות: {item.quantity}
-                                </span>
+                                <div>
+                                    <div><strong>{item.name}</strong> - {item.readyDesign_id?.price} ₪ - כמות: {item.quantity}</div>
+
+                                    <div>
+                                        <strong>צבעים:</strong>{' '}
+                                        {item.colors && item.colors.length > 0 ? (
+                                            <div style={{ display: 'flex', gap: '5px', marginTop: '0.5rem' }}>
+                                                {item.colors.map((color, i) => (
+                                                    <div key={i} style={{
+                                                        backgroundColor: color,
+                                                        width: '20px',
+                                                        height: '20px',
+                                                        borderRadius: '50%',
+                                                        border: '1px solid #000'
+                                                    }}></div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <span>צבעים כמו בתמונה</span>
+                                        )}
+                                    </div>
+
+                                    {item.CaptionContent && (
+                                        <div style={{ marginTop: '0.5rem' }}>
+                                            <strong>כיתוב:</strong> {item.CaptionContent}
+                                        </div>
+                                    )}
+
+                                    {item.captionType && (
+                                        <div>
+                                            <strong>סוג כתב:</strong> {item.captionType}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </li>
                     ))}
                 </ul>
-                <ul></ul>
             </div>
         );
     };
+
     const formatDate = (isoDate) => {
         const date = new Date(isoDate);
         const day = String(date.getDate()).padStart(2, '0');
@@ -171,22 +260,10 @@ const Orders = () => {
 
     return (
         <>
+        <Toast ref={toast} />
+
             <div className="card flex flex-wrap justify-content-center gap-3">
-                {/* <Button label="הזמנות שממתינות לאישור" onClick={() => ordersByStatus("unConfirm")} />
-                <Button label="הזמנות מאושרות" severity="secondary" onClick={() => ordersByStatus("confirm")} />
-                <Button label="הזמנות שנשלחו" severity="warning" onClick={() => ordersByStatus("sent")} />
-                <Button label="הזמנות להיום" severity="success" onClick={() => ordersByDate(new Date().toISOString().split('T')[0])} />
-                <Button label="הזמנות למחר" severity="success" onClick={() => ordersByDate(new Date().toISOString().split('T')[0])} />
-                <Button
-  label="הזמנות למחר"
-  severity="info"
-  onClick={() => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const formatted = tomorrow.toISOString().split('T')[0];
-    ordersByDate(formatted);
-  }}
-/> */}
+     
                 <Button
                     label="הזמנות ממתינות"
                     severity="help"
@@ -270,8 +347,8 @@ const Orders = () => {
                             >
                                 <i
                                     className={`pi ${expandedRows?.find(row => row._id === rowData._id)
-                                            ? 'pi-chevron-right'
-                                            : 'pi-chevron-down'
+                                        ? 'pi-chevron-right'
+                                        : 'pi-chevron-down'
                                         }`}
                                 />
                             </button>
@@ -288,10 +365,14 @@ const Orders = () => {
                     />
                     <Column
                         header="סטטוס"
+                        body={(rowData) => rowData.status}
+                    />
+                    <Column
+                        header="עדכון מצב"
                         body={(rowData) => (
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                                 <span>{rowData.ateordersByDate}</span>
-                                {rowData.status === "unConfirm" && (
+                                {/* {rowData.status === "unConfirm" && (
                                     <Button
                                         label="אשר"
                                         icon="pi pi-check"
@@ -299,7 +380,27 @@ const Orders = () => {
                                         size="small"
                                         onClick={() => confirmOrder(rowData._id, rowData.user_id.email, "confirm", formatDate(rowData.deliveryDate))}
                                     />
+                                    
+                                )} */}
+                                {rowData.status === "unConfirm" && (
+                                    <>
+                                        <Button
+                                            label="אשר"
+                                            icon="pi pi-check"
+                                            severity="success"
+                                            size="small"
+                                            onClick={() => confirmOrder(rowData._id, rowData.user_id.email, "confirm", formatDate(rowData.deliveryDate))}
+                                        />
+                                        <Button
+                                            label="בטל"
+                                            icon="pi pi-times"
+                                            severity="danger"
+                                            size="small"
+                                            onClick={() => deleteOrder(rowData._id,rowData.user_id.email)}
+                                        />
+                                    </>
                                 )}
+
                                 {rowData.status === "confirm" && (
                                     <Button
                                         label="נשלח"

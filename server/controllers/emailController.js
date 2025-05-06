@@ -49,5 +49,40 @@ const sendEmail = async (req, res) => {
     res.status(500).json({ error: "Failed to send email" });
   }
 };
+const sendEmailToUser = async (req, res) => {
+  console.log("llllllllllllllllllllllllllllllllllllllllllllllllllllll");
+  
+  const { customerEmail, customerSubject, customerText } = req.body;
 
-module.exports = { sendEmail };
+  // ולידציה בסיסית
+  if (!customerEmail || !customerSubject || !customerText) {
+    return res.status(400).json({ error: "Missing required email fields" });
+  }
+
+  // בדיקת תקינות מייל
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(customerEmail)) {
+    return res.status(400).json({ error: "Invalid email format" });
+  }
+
+  // מגבלת אורך
+  if (customerText.length > 1000) {
+    return res.status(400).json({ error: "Message too long" });
+  }
+
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: customerEmail,
+      subject: customerSubject,
+      text: customerText,
+    });
+
+    res.status(200).json({ message: "Email sent to customer successfully" });
+  } catch (error) {
+    console.error("Error sending email to customer:", error);
+    res.status(500).json({ error: "Failed to send email to customer" });
+  }
+};
+
+module.exports = { sendEmail,sendEmailToUser };

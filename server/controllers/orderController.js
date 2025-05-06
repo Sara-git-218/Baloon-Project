@@ -15,7 +15,10 @@ const createOrder = async (req, res) => {
 }
 
 const getAllOrder = async (req, res) => {
-    const orders = await Order.find().lean()
+    const orders = await Order.find().populate('user_id')
+    .populate({
+        path: 'items'
+    }).lean()
     if (!orders?.length) {
         return res.status(400).send('No order found')
     }
@@ -77,6 +80,7 @@ const updateStatus = async (req, res) => {
 }
 
 const deleteOrder = async (req, res) => {
+   
     const { _id } = req.body
 
     const order = await Order.findById(_id).exec()
@@ -107,21 +111,7 @@ const getOrderByUser_id = async (req, res) => {
     res.json(order)
 }
 
-// const getOrdersByDate=async (req,res)=>{
-//     const date=req.params.date;
-//     console.log(date)
-//     const orders=await Order.find({date:date}).populate('user_id')  
-//     .populate({
-//         path: 'items'
-//       })
-//       .lean();
-//     // if (!orders?.length) {
-//     //     console.log("אין מוצרים")
-//     //     return res.status(400).send( 'No order found' )
-//     // }
-//     console.log("Populated Orders:", orders);
-//     res.json(orders)
-//     }
+
 const getOrdersByDate = async (req, res) => {
     const dateParam = req.params.date; // מקבלים את התאריך כפרמטר
 

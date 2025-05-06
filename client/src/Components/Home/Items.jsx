@@ -118,100 +118,6 @@ export default function Items() {
         }
     };
 
-    // const listItem = (product, index) => {
-    //     return (
-    //         <div dir="rtl" className="col-12" key={product.id}>
-    //             <div className={classNames('flex flex-column xl:flex-row xl:align-items-start p-4 gap-4', { 'border-top-1 surface-border': index !== 0 })}>
-    //                 <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-    //                     <div className="flex flex-column align-items-center sm:align-items-start gap-3">
-    //                         <div className="text-2xl font-bold text-900">{product.name}</div>
-    //                         <Rating value={product.rating} readOnly cancel={false}></Rating>
-    //                         <div className="flex align-items-center gap-3">
-    //                             <span className="flex align-items-center gap-2">
-    //                                 <i className="pi pi-tag"></i>
-    //                                 <span className="font-semibold">{product.category}</span>
-    //                             </span>
-    //                             <Tag value={product.inventoryStatus} severity={getSeverity(product)}></Tag>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // };
-
-    // const gridItem = (product) => {
-    //     return (
-    //         <div dir="rtl" className="col-12 sm:col-6 lg:col-4 p-2" key={product.id}>
-    //             <div className="p-2 sm:p-3 md:p-4 border-1 surface-border surface-card border-round shadow-2 w-full">
-    //                 <div
-    //                     className="w-full flex justify-content-center align-items-center bg-white overflow-hidden border-round"
-    //                     onClick={() => navigate(`/Item`, { state: { product } })}
-    //                     style={{ cursor: "pointer", height: "250px" }}
-    //                 >
-    //                     <img
-    //                         src={`http://localhost:3600${product.image_url}`}
-    //                         alt={product.name}
-    //                         style={{ objectFit: 'cover', width: '80%', height: '80%' }}
-    //                     />
-    //                 </div>
-
-    //                 <div className="flex justify-content-start align-items-center mt-2">
-    //                     <i className="pi pi-tag text-2xl mr-2"></i>
-    //                     <span className="text-sm text-500">{product.category}</span>
-    //                 </div>
-
-    //                 <div className="mt-2 flex flex-column align-items-center text-center">
-    //                     <div className="text-xl font-bold text-900">{product.name}</div>
-    //                     <Tag value={product.inventoryStatus} severity={getSeverity(product)} className="mt-2" />
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // };
-    // const gridItem = (product) => {
-    //     return (
-    //         <div className="p-col-12 p-md-6 p-lg-4 p-xl-3 item-card" key={product.id}>
-    //             <div className="item-card-inner" onClick={() => navigate(`/Item`, { state: { product } })}>
-    //                 <img src={`http://localhost:3600${product.image_url}`} alt={product.name} className="item-image" />
-    //                 <div className="item-details">
-    //                     <div className="item-name">{product.name}</div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // };
-    // const gridItem = (product) => {
-    //     return (
-    //         <div className="p-col-12 p-md-4 p-lg-3" style={{ padding: '1rem' }} key={product.id}>
-    //             <div className="item-card-inner">
-    //                 <img src={`http://localhost:3600${product.image_url}`} alt={product.name} className="item-image" />
-    //                 <div className="item-details">
-    //                     <div className="item-name">{product.name}</div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // };
-    // const gridItem = (product) => {
-    //     if (!product) return null;
-
-    //     return (
-    //         <div className="p-col-12 p-md-4 p-lg-3" key={product.id}>
-    //             <div className="item-card-inner">
-    //                 <img
-    //                     src={`http://localhost:3600${product.image_url}`}
-    //                     alt={product.name}
-    //                     className="item-image"
-    //                 />
-    //                 <div className="item-details">
-    //                     <div className="item-name">{product.name}</div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // };
-
     const gridItem = (product) => {
         return (
             <div className="custom-card" key={product.id}>
@@ -227,31 +133,15 @@ export default function Items() {
 
     const itemTemplate = (product, layout, index) => {
         if (!product) return;
-        // if (layout === 'list') return listItem(product, index);
-        // else if (layout === 'grid') 
+   
         return gridItem(product);
     };
 
-    // const listTemplate = (products, layout) => {
-    //     return <div className="grid grid-nogutter">{products.map((product, index) => itemTemplate(product, layout, index))}</div>;
-    // };
-    // const listTemplate = (products) => {
-    //     return (
-    //       <div className="items-grid">
-    //         {products.map((product) => gridItem(product))}
-    //       </div>
-    //     );
-    //   };
+
 
     const listTemplate = (products) => {
         return (
-            // <div className="items-grid">
-            //     {products.map((product, index) => (
-            //         <div className="item-card" key={index}>
-            //             {gridItem(product)}
-            //         </div>
-            //     ))}
-            // </div>
+
             <div className="custom-grid">
                 {filteredProducts.map((product) => gridItem(product))}
             </div>
@@ -259,13 +149,6 @@ export default function Items() {
         );
     };
 
-    // const header = () => {
-    //     return (
-    //         <div className="flex justify-content-end">
-    //             <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
-    //         </div>
-    //     );
-    // };
 
     return (
         <div className="items-page">
@@ -341,11 +224,11 @@ export default function Items() {
                         </select>
                     </div>
 
-                    <Button label=" סנן ומיין " className="p-button-sm w-full mb-2" onClick={applyFilters} />
+                    <Button label=" מיין" className="p-button-sm w-full mb-2" onClick={applyFilters} />
                     <Button label="נקה הכל" className="p-button-secondary p-button-sm w-full" onClick={resetFilters} />
                 </div>
 
-                {/* אזור מוצרים */}
+               
                 <div style={{ flex: 1, padding: "1rem" }}>
                     {/* <DataView
                     value={filteredProducts}

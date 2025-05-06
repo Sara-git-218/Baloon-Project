@@ -14,20 +14,22 @@ import '../../Css/FormDemo.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
-const R1 = () => {
+const Register = () => {
     // const [countries, setCountries] = useState([]);
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState({});
-    //const countryservice = new CountryService();
+
     const defaultValues = {
         name: '',
-        username:'',
+        username: '',
         email: '',
         password: '',
+        phone: '',
+        address: '',
         date: null,
-        country: null,
         accept: false
     }
+
 
     // useEffect(() => {
     //    // countryservice.getCountries().then(data => setCountries(data));
@@ -37,24 +39,29 @@ const R1 = () => {
     const navigate = useNavigate();
     const onSubmit = async (data) => {
         setFormData(data);
-        const user={
+        if (data.password.length < 6) {
+            alert("סיסמא קצרה מידי ")
+            return;
+        }
+        const user = {
             name: data.name,
             username: data.username,
             password: data.password,
-            email: data.email, 
+            email: data.email,
             phone: data.phone,
             address: data.address,
-            date:data.date}
-        
-        try{
-            const res =await axios.post('http://localhost:3600/api/auth/register', user)
+            date: data.date
+        }
+
+        try {
+            const res = await axios.post('http://localhost:3600/api/auth/register', user)
             if (res.status === 200) {
                 setShowMessage(true)
                 navigate('/Login')
             }
-         }
+        }
         catch (err) {
-
+            alert("הרשמה נכשלההה")
             console.log(err)
         }
         reset();
@@ -117,10 +124,10 @@ const R1 = () => {
                             <span className="p-float-label p-input-icon-right">
                                 <i className="pi pi-envelope" />
                                 <Controller name="email" control={control}
-                                    rules={{ required: 'Email is required.', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: 'Invalid email address. E.g. example@email.com' }}}
+                                    rules={{ required: 'Email is required.', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: 'Invalid email address. E.g. example@email.com' } }}
                                     render={({ field, fieldState }) => (
                                         <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
+                                    )} />
                                 <label htmlFor="email" className={classNames({ 'p-error': !!errors.email })}>מייל*</label>
                             </span>
                             {getFormErrorMessage('email')}
@@ -155,7 +162,7 @@ const R1 = () => {
                         <div className="field" dir='ltr'>
                             <span className="p-float-label">
                                 <Controller name="date" control={control} render={({ field }) => (
-                                    <Calendar showIcon id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} dateFormat="dd/mm/yy" mask="99/99/9999"  />
+                                    <Calendar showIcon id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} dateFormat="dd/mm/yy" mask="99/99/9999" />
                                 )} />
                                 <label htmlFor="date">יום הולדת</label>
                             </span>
@@ -168,7 +175,7 @@ const R1 = () => {
                                 <label htmlFor="country">Country</label>
                             </span>
                         </div> */}
-                        
+
                         <div className="field-checkbox">
                             <Controller name="accept" control={control} rules={{ required: true }} render={({ field, fieldState }) => (
                                 <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
@@ -183,4 +190,4 @@ const R1 = () => {
         </div>
     );
 }
-export default R1;
+export default Register;

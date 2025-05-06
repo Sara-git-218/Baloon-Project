@@ -15,6 +15,7 @@ const Cart = () => {
     const [loading, setLoading] = useState(true);
     const token = useSelector(state => state.Token.tokenstr);
     const user = useSelector(state => state.User.user);
+    const [orderSent, setOrderSent] = useState(false);
     const [date, setDate] = useState("");
     const handleChange1 = (event) => {
         setDate(event.target.value);
@@ -23,50 +24,50 @@ const Cart = () => {
     const createOrder = async (item) => {
         const today = new Date();
 
-    if (cart.length === 0) {
-        alert("אין מוצרים להזמין");
-        return;
-    }
-
-    // בדיקה האם date מוגדר
-    if (!date) {
-        alert("בחירת תאריך היא חובה");
-        return;
-    }
-
-    let selectedDate;
-    try {
-        // ממירים את date לאובייקט Date
-        selectedDate = new Date(date);
-
-        // בודקים אם התאריך לא תקין
-        if (isNaN(selectedDate)) {
-            throw new Error("Invalid date");
+        if (cart.length === 0) {
+            alert("אין מוצרים להזמין");
+            return;
         }
-    } catch (error) {
-        console.error("שגיאה בתאריך שנבחר:", error);
-        alert("תאריך שנבחר אינו תקין");
-        return;
-    }
 
-    // בדיקת תאריך נבחר מול תאריך היום
-    if (
-        selectedDate.getFullYear() < today.getFullYear() ||
-        (selectedDate.getFullYear() === today.getFullYear() && selectedDate.getMonth() < today.getMonth()) ||
-        (selectedDate.getFullYear() === today.getFullYear() &&
-            selectedDate.getMonth() === today.getMonth() &&
-            selectedDate.getDate() < today.getDate())
-    ) {
-        alert("בחירת תאריך תקין היא חובהההה");
-        return;
-    }
+        // בדיקה האם date מוגדר
+        if (!date) {
+            alert("בחירת תאריך היא חובה");
+            return;
+        }
 
-    const order = {
-        user_id: user._id,
-        items: cart,
-        deliveryDate: date,
-        paymentMethod: "מזומן",
-    };
+        let selectedDate;
+        try {
+            // ממירים את date לאובייקט Date
+            selectedDate = new Date(date);
+
+            // בודקים אם התאריך לא תקין
+            if (isNaN(selectedDate)) {
+                throw new Error("Invalid date");
+            }
+        } catch (error) {
+            console.error("שגיאה בתאריך שנבחר:", error);
+            alert("תאריך שנבחר אינו תקין");
+            return;
+        }
+
+        // בדיקת תאריך נבחר מול תאריך היום
+        if (
+            selectedDate.getFullYear() < today.getFullYear() ||
+            (selectedDate.getFullYear() === today.getFullYear() && selectedDate.getMonth() < today.getMonth()) ||
+            (selectedDate.getFullYear() === today.getFullYear() &&
+                selectedDate.getMonth() === today.getMonth() &&
+                selectedDate.getDate() < today.getDate())
+        ) {
+            alert("בחירת תאריך תקין היא חובהההה");
+            return;
+        }
+
+        const order = {
+            user_id: user._id,
+            items: cart,
+            deliveryDate: date,
+            paymentMethod: "מזומן",
+        };
         try {
             const res = await axios.post('http://localhost:3600/api/order/createOrder', order, {
                 headers: {
@@ -84,6 +85,8 @@ const Cart = () => {
                 await sendOrderEmail()
 
                 if (res.status === 200) {
+                    console.log(cart);
+
                     setCart([])
                 }
 
@@ -113,7 +116,8 @@ const Cart = () => {
             });
             if (res.status == 200)
                 console.log("=✅ Email sent to customer and admin!");
-            alert("הזמנתך נשלחה למנהל ומצפה לאישורו במידה ויאשר ישלח אליך מייל עם לינק לתשלום ")
+            // alert("הזמנתך נשלחה למנהל ומצפה לאישורו במידה ויאשר ישלח אליך מייל עם לינק לתשלום ")
+            setOrderSent(true);
         } catch (error) {
             console.error("❌ Error sending email:", error);
         }
@@ -144,7 +148,9 @@ const Cart = () => {
                     price: item.readyDesign_id ? item.readyDesign_id.price : 0,
                     quantity: item.cnt,
                     colors: item.isDefualtColors ? item.readyDesign_id.defualtColors : item.colorsIfNotDefault,
-                    image: item.readyDesign_id?.image_url || "/placeholder.jpg"
+                    image: item.readyDesign_id?.image_url || "/placeholder.jpg",
+                    CaptionContent: item.CaptionContent,
+                    captionType: item.captionType
                 })) : []);
             }
         }
@@ -247,6 +253,39 @@ const Cart = () => {
                                     </div>
                                 )}
                             /> */}
+                            <Column
+                                header="צבעים"
+                                alignHeader="center"
+                                style={{ textAlign: "center", whiteSpace: "nowrap" }}
+                                body={(item) =>
+                                    item.colors && item.colors.length > 0 ? (
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                gap: "5px",
+                                                flexWrap: "wrap"
+                                            }}
+                                        >
+                                            {item.colors.map((color, index) => (
+                                                <div
+                                                    key={index}
+                                                    style={{
+                                                        backgroundColor: color,
+                                                        width: "20px",
+                                                        height: "20px",
+                                                        borderRadius: "50%",
+                                                        border: "1px solid #000"
+                                                    }}
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <span>צבעים כמו בתמונה</span>
+                                    )
+                                }
+                            />
+
                             <Column header="כמות" alignHeader="center" style={{ textAlign: "center" }} body={item => (
                                 <InputNumber value={item.quantity} onValueChange={(e) => updateQuantity(e.value, item)} min={1} />
                             )} />
@@ -257,7 +296,36 @@ const Cart = () => {
                     )
                 )}
             </div>
-
+            {orderSent && (
+                <div style={{
+                    marginTop: "1.5rem",
+                    padding: "1.5rem",
+                    backgroundColor: "#ffe0f0",
+                    borderRadius: "12px",
+                    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                    textAlign: "center",
+                    color: "#7c2d12",
+                    fontFamily: "Varela Round, sans-serif",
+                }}>
+                    <h2 style={{ color: "#d6336c", marginBottom: "0.5rem" }}>תודה על ההזמנה! 🎉</h2>
+                    <p style={{ marginBottom: "0.5rem" }}>ההזמנה נשלחה למנהל ותאושר בקרוב.</p>
+                    <p style={{ marginBottom: "1rem" }}>בדוק את המייל שלך לעדכונים.</p>
+                    <a href="/" style={{
+                        display: "inline-block",
+                        padding: "0.5rem 1rem",
+                        backgroundColor: "#f06292",
+                        color: "white",
+                        borderRadius: "8px",
+                        textDecoration: "none",
+                        transition: "background-color 0.3s",
+                    }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = "#ec407a"}
+                        onMouseOut={(e) => e.target.style.backgroundColor = "#f06292"}
+                    >
+                        ⬅ חזרה לחנות
+                    </a>
+                </div>
+            )}
             <Panel header="סיכום הזמנה" className="cart-summary">
                 <div>
                     <input
@@ -271,6 +339,9 @@ const Cart = () => {
                 <h3>סה"כ לתשלום: {total} ₪</h3>
                 <Button label="להזמנהה" icon="pi pi-credit-card" className="p-button-success" onClick={createOrder} />
             </Panel>
+           
+
+
         </div>
     );
 };
