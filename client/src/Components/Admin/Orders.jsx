@@ -110,19 +110,20 @@ const Orders = () => {
     }
 
     const ordersByDate = async (date) => {
-        console.log("date client:"+date);
-        try{
-        const res = await axios.get(`http://localhost:3600/api/order/getOrderByDate/${date}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
+        console.log("date client:" + date);
+        try {
+            const res = await axios.get(`http://localhost:3600/api/order/getOrderByDate/${date}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (res.status === 200) {
+                setOrders(res.data);
+                console.log("res client:" + res.data);
             }
-        });
-        
-        if (res.status === 200) {
-            setOrders(res.data);
-            console.log("res client:"+res.data);
-        }}
+        }
         catch (err) {
             if (err.response?.status === 404) {
                 setOrders([]); // ✅ הצב מערך ריק כדי להפעיל את הודעת 'אין תוצאות'
@@ -186,58 +187,58 @@ const Orders = () => {
     ordersByDate(formatted);
   }}
 /> */}
-<Button
-  label="הזמנות ממתינות"
-  severity="help"
-  style={activeOrderFilter === "unConfirm" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
-  onClick={() => {
-    setActiveOrderFilter("unConfirm");
-    ordersByStatus("unConfirm");
-  }}
-/>
+                <Button
+                    label="הזמנות ממתינות"
+                    severity="help"
+                    style={activeOrderFilter === "unConfirm" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+                    onClick={() => {
+                        setActiveOrderFilter("unConfirm");
+                        ordersByStatus("unConfirm");
+                    }}
+                />
 
-<Button
-  label="הזמנות מאושרות"
-  severity="secondary"
-  style={activeOrderFilter === "confirm" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
-  onClick={() => {
-    setActiveOrderFilter("confirm");
-    ordersByStatus("confirm");
-  }}
-/>
+                <Button
+                    label="הזמנות מאושרות"
+                    severity="secondary"
+                    style={activeOrderFilter === "confirm" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+                    onClick={() => {
+                        setActiveOrderFilter("confirm");
+                        ordersByStatus("confirm");
+                    }}
+                />
 
-<Button
-  label="הזמנות שנשלחו"
-  severity="warning"
-  style={activeOrderFilter === "sent" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
-  onClick={() => {
-    setActiveOrderFilter("sent");
-    ordersByStatus("sent");
-  }}
-/>
+                <Button
+                    label="הזמנות שנשלחו"
+                    severity="warning"
+                    style={activeOrderFilter === "sent" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+                    onClick={() => {
+                        setActiveOrderFilter("sent");
+                        ordersByStatus("sent");
+                    }}
+                />
 
-<Button
-  label="הזמנות להיום"
-  severity="success"
-  style={activeOrderFilter === "today" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
-  onClick={() => {
-    setActiveOrderFilter("today");
-    ordersByDate(new Date().toISOString().split('T')[0]);
-  }}
-/>
+                <Button
+                    label="הזמנות להיום"
+                    severity="success"
+                    style={activeOrderFilter === "today" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+                    onClick={() => {
+                        setActiveOrderFilter("today");
+                        ordersByDate(new Date().toISOString().split('T')[0]);
+                    }}
+                />
 
-<Button
-  label="הזמנות למחר"
-  severity="info"
-  style={activeOrderFilter === "tomorrow" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
-  onClick={() => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const formatted = tomorrow.toISOString().split('T')[0];
-    setActiveOrderFilter("tomorrow");
-    ordersByDate(formatted);
-  }}
-/>
+                <Button
+                    label="הזמנות למחר"
+                    severity="info"
+                    style={activeOrderFilter === "tomorrow" ? { backgroundColor: '#d86f95', color: 'white' } : {}}
+                    onClick={() => {
+                        const tomorrow = new Date();
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        const formatted = tomorrow.toISOString().split('T')[0];
+                        setActiveOrderFilter("tomorrow");
+                        ordersByDate(formatted);
+                    }}
+                />
 
 
 
@@ -253,7 +254,29 @@ const Orders = () => {
                     dataKey="_id"
                     tableStyle={{ minWidth: '50rem' }}
                 >
-                    <Column expander style={{ width: '3em', textAlign: 'center' }} />
+                    {/* <Column expander style={{ width: '3em', textAlign: 'center' }} /> */}
+                    <Column
+                        expander
+                        style={{ width: '3em', textAlign: 'center' }}
+                        body={(rowData) => (
+                            <button
+                                className="p-row-toggler"
+                                onClick={() => {
+                                    const isExpanded = expandedRows?.find(row => row._id === rowData._id);
+                                    setExpandedRows(isExpanded
+                                        ? expandedRows.filter(row => row._id !== rowData._id)
+                                        : [...(expandedRows || []), rowData]);
+                                }}
+                            >
+                                <i
+                                    className={`pi ${expandedRows?.find(row => row._id === rowData._id)
+                                            ? 'pi-chevron-right'
+                                            : 'pi-chevron-down'
+                                        }`}
+                                />
+                            </button>
+                        )}
+                    />
                     <Column field="user_id.username" header="משתמש" style={{ width: '25%' }} />
                     <Column
                         header="פריטים"

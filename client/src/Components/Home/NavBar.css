@@ -95,4 +95,19 @@
   margin-right: auto;  /* ← אם האתר RTL, זה מה שיזיז הכי שמאלה */
   gap: 1rem;
 }
+.NavBarcss {
+  position: relative;
+  z-index: 1000; /* ערך גבוה */
+}
+
+.p-menubar .p-menuitem-link {
+  position: relative;
+  z-index: 1050; /* ערך גבוה יותר */
+}
+
+.nav-buttons {
+  display: flex; /* כדי לסדר את הכפתורים בשורה */
+  justify-content: flex-start; /* מיישר את הכפתורים לצד שמאל */
+  gap: 10px; /* מרווח בין הכפתורים */
+}
 

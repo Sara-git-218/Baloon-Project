@@ -62,3 +62,47 @@ button:hover {
 .custom-button:hover {
     background-color: #218838; /* גוון כהה יותר בעת ריחוף */
 }
+
+
+.color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.color-circles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.color-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: border-color 0.3s;
+}
+
+.color-circle:hover {
+    border-color: #000;
+}
+
+.color-circle.selected {
+    border-color: #000;
+}
+
+.color-circle .checkmark {
+    font-size: 16px;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}

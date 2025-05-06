@@ -178,10 +178,24 @@ export default function UpdateItem() {
 
     return (
         <Dialog
+        closable={false}
+
+        header={
+          <div className="flex justify-content-between align-items-center">
+            <span>עדכון מוצר</span>
+            <button
+              className="p-dialog-header-icon p-dialog-header-close p-link"
+              onClick={handleCancel}
+              aria-label="Close"
+            >
+              <i className="pi pi-times"></i>
+            </button>
+          </div>
+        }
             visible={visible}
             modal
-            header="עדכון מוצר"
-            onHide={handleCancel}
+            // header="עדכון מוצר"
+            // onHide={handleCancel}
             style={{ width: '50vw', maxHeight: '90vh' }}
             contentStyle={{ overflowY: 'auto', direction: 'rtl' }}
         >

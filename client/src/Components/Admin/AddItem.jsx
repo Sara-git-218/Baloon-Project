@@ -25,9 +25,12 @@ const AddItem = () => {
     const [selectedColors, setSelectedColors] = useState([])
 
     const kategories = [
-        { name: 'Big Design', code: 'BD' },
-        { name: 'Little Design', code: 'LD' },
-        { name: 'Birthday', code: 'BIRTH' }
+        { name: 'עסקים' },
+        { name: 'ימי הולדת' },
+        { name: 'בר מצווה' },
+        { name: 'בת מצווה' },
+        { name: 'ימי נישואין' },
+        { name: 'ברית/ה' }
     ];
 
     const colors = [
