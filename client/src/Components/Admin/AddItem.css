@@ -1,49 +1,4 @@
-.m-0 {
-    background-color: #ffffff; /* צבע רקע לבן */
-    border: 1px solid #ccc; /* גבול אפור בהיר */
-    border-radius: 8px; /* פינות מעוגלות */
-    padding: 20px; /* ריווח פנימי */
-    margin: 20px auto; /* ריווח חיצוני ממרכז הכרטיס */
-    width: 400px; /* רוחב קבוע לכרטיס */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* צל מעודכן */
-    display: flex; /* עיצוב גמיש */
-    flex-direction: column; /* סידור כל האלמנטים בעמודה */
-    align-items: stretch; /* ממרכז את כל הרכיבים כדי למלא את המרחב */
-}
 
-label {
-    font-weight: bold; /* טקסט מודגש עבור תוויות */
-    margin-bottom: 5px; /* מרווח מתחת לתוויות */
-}
-
-input, textarea, .dropdown { /* עיצוב אחיד לכל סוגי הקלט */
-    width: 100%; /* רוחב מלא */
-    padding: 8px; /* ריווח פנימי */
-    border: 1px solid #ccc; /* גבול אפור */
-    border-radius: 4px; /* פינות מעוגלות */
-    box-sizing: border-box; /* לכלול ריווחים בגובה ורוחב */
-    margin-bottom: 10px; /* מרווח בין קלטים */
-}
-
-input:focus, textarea:focus { /* עיצוב עבור מצב פוקוס */
-    border-color: #007bff; /* גבול כחול */
-    outline: none; /* הסרת קו מסביב */
-}
-
-button {
-    width: 100%; /* כפתור מלא ברוחב */
-    background-color: #28a745; /* צבע ירוק */
-    color: white; /* טקסט לבן */
-    padding: 10px; /* ריווח פנימי */
-    border: none; /* ללא גבול */
-    border-radius: 4px; /* פינות מעוגלות */
-    cursor: pointer; /* היד לגישה */
-    transition: background-color 0.3s; /* אנימציה צבע בעת ריחוף */
-}
-
-button:hover {
-    background-color: #218838; /* ירוק כהה בעת ריחוף */
-}
 
 .custom-button {
     width: 40px; /* רוחב קטן */
@@ -105,4 +60,37 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
+}
+.color-picker {
+    margin-top: 1rem;
+}
+
+.color-circles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 0.5rem;
+}
+
+.color-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border 0.3s ease;
+}
+
+.color-circle.selected {
+    border: 3px solid black;
+    position: relative;
+}
+
+.color-circle .checkmark {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
 }

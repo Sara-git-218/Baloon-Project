@@ -12,7 +12,7 @@ import { Button } from 'primereact/button';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import React, { useState } from 'react';
-
+import './AddItem.css'
 const AddItem = () => {
     const token = useSelector(state => state.Token.tokenstr);
 

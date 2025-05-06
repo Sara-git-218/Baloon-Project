@@ -45,7 +45,7 @@
 //                 {
 //                     headers: {
 //                         'Authorization': `Bearer ${token}`,
-                       
+
 //                     }
 //                 }
 //             );
@@ -106,7 +106,7 @@
 //                             cancelLabel="ביטול"
 //                         />
 //                         {preview && <img src={preview} alt="תצוגה" style={{ width: 150, marginTop: 10 }} />}
-                    
+
 
 
 //                     <div className="flex gap-2 justify-content-end mt-4">
@@ -131,6 +131,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { FileUpload } from 'primereact/fileupload';
 import './UpdateItem.css';
+import { Dropdown } from "primereact/dropdown";
 
 export default function UpdateItem() {
     const location = useLocation();
@@ -144,6 +145,14 @@ export default function UpdateItem() {
     const navigate = useNavigate();
     const token = useSelector(state => state.Token.tokenstr);
 
+    const kategories = [
+        { name: 'עסקים' },
+        { name: 'ימי הולדת' },
+        { name: 'בר מצווה' },
+        { name: 'בת מצווה' },
+        { name: 'ימי נישואין' },
+        { name: 'ברית/ה' }
+    ];
     const update = async () => {
         const formData = new FormData();
         formData.append('_id', location.state.product._id);
@@ -178,20 +187,20 @@ export default function UpdateItem() {
 
     return (
         <Dialog
-        closable={false}
+            closable={false}
 
-        header={
-          <div className="flex justify-content-between align-items-center">
-            <span>עדכון מוצר</span>
-            <button
-              className="p-dialog-header-icon p-dialog-header-close p-link"
-              onClick={handleCancel}
-              aria-label="Close"
-            >
-              <i className="pi pi-times"></i>
-            </button>
-          </div>
-        }
+            header={
+                <div className="flex justify-content-between align-items-center">
+                    <span>עדכון מוצר</span>
+                    <button
+                        className="p-dialog-header-icon p-dialog-header-close p-link"
+                        onClick={handleCancel}
+                        aria-label="Close"
+                    >
+                        <i className="pi pi-times"></i>
+                    </button>
+                </div>
+            }
             visible={visible}
             modal
             // header="עדכון מוצר"
@@ -209,8 +218,11 @@ export default function UpdateItem() {
                 <label>מחיר מוצר</label>
                 <InputText value={productPrice} onChange={(e) => setProductPrice(e.target.value)} />
 
-                <label>קטגוריה</label>
-                <InputText value={productCagory} onChange={(e) => setProductCagory(e.target.value)} />
+                {/* <label>קטגוריה</label>
+                <InputText value={productCagory} options={kategories} onChange={(e) => setProductCagory(e.target.value)} /> */}
+
+                <label >קטגוריה:</label>
+                <Dropdown value={productCagory} options={kategories} onChange={(e) => setProductCagory(e.target.value)} options={kategories} optionLabel="name" placeholder="בחר קטגוריה" />
 
                 <label>בחרי תמונה:</label>
                 <FileUpload
