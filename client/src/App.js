@@ -19,24 +19,25 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="main-content"></div>
+      <main>
+      <div className="main-content">
       <Routes>
-      <Route path='/Contact' element={<ContactForm/>} />
-      <Route path='/Admin/Items/UpdateItem' element={<UpdateItem />} />
-      <Route path='/Admin/Items' element={<AdminItems />} />
-      <Route path='/Admin/AddItem' element={<AddItem />} />
-      <Route path='/Admin/Orders' element={<Orders />} />
-      <Route path='/Cart' element={<Cart />} />
+        <Route path='/Contact' element={<ContactForm />} />
+        <Route path='/Admin/Items/UpdateItem' element={<UpdateItem />} />
+        <Route path='/Admin/Items' element={<AdminItems />} />
+        <Route path='/Admin/AddItem' element={<AddItem />} />
+        <Route path='/Admin/Orders' element={<Orders />} />
+        <Route path='/Cart' element={<Cart />} />
         <Route path='/' element={<Items />} />
         <Route path='/Item' element={<Item />} />
         <Route path='/Register' element={<Register />} />
         <Route path='/Login' element={<Login />} />
-        
-        {/* <Route path='/Todos' element={<Todos/>}/>
-      <Route path='/Posts' element={<Posts/>}/> */}
+        <Route path='/Admin' element={<Admin />} />
+
       </Routes>
-      <div/>
-      {/* <Footer/> */}
+      </div>
+      </main>
+      <Footer/>
     </>
   );
 }

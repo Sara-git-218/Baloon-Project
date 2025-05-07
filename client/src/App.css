@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,8 +35,8 @@
   to {
     transform: rotate(360deg);
   }
-}
-html, body, #root {
+} */
+/* html, body, #root {
   height: 100%;
   margin: 0;
 }
@@ -50,3 +50,40 @@ html, body, #root {
 .main-content {
   flex: 1;
 }
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+} */
+/* חובה: Stretch height for sticky footer layout */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* גורם לגוף האתר להימתח לגובה מלא */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* זה מה שגורם לתוכן להרחיב את החלל ולדחוף את הפוטר למטה */
+main {
+  flex: 1;
+}
+
+.main-content {
+  padding: 1rem;
+}
+

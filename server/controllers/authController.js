@@ -12,6 +12,15 @@ const register=async(req,res)=>{
     {
         return res.status(400).send("short passsword")
     }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).send("כתובת אימייל לא תקינה");
+    }
+
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone)) {
+        return res.status(400).send("מספר טלפון חייב להכיל בדיוק 10 ספרות");
+    }
     const double=await User.findOne({username:username}).lean()
     if(double){
         return res.status(400).send("username or password are not valid")

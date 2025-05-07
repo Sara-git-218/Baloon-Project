@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from 'primereact/button';
@@ -18,7 +16,6 @@ export default function UpdateItem() {
     const [productName, setProductName] = useState(location.state.product.name);
     const [productDescription, setProductDescription] = useState(location.state.product.description);
     const [productPrice, setProductPrice] = useState(location.state.product.price);
-    const [productCagory, setProductCagory] = useState(location.state.product.catgory);
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const navigate = useNavigate();
@@ -32,12 +29,18 @@ export default function UpdateItem() {
         { name: 'ימי נישואין' },
         { name: 'ברית/ה' }
     ];
+
+    const [productCagory, setProductCagory] = useState(
+        kategories.find(k => k.name === location.state.product.catgory) || null
+    );
+
     const update = async () => {
         const formData = new FormData();
         formData.append('_id', location.state.product._id);
         formData.append('name', productName);
         formData.append('description', productDescription);
-        formData.append('price', productPrice);
+        formData.append('price', Number(productPrice));
+        if (productCagory) formData.append('category', productCagory.name);
         if (selectedFile) formData.append('image', selectedFile);
 
         try {
@@ -67,7 +70,6 @@ export default function UpdateItem() {
     return (
         <Dialog
             closable={false}
-
             header={
                 <div className="flex justify-content-between align-items-center">
                     <span>עדכון מוצר</span>
@@ -82,8 +84,6 @@ export default function UpdateItem() {
             }
             visible={visible}
             modal
-            // header="עדכון מוצר"
-            // onHide={handleCancel}
             style={{ width: '50vw', maxHeight: '90vh' }}
             contentStyle={{ overflowY: 'auto', direction: 'rtl' }}
         >
@@ -97,11 +97,14 @@ export default function UpdateItem() {
                 <label>מחיר מוצר</label>
                 <InputText value={productPrice} onChange={(e) => setProductPrice(e.target.value)} />
 
-                {/* <label>קטגוריה</label>
-                <InputText value={productCagory} options={kategories} onChange={(e) => setProductCagory(e.target.value)} /> */}
-
-                <label >קטגוריה:</label>
-                <Dropdown value={productCagory} options={kategories} onChange={(e) => setProductCagory(e.target.value)} options={kategories} optionLabel="name" placeholder="בחר קטגוריה" />
+                <label>קטגוריה:</label>
+                <Dropdown
+                    value={productCagory}
+                    options={kategories}
+                    onChange={(e) => setProductCagory(e.value)}
+                    optionLabel="name"
+                    placeholder="בחר קטגוריה"
+                />
 
                 <label>בחרי תמונה:</label>
                 <FileUpload
