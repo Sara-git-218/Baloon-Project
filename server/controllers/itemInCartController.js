@@ -6,7 +6,7 @@ const createItemInCart = async (req, res) => {
     if (!user_id) {
         return res.status(400).send('user_id is required')
     }
-
+console.log(CaptionContent);
     const itemInCart = await ItemInCart.create({ user_id, readyDesign_id, colors, cnt, captionType, CaptionContent ,isDefaultColors,colorsIfNotDefault})
     if (itemInCart) {
         console.log(itemInCart);

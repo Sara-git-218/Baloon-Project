@@ -7,7 +7,7 @@ const Footer = () => {
         <img src="/logo.png" alt="לוגו" className="footer-logo" />
         <div className="footer-contact">
           <p>📞 050-1234567</p>
-          <p>✉️ info@yoursite.co.il</p>
+          <p>✉️ yambalonb@gmail.com</p>
         </div>
       </div>
     </footer>

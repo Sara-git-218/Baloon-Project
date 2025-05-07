@@ -15,13 +15,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { setval } from '../../Store/ItemsSlice';
 import './Items.css';
 export default function Items() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
-    const [layout, setLayout] = useState('grid');
     const [visible, setVisible] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [sortOption, setSortOption] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const location = useLocation();
-
+    const [filters, setFilters] = useState({
+        name: '',
+        category: '',
+        priceRange: [0, 5000],
+        inStock: false,
+    });
+    
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const categoryFromURL = params.get('category');
@@ -33,17 +41,6 @@ export default function Items() {
             }));
         }
     }, [location.search]);
-
-    const [filters, setFilters] = useState({
-        name: '',
-        category: '',
-        priceRange: [0, 5000],
-        inStock: false,
-    });
-    const [sortOption, setSortOption] = useState('');
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     useEffect(() => {
         getAllItems();
@@ -133,7 +130,7 @@ export default function Items() {
 
     const itemTemplate = (product, layout, index) => {
         if (!product) return;
-   
+
         return gridItem(product);
     };
 
@@ -228,7 +225,7 @@ export default function Items() {
                     <Button label="נקה הכל" className="p-button-secondary p-button-sm w-full" onClick={resetFilters} />
                 </div>
 
-               
+
                 <div style={{ flex: 1, padding: "1rem" }}>
                     {/* <DataView
                     value={filteredProducts}

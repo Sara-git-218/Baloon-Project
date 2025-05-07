@@ -38,7 +38,7 @@ const itemInCartSchema = new mongoose.Schema({
         enum: fonts,
         default: "Arial"
     },
-    captionContent: {
+    CaptionContent: {
         type: String
     }
 }, { timestamps: true });

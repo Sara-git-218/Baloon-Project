@@ -99,6 +99,7 @@ const AddItem = () => {
                 setCategory(null);
                 setSelectedFile(null);
                 setPreview(null);
+                setSelectedColors([]);
             }
         } catch (e) {
             console.log(e);

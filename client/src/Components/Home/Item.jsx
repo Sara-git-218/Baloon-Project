@@ -25,7 +25,7 @@ const Item = () => {
   const [selectedFont, setSelectedFont] = useState('');
   const [fontOptions, setFontOptions] = useState([]);
   const [showLoginMessage, setShowLoginMessage] = useState(false);
-
+ const product = location.state?.product;
   useEffect(() => {
     axios.get('http://localhost:3600/api/fonts')
       .then(res => setFontOptions(res.data))
@@ -39,12 +39,10 @@ const Item = () => {
     }
   };
 
-  const product = location.state?.product;
-
-  if (!product) {
+    if (!product) {
     return (
       <div className="flex justify-content-center align-items-center" style={{ height: '50vh' }}>
-        <h2>לא נמצא מוצר להצגה. חזרי לעמוד הבית.</h2>
+        <h2>לא נמצא מוצר להצגה. חזור לעמוד הבית.</h2>
         <Button label="חזרה לחנות" onClick={() => navigate('/')} className="mt-3" />
       </div>
     );
@@ -133,7 +131,7 @@ const Item = () => {
         }
       >
         <p>עליך להתחבר או להירשם כדי להוסיף מוצרים לסל.</p>
-      </Dialog>
+    </Dialog>
 
       <div className="item-page">
         <div className="container">
@@ -190,7 +188,8 @@ const Item = () => {
                 <p>הכמות שנבחרה: {quantity || 0}</p>
               </div>
               <div className="card flex justify-content-center">
-                <p>טקסט להדפסה על הבלונים:</p>
+                <h3>טקסט להדפסה על הבלונים:</h3>
+                <p>כל מילה בעלות של 5 ש"ח</p>
                 <InputTextarea value={value} onChange={(e) => setValue(e.target.value)} rows={5} cols={30} style={{ fontFamily: selectedFont }} />
               </div>
               <div className="font-selector">

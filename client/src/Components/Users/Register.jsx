@@ -37,6 +37,7 @@ const Register = () => {
 
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
     const navigate = useNavigate();
+
     const onSubmit = async (data) => {
         setFormData(data);
         if (data.password.length < 6) {
@@ -167,22 +168,7 @@ const Register = () => {
                                 <label htmlFor="date">יום הולדת</label>
                             </span>
                         </div>
-                        {/* <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="country" control={control} render={({ field }) => (
-                                    <Dropdown id={field.name} value={field.value} onChange={(e) => field.onChange(e.value)} options={countries} optionLabel="name" />
-                                )} />
-                                <label htmlFor="country">Country</label>
-                            </span>
-                        </div> */}
-
-                        <div className="field-checkbox">
-                            <Controller name="accept" control={control} rules={{ required: true }} render={({ field, fieldState }) => (
-                                <Checkbox inputId={field.name} onChange={(e) => field.onChange(e.checked)} checked={field.value} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                            )} />
-                            <label htmlFor="accept" className={classNames({ 'p-error': errors.accept })}>אני מסכים לתקנון האתר*</label>
-                        </div>
-
+                       
                         <Button type="submit" label="הרשמה" className="mt-2" />
                     </form>
                 </div>

@@ -1,4 +1,4 @@
-/* .App {
+.App {
   text-align: center;
 }
 
@@ -35,55 +35,26 @@
   to {
     transform: rotate(360deg);
   }
-} */
-/* html, body, #root {
-  height: 100%;
-  margin: 0;
 }
 
-.App {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-}
-html, body, #root {
-  height: 100%;
-  margin: 0;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  flex: 1;
-} */
-/* חובה: Stretch height for sticky footer layout */
+/* פריסה מלאה של המסמך */
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-/* גורם לגוף האתר להימתח לגובה מלא */
+/* תצוגה של גוף הדף */
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* גובה מינימלי של הדף */
 }
 
-/* זה מה שגורם לתוכן להרחיב את החלל ולדחוף את הפוטר למטה */
+/* התוכן הראשי */
 main {
-  flex: 1;
-}
-
-.main-content {
-  padding: 1rem;
+  flex: 1; /* מרחיב את התוכן כדי לדחוף את הפוטר למטה */
 }
 

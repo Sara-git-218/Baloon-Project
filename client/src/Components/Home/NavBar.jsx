@@ -20,19 +20,19 @@ export default function NavBar() {
     const user = useSelector(state => state.User.user);
     const isAdmin = user?.roles === "Admin";
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const res = await axios.get('http://localhost:3600/api/readyDesign/getAllReadyDesign');
-                const categories = [...new Set(res.data.map(item => item.category))];
-                setDynamicCategories(categories);
-            } catch (err) {
-                console.error("שגיאה בשליפת קטגוריות:", err);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchCategories = async () => {
+    //         try {
+    //             const res = await axios.get('http://localhost:3600/api/readyDesign/getAllReadyDesign');
+    //             const categories = [...new Set(res.data.map(item => item.category))];
+    //             setDynamicCategories(categories);
+    //         } catch (err) {
+    //             console.error("שגיאה בשליפת קטגוריות:", err);
+    //         }
+    //     };
 
-        fetchCategories();
-    }, []);
+    //     fetchCategories();
+    // }, []);
 
     const handleLogIn = () => {
         navigate('/Login');
@@ -48,7 +48,7 @@ export default function NavBar() {
         ? [
             { label: 'ניהול הזמנות', command: () => navigate('/Admin/Orders') },
             { label: 'ניהול מוצרים', command: () => navigate('/Admin/Items') },
-            // { label: <Button label="יציאה" severity="secondary" onClick={handleLogOut} /> }
+         
         ]
         : [
             { label: 'חנות', url: '/' },
@@ -67,7 +67,7 @@ export default function NavBar() {
                 items: [
                     {
                         label: 'הכל',
-                        command: () => navigate('/')
+                        url:'/'
                     },
                     {
                         label: 'עסקים',
@@ -98,25 +98,7 @@ export default function NavBar() {
             }
             ,
             { label: 'צור קשר', command: () => navigate('/Contact') },
-            // {
-            //     label: (
-            //         <nav>
-            //             <div className="nav-buttons">
-            //                 {user !== null ? (
-            //                     <>
-            //                         <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
-            //                         <Button icon="pi pi-shopping-cart" onClick={() => navigate('/Cart')} />
-            //                     </>
-            //                 ) : (
-            //                     <>
-            //                         <Button label="כניסה" severity="secondary" onClick={handleLogIn} />
-            //                         <Button label="הרשמה" severity="secondary" onClick={() => navigate('/Register')} dir='ltr' style={{ marginLeft: '1em' }} />
-            //                     </>
-            //                 )}
-            //             </div>
-            //         </nav>
-            //     )
-            // },
+
         ];
 
     useEffect(() => {
@@ -126,31 +108,29 @@ export default function NavBar() {
     const start = (
         <img src="/logo.png" alt="logo" height="50" className="navbar-logo" />
     );
-
+    const end = (<div className="nav-buttons">
+        {user !== null ? (
+            isAdmin ? (
+                // אם המשתמש הוא מנהל, הצג רק כפתור יציאה
+                <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
+            ) : (
+                // אם המשתמש מחובר אך אינו מנהל, הצג יציאה ועגלת קניות
+                <>
+                    <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
+                    <Button icon="pi pi-shopping-cart" onClick={() => navigate('/Cart')} />
+                </>
+            )
+        ) : (
+            // אם המשתמש לא מחובר, הצג כפתורי כניסה והרשמה
+            <>
+                <Button label="כניסה" severity="secondary" onClick={handleLogIn} />
+                <Button label="הרשמה" severity="secondary" onClick={() => navigate('/Register')} style={{ marginLeft: '1em' }} />
+            </>
+        )}
+    </div>)
     return (
         <div className="card">
-            <Menubar model={items} className="NavBarcss" start={start}  end={
-        <div className="nav-buttons">
-            {user !== null ? (
-                isAdmin ? (
-                    // אם המשתמש הוא מנהל, הצג רק כפתור יציאה
-                    <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
-                ) : (
-                    // אם המשתמש מחובר אך אינו מנהל, הצג יציאה ועגלת קניות
-                    <>
-                        <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
-                        <Button icon="pi pi-shopping-cart" onClick={() => navigate('/Cart')} />
-                    </>
-                )
-            ) : (
-                // אם המשתמש לא מחובר, הצג כפתורי כניסה והרשמה
-                <>
-                    <Button label="כניסה" severity="secondary" onClick={handleLogIn} />
-                    <Button label="הרשמה" severity="secondary" onClick={() => navigate('/Register')} style={{ marginLeft: '1em' }} />
-                </>
-            )}
-        </div>
-    } />
+            <Menubar model={items} className="NavBarcss" start={start} end={end} />
         </div>
     );
 }

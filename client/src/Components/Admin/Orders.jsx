@@ -47,7 +47,6 @@ const Orders = () => {
         }
     };
     const sendEmailUser=async(to)=>{
-         alert(to)
             try {
                 const res = await fetch("http://localhost:3600/api/emails/send-email-user", {
                     method: "POST",
@@ -253,7 +252,7 @@ const Orders = () => {
     const formatDate = (isoDate) => {
         const date = new Date(isoDate);
         const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // חודשים מ-0
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
         const year = date.getFullYear();
         return `${day}/${month}/${year}`;
     };
@@ -331,7 +330,6 @@ const Orders = () => {
                     dataKey="_id"
                     tableStyle={{ minWidth: '50rem' }}
                 >
-                    {/* <Column expander style={{ width: '3em', textAlign: 'center' }} /> */}
                     <Column
                         expander
                         style={{ width: '3em', textAlign: 'center' }}
@@ -372,16 +370,7 @@ const Orders = () => {
                         body={(rowData) => (
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                                 <span>{rowData.ateordersByDate}</span>
-                                {/* {rowData.status === "unConfirm" && (
-                                    <Button
-                                        label="אשר"
-                                        icon="pi pi-check"
-                                        severity="success"
-                                        size="small"
-                                        onClick={() => confirmOrder(rowData._id, rowData.user_id.email, "confirm", formatDate(rowData.deliveryDate))}
-                                    />
-                                    
-                                )} */}
+
                                 {rowData.status === "unConfirm" && (
                                     <>
                                         <Button
@@ -415,7 +404,6 @@ const Orders = () => {
                         style={{ width: '25%' }}
                     />
 
-                    {/* <Column field="deliveryDate" header="תאריך משלוח" style={{ width: '25%' }} /> */}
                     <Column
                         header="תאריך משלוח"
                         body={(rowData) => formatDate(rowData.deliveryDate)}

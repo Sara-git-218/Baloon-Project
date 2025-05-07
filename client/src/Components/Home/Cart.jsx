@@ -116,7 +116,6 @@ const Cart = () => {
             });
             if (res.status == 200)
                 console.log("=✅ Email sent to customer and admin!");
-            // alert("הזמנתך נשלחה למנהל ומצפה לאישורו במידה ויאשר ישלח אליך מייל עם לינק לתשלום ")
             setOrderSent(true);
         } catch (error) {
             console.error("❌ Error sending email:", error);
@@ -204,7 +203,12 @@ const Cart = () => {
         toast.current.show({ severity: "warn", summary: "הוסר", detail: `${product.name} הוסר מהסל`, life: 3000 });
     };
 
-    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    // const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = cart.reduce((sum, item) => {
+        const captionWords = item.CaptionContent ? item.CaptionContent.split(" ").length : 0; // מספר המילים בכיתוב
+        const captionCost = captionWords * 5; // עלות לפי מספר המילים
+        return sum + item.price * item.quantity + captionCost;
+    }, 0);
 
     return (
         <div className="p-4 cart-container">
@@ -220,39 +224,29 @@ const Cart = () => {
                             )} />
 
                             <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />
-                            <Column field="price" header="מחיר" alignHeader="center" style={{ textAlign: "center" }} body={item => `${item.price} ₪`} />
-                            {/* <Column
-                                field="colors"
-                                header="צבעים"
+                            {/* <Column field="price" header="מחיר" alignHeader="center" style={{ textAlign: "center" }} body={item => `${item.price} ₪`} /> */}
+                            <Column
+                                field="price"
+                                header="כיתוב"
                                 alignHeader="center"
-                                style={{ textAlign: "center", whiteSpace: "nowrap", overflow: "hidden" }}
-                                body={(item) => (
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            overflowX: "auto",
-                                            gap: "5px",
-                                            justifyContent: "center",
-                                            flexWrap: "nowrap", // מונע גלישה לשורות נוספות
-                                            overflow: "hidden", // מסתיר גלישה אם יש יותר מדי צבעים
-                                            // maxWidth: "150px", // קובע רוחב מקסימלי לתא
-                                        }}
-                                    >
-                                        {item.colors.map((color, index) => (
-                                            <div
-                                                key={index}
-                                                style={{
-                                                    backgroundColor: color,
-                                                    width: "20px",
-                                                    height: "20px",
-                                                    borderRadius: "50%",
-                                                    border: "1px solid #000",
-                                                }}
-                                            />
-                                        ))}
-                                    </div>
-                                )}
-                            /> */}
+                                style={{ textAlign: "center" }}
+                                body={item => {
+                                    const text = item.CaptionContent ? item.CaptionContent:'-'; // מספר המילים בכיתוב
+                                    return `${text}`;
+                                }}
+                            />
+                            <Column
+                                field="price"
+                                header="מחיר כולל כיתוב"
+                                alignHeader="center"
+                                style={{ textAlign: "center" }}
+                                body={item => {
+                                    const captionWords = item.CaptionContent ? item.CaptionContent.split(" ").length : 0; // מספר המילים בכיתוב
+                                    const captionCost = captionWords * 5; // חישוב העלות לכיתוב
+                                    const totalPrice = item.price + captionCost; // מחיר המוצר כולל הכיתוב
+                                    return `${totalPrice} ₪`;
+                                }}
+                            />
                             <Column
                                 header="צבעים"
                                 alignHeader="center"
@@ -339,7 +333,7 @@ const Cart = () => {
                 <h3>סה"כ לתשלום: {total} ₪</h3>
                 <Button label="להזמנהה" icon="pi pi-credit-card" className="p-button-success" onClick={createOrder} />
             </Panel>
-           
+
 
 
         </div>
