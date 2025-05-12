@@ -53,15 +53,7 @@ export default function NavBar() {
         : [
             { label: 'חנות', url: '/' },
 
-            // {
-            //     label: 'קטגוריות',
-            //     items: dynamicCategories.length > 0
-            //         ? dynamicCategories.map((cat) => ({
-            //             label: cat,
-            //             command: () => navigate(`/?category=${encodeURIComponent(cat)}`)
-            //         }))
-            //         : [{ label: 'טוען קטגוריות...', disabled: true }]
-            // },
+     
             {
                 label: 'קטגוריות',
                 items: [
@@ -111,17 +103,17 @@ export default function NavBar() {
     const end = (<div className="nav-buttons">
         {user !== null ? (
             isAdmin ? (
-                // אם המשתמש הוא מנהל, הצג רק כפתור יציאה
+               
                 <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
             ) : (
-                // אם המשתמש מחובר אך אינו מנהל, הצג יציאה ועגלת קניות
+             
                 <>
                     <Button label="יציאה" severity="secondary" onClick={handleLogOut} />
                     <Button icon="pi pi-shopping-cart" onClick={() => navigate('/Cart')} />
                 </>
             )
         ) : (
-            // אם המשתמש לא מחובר, הצג כפתורי כניסה והרשמה
+          
             <>
                 <Button label="כניסה" severity="secondary" onClick={handleLogIn} />
                 <Button label="הרשמה" severity="secondary" onClick={() => navigate('/Register')} style={{ marginLeft: '1em' }} />

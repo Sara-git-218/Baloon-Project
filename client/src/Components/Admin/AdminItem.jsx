@@ -1,6 +1,4 @@
-// import React from 'react'; 
-// import { Button } from 'primereact/button';
-// import axios from 'axios';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'primereact/button';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
@@ -8,13 +6,10 @@ import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import { classNames } from 'primereact/utils';
 import axios from 'axios'
-// import Item from '. ./Item';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 import { setval } from '../../Store/ItemsSlice'
 import Item from '../Home/Item';
-// import React, { useState } from "react";
-// import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from "primereact/inputtext";
 const AdminItems = () => {
@@ -62,8 +57,8 @@ const AdminItems = () => {
 
     }
     useEffect(() => {
-      getAllItems();//?????????????
-        // dispatch(get(res.data))
+      getAllItems();
+       
 
     }, []);
 
@@ -103,10 +98,7 @@ const AdminItems = () => {
                             <Button icon="pi pi-pencil" className="p-button" onClick={() =>navigate('/Admin/Items/UpdateItem', { state: { product } })} />
 
                         </div>
-                        {/* <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                                <span className="text-2xl font-semibold">${product.price}</span>
-                                <Button icon="pi pi-shopping-cart" className="p-button-rounded" disabled={product.inventoryStatus === 'OUTOFSTOCK'}></Button>
-                            </div> */}
+
                     </div>
                 </div>
             </div>
@@ -117,10 +109,10 @@ const AdminItems = () => {
             <div dir="rtl" className="col-12 sm:col-6 lg:col-4 p-2" key={product.id}>
                 <div className="p-2 sm:p-3 md:p-4 border-1 surface-border surface-card border-round shadow-2 w-full">
 
-                    {/* כרטיס לתמונה בגודל מותאם */}
+           
                     <div
                         className="w-full flex justify-content-center align-items-center bg-white overflow-hidden border-round"
-                        // onClick={() => navigate(`/Item`, { state: { product } })}
+                       
                         style={{ cursor: "pointer", height: "250px" }} // הגבלת גובה לתמונה
                     >
                         <img
@@ -131,7 +123,6 @@ const AdminItems = () => {
                         />
                     </div>
 
-                    {/* קטגוריה עם אייקון למעלה */}
                     <div className="flex justify-content-start align-items-center mt-2">
                         <i className="pi pi-tag text-2xl mr-2"></i> {/* אייקון תגית */}
                         <span className="text-sm text-500">{product.category}</span>
@@ -145,12 +136,10 @@ const AdminItems = () => {
 
                     <div>
                         <Button icon="pi pi-trash" className="p-button-danger" onClick={()=>deleteItem(product)} />
-                        {/* <Button icon="pi pi-pencil" className="p-button" onClick={()=>navigate('/Admin/Items/UpdateItem')} /> */}
-
-                              {/* <div className="card flex justify-content-center"> */}
+               
                                     <Button icon="pi pi-pencil" className="p-button" onClick={() =>navigate('/Admin/Items/UpdateItem', { state: { product } })} />
                                   
-                                {/* </div> */}
+                            
                     </div>
                 </div>
             </div>
@@ -189,7 +178,7 @@ const AdminItems = () => {
 
             <div className="card">
                 <DataView value={products} listTemplate={listTemplate} layout={layout} header={header()} />
-                {/* {visible&&<Item  setVisible={setVisible} visible={visible}  />} */}
+              
             </div>
 
         </>

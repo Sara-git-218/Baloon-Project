@@ -29,7 +29,7 @@ const Cart = () => {
             return;
         }
 
-        // בדיקה האם date מוגדר
+      
         if (!date) {
             alert("בחירת תאריך היא חובה");
             return;
@@ -37,10 +37,10 @@ const Cart = () => {
 
         let selectedDate;
         try {
-            // ממירים את date לאובייקט Date
+      
             selectedDate = new Date(date);
 
-            // בודקים אם התאריך לא תקין
+           
             if (isNaN(selectedDate)) {
                 throw new Error("Invalid date");
             }
@@ -71,15 +71,15 @@ const Cart = () => {
         try {
             const res = await axios.post('http://localhost:3600/api/order/createOrder', order, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,  // צירוף הטוקן ב-Authorization header
-                    'Content-Type': 'application/json',  // ציון סוג התוכן
+                    'Authorization': `Bearer ${token}`,  
+                    'Content-Type': 'application/json', 
                 }
             })
             if (res.status == 200) {
                 const res = await axios.delete('http://localhost:3600/api/itemInCart/deleteallItemsForUser', {
                     headers: {
-                        'Authorization': `Bearer ${token}`,  // צירוף הטוקן ב-Authorization header
-                        'Content-Type': 'application/json',  // ציון סוג התוכן
+                        'Authorization': `Bearer ${token}`, 
+                        'Content-Type': 'application/json',  
                     }
                 })
                 await sendOrderEmail()
@@ -106,12 +106,12 @@ const Cart = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    customerEmail: user.email, // כתובת הלקוח
-                    adminEmail: 'yambalonb@gmail.com', // כתובת המנהל
-                    customerSubject: "אישור הזמנה", // נושא ללקוח
-                    adminSubject: "הזמנה חדשה ממערכת", // נושא למנהל
-                    customerText: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.", // תוכן ללקוח
-                    adminText: "שלום מנהל, הזמנה חדשה התקבלה ויש לאשר אותה", // תוכן למנהל
+                    customerEmail: user.email, 
+                    adminEmail: 'yambalonb@gmail.com', 
+                    customerSubject: "אישור הזמנה", 
+                    adminSubject: "הזמנה חדשה ממערכת", 
+                    customerText: "תודה על הזמנתך! אנחנו נטפל בה בקרוב.",
+                    adminText: "שלום מנהל, הזמנה חדשה התקבלה ויש לאשר אותה", 
                 }),
             });
             if (res.status == 200)
@@ -203,10 +203,10 @@ const Cart = () => {
         toast.current.show({ severity: "warn", summary: "הוסר", detail: `${product.name} הוסר מהסל`, life: 3000 });
     };
 
-    // const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  
     const total = cart.reduce((sum, item) => {
-        const captionWords = item.CaptionContent ? item.CaptionContent.split(" ").length : 0; // מספר המילים בכיתוב
-        const captionCost = captionWords * 5; // עלות לפי מספר המילים
+        const captionWords = item.CaptionContent ? item.CaptionContent.split(" ").length : 0; 
+        const captionCost = captionWords * 5; 
         return sum + item.price * item.quantity + captionCost;
     }, 0);
 
@@ -224,14 +224,14 @@ const Cart = () => {
                             )} />
 
                             <Column field="name" header="מוצר" alignHeader="center" style={{ textAlign: "center" }} />
-                            {/* <Column field="price" header="מחיר" alignHeader="center" style={{ textAlign: "center" }} body={item => `${item.price} ₪`} /> */}
+                           
                             <Column
                                 field="price"
                                 header="כיתוב"
                                 alignHeader="center"
                                 style={{ textAlign: "center" }}
                                 body={item => {
-                                    const text = item.CaptionContent ? item.CaptionContent:'-'; // מספר המילים בכיתוב
+                                    const text = item.CaptionContent ? item.CaptionContent:'-'; 
                                     return `${text}`;
                                 }}
                             />
@@ -241,9 +241,9 @@ const Cart = () => {
                                 alignHeader="center"
                                 style={{ textAlign: "center" }}
                                 body={item => {
-                                    const captionWords = item.CaptionContent ? item.CaptionContent.split(" ").length : 0; // מספר המילים בכיתוב
-                                    const captionCost = captionWords * 5; // חישוב העלות לכיתוב
-                                    const totalPrice = item.price + captionCost; // מחיר המוצר כולל הכיתוב
+                                    const captionWords = item.CaptionContent ? item.CaptionContent.split(" ").length : 0; 
+                                    const captionCost = captionWords * 5; 
+                                    const totalPrice = item.price + captionCost; 
                                     return `${totalPrice} ₪`;
                                 }}
                             />

@@ -54,14 +54,12 @@ const Orders = () => {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        // to: to,// כתובת הלקוח
-                        // subject: "אישור הזמנה",
-                        // text: text,
-                        customerEmail: to, // כתובת הלקוח
+                  
+                        customerEmail: to, 
                
-                        customerSubject: "הזמנתך לא אושרה !! ", // נושא ללקוח
+                        customerSubject: "הזמנתך לא אושרה !! ",
                      
-                        customerText: "הזמנתך בוטלה \n אנא נסה ליצור קשר או במייל זה או באתר", // תוכן ללקוח
+                        customerText: "הזמנתך בוטלה \n אנא נסה ליצור קשר או במייל זה או באתר", 
                      
                     }),
                 });
@@ -118,7 +116,7 @@ const Orders = () => {
 
             if (res.status === 200) {
                 ordersByStatus("confirm")
-                // sendOrderEmail(useremail,date);
+             
             }
         } catch (err) {
             console.error("שגיאה בבקשת אישור:", err);

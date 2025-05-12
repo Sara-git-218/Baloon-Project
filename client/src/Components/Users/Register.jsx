@@ -9,13 +9,12 @@ import { Checkbox } from 'primereact/checkbox';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
-//import { CountryService } from '../service/CountryService';
 import '../../Css/FormDemo.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-    // const [countries, setCountries] = useState([]);
+
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState({});
 
@@ -31,9 +30,7 @@ const Register = () => {
     }
 
 
-    // useEffect(() => {
-    //    // countryservice.getCountries().then(data => setCountries(data));
-    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  
 
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
     const navigate = useNavigate();

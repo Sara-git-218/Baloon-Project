@@ -40,34 +40,7 @@ const AddItem = () => {
         '#228B22', '#FF4500', '#2E8B57', '#FFD700', '#808080',
         '#6A5ACD', '#B8860B'
     ];
-    // const colorTemplate = (option) => {
-    //     return (
-    //         // <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-    //         //     <div
-    //         //         style={{
-    //         //             backgroundColor: option.value,
-    //         //             width: '20px',
-    //         //             height: '20px',
-    //         //             borderRadius: '50%',
-    //         //             border: '1px solid #000',
-    //         //         }}
-    //         //     ></div>
-    //         //     <span>{option.name}</span>
-    //         // </div>
-    //         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-    //             <div
-    //                 style={{
-    //                     backgroundColor: color, // כאן נשלח ה-COLOR
-    //                     width: '20px',
-    //                     height: '20px',
-    //                     borderRadius: '50%',
-    //                     border: '1px solid #000',
-    //                 }}
-    //             ></div>
-    //             <span>{color}</span>
-    //         </div>
-    //     );
-    // };
+
     const addDesign = async () => {
         if (!selectedFile || !name || !price || !category) {
             alert("נא למלא את כל השדות החובה ולהעלות תמונה");
@@ -144,15 +117,7 @@ const AddItem = () => {
                     <Dropdown value={category} onChange={(e) => setCategory(e.value)} options={kategories} optionLabel="name" placeholder="בחר קטגוריה" />
                 </div>
                 <div className="flex flex-column gap-2">
-                    {/* <label htmlFor="category">צבעים בתמונה:</label>
-                    <Dropdown
-                        value={colors}
-                        onChange={(e) => setColors(e.value)}
-                        options={colorsd}
-                        optionLabel="name"
-                        placeholder="בחר צבעים דיפולטיבים"
-                        itemTemplate={colorTemplate} // שימוש ב-template מותאם אישית
-                    /> */}
+            
                               <div className="color-picker">
                     <p>בחר צבעים:</p>
                     <div className="color-circles">
